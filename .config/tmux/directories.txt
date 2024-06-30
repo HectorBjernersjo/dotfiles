@@ -1,5 +1,5 @@
-/home/hector/.config/tmux
-/home/hector/.config/hypr
+/home/hector/dotfiles/.config/tmux
+/home/hector/dotfiles/.config/hypr
+/home/hector/dotfiles
+/home/hector/dotfiles/.config/nvim
 /home/hector/Drive/Projects/volleyball/beach
-/home/hector/.config
-/home/hector/.config/nvim
