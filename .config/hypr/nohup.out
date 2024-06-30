@@ -1,0 +1,33 @@
+[174 00:42:05.017288] Ignoring unknown config key: disable_paste_warning
+[31;1mcancelled[0m
+[174 00:42:07.693417] Ignoring unknown config key: disable_paste_warning
+[31;20mFAILED b'unknown request'[0m
+[31;20mFAILED b'unknown request'[0m
+[31;20mFAILED b'unknown request'[0m
+[31;20mFAILED b'unknown request'[0m
+[174 00:43:42.739713] Ignoring unknown config key: disable_paste_warning
+[31;20mFAILED b'unknown request'[0m
+[31;20mFAILED b'unknown request'[0m
+[31;20mFAILED b'unknown request'[0m
+[31;20mFAILED b'unknown request'[0m
+[31;1m/tmp/hypr/c5e28ebcfe00a510922779b2c568cfa52a317445_1718998661/.pyprland.sock exists,
+is pypr already running ?
+If that's not the case, delete this file and run again.[0m
+[2024-06-30 12:32:35.365] [info] Using configuration file /home/hector/.config/waybar/config.jsonc
+[2024-06-30 12:32:35.366] [info] Discovered appearance 'dark'
+[2024-06-30 12:32:35.366] [info] Using CSS file /home/hector/.config/waybar/style.css
+[2024-06-30 12:32:35.373] [warning] module temperature: Disabling module "temperature", Can't open /sys/class/thermal/thermal_zone1/temp
+[2024-06-30 12:32:35.373] [warning] No batteries.
+[2024-06-30 12:32:35.373] [info] Hyprland IPC starting
+[2024-06-30 12:32:35.376] [warning] module backlight: Disabling module "backlight", No backlight found
+sh: line 1: asusctl: command not found
+
+(waybar:8452): GLib-GObject-CRITICAL **: 12:32:35.394: ../gobject/gsignal.c:2088: type 'GtkWindow' is already overridden for signal id '73'
+
+(waybar:8452): GLib-GObject-CRITICAL **: 12:32:35.394: ../gobject/gsignal.c:2088: type 'GtkWindow' is already overridden for signal id '72'
+[2024-06-30 12:32:35.395] [warning] module temperature: Disabling module "temperature", Can't open /sys/class/thermal/thermal_zone1/temp
+[2024-06-30 12:32:35.395] [warning] No batteries.
+[2024-06-30 12:32:35.397] [warning] module backlight: Disabling module "backlight", No backlight found
+sh: line 1: asusctl: command not found
+[2024-06-30 12:32:35.412] [info] Bar configured (width: 2560, height: 50) for output: HDMI-A-1
+[2024-06-30 12:32:35.412] [info] Bar configured (width: 1280, height: 50) for output: DP-1

@@ -1,0 +1,29 @@
+[pyprland]
+plugins = ["scratchpads", "shift_monitors", "workspaces_follow_focus"]
+
+[shift_monitors]
+some_option = "value"
+
+[workspaces_follow_focus]
+another_option = "value"
+
+[scratchpads]
+	[scratchpads.term]
+	command = "kitty --class scratchpad"
+	margin = 50
+
+	[scratchpads.music]
+	command = "spotify --class scratchpad"
+	margin = 50
+
+	# [scratchpads.chatgpt]
+	# command = "google-chrome chatgpt.com --class scratchpad"
+	# margin = 50
+
+	[scratchpads.chrome]
+	command = "google-chrome --class scratchpad"
+	margin = 50
+
+	[scratchpads.firefox]
+	command = "firefox --class scratchpad"
+	margin = 50

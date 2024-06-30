@@ -1,0 +1,12 @@
+fzf
+nodejs
+neovim
+starship
+fish
+tmux
+python-psutil
+python-humanize
+hyprland
+pavucontrol
+blueman
+git
