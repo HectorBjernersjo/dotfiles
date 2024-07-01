@@ -3,3 +3,4 @@
 /home/hector/dotfiles
 /home/hector/dotfiles/.config/nvim
 /home/hector/Drive/Projects/volleyball/beach
+/home/hector/dotfiles/.config/fish
