@@ -22,10 +22,8 @@ ttf-jetbrains-mono-nerd
 wl-clipboard
 gimp
 wofi
-
 pipewire
 pipewire-pulse
-
 ripgrep
 less
 discord
