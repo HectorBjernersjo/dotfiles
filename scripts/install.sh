@@ -16,6 +16,7 @@ $current/install_pacman.sh $current/pacman_packages.txt
 $current/install_yay.sh $current/yay_packages.txt
 
 $current/tmux-setup.sh
+$current/git-setup.sh
 
 # Set config files
 stow $HOME/dotfiles
