@@ -28,3 +28,4 @@ pipewire-pulse
 
 ripgrep
 less
+discord
