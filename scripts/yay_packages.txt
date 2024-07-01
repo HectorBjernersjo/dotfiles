@@ -1,2 +1,4 @@
 insync
 google-chrome
+ttf-iosevka-nerd
+ttf-jetbrains-mono-nerd

@@ -12,3 +12,11 @@ blueman
 git
 nodejs
 npm
+kitty
+stow
+zip
+unzip
+waybar
+ttf-iosevka-nerd
+ttf-jetbrains-mono-nerd
+wl-clipboard
