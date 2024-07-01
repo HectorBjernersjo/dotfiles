@@ -20,3 +20,4 @@ waybar
 ttf-iosevka-nerd
 ttf-jetbrains-mono-nerd
 wl-clipboard
+gimp

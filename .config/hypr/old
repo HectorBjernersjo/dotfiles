@@ -1,9 +1,0 @@
-{
-	"pyprland": {},
-	"scratchpads": {
-		"term": {
-			"command": "kitty --class scratchpad",
-			"margin": 50
-		}
-	}
-}
