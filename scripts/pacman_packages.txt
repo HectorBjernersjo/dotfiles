@@ -28,3 +28,4 @@ ripgrep
 less
 discord
 gdu
+obsidian
