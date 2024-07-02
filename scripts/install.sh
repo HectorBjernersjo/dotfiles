@@ -18,5 +18,8 @@ $current/install_yay.sh $current/yay_packages.txt
 $current/tmux-setup.sh
 $current/git-setup.sh
 
+# Set up autologin
+sudo cp $current/autologin.conf  /etc/systemd/system/getty@tty1.service.d/override.conf
+
 # Set config files
 stow $HOME/dotfiles

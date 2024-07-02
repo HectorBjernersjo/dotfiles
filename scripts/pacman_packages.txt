@@ -27,3 +27,4 @@ pipewire-pulse
 ripgrep
 less
 discord
+gdu

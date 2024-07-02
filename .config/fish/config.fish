@@ -11,4 +11,4 @@ alias john="/home/hector/Programs/john/run/john"
 alias pypr="/home/hector/.config/hypr/venv/bin/pypr"
 alias tadd="pwd >> /home/hector/.config/tmux/directories.txt"
 
-fish_vi_key_bindings
+# fish_vi_key_bindings
