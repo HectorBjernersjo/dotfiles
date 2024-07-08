@@ -4,3 +4,7 @@
 /home/hector/dotfiles/.config/nvim
 /home/hector/Drive/Projects/volleyball/beach
 /home/hector/dotfiles/.config/fish
+/home/hector/Drive/Projects/LeetCode
+/home/hector/dotfiles/.config/nvim/csharptest
+/home/hector/Drive/Projects/myownmodel
+/home/hector/Drive/Projects/machinelearning
