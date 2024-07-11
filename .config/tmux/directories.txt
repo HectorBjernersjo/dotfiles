@@ -8,3 +8,4 @@
 /home/hector/dotfiles/.config/nvim/csharptest
 /home/hector/Drive/Projects/myownmodel
 /home/hector/Drive/Projects/machinelearning
+/home/hector/Drive/Projects/vim
