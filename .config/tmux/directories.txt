@@ -9,3 +9,6 @@
 /home/hector/Drive/Projects/myownmodel
 /home/hector/Drive/Projects/machinelearning
 /home/hector/Drive/Projects/vim
+/home/hector/Drive/Projects/websitechatter
+/home/hector/Drive/Projects/websitechatter/Frontend
+/home/hector/Drive/Projects/dockertest

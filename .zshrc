@@ -60,60 +60,10 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 alias ls='ls --color'
 alias vim='nvim'
 alias c='clear'
+alias rm='trash -rf'
+alias nano='nvim'
 
 # Shell integrations
 eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
-# bindkey '^I' autosuggest-accept
-
-# # Improve cd suggestions
-# _zsh_autosuggest_strategy_test() {
-#   local suggestion
-#   case $1 in
-#     cd*)
-# 	  # local curdir=$(pwd)
-# 	  # echo $curdir
-# 	  local options=$(\ls | awk '/^'$2'/' )
-# 	  # printf $options
-#       suggestion=$options
-#       ;;
-#     *)
-#       # Default strategy: use history and suggestions
-# escaped_text=$(printf "%q" "$1")
-# suggestion=$(awk -v pat="$1" '$0 ~ "^([0-9]+ " pat ")"' ~/testfile | tail -n 1 | awk '{for (i=2; i<NF; i++) printf $i " "; print $NF}')
-#       ;;
-#   esac
-#
-#   # Check if suggestion is empty
-#   if [ -z "$suggestion" ]; then
-#   else
-#     printf "%s" "$suggestion"
-#   fi
-# }
-#
-# # Apply the new strategy
-# # ZSH_AUTOSUGGEST_STRATEGY=test
-#
-# # Function to get top completion suggestion
-# get_top_completion() {
-#   local word="di"
-#   local -a suggestions
-#
-#   # Enable completion system if not already enabled
-#   autoload -Uz compinit && compinit
-#
-#   # Use _main_complete to generate completions for the word
-#   suggestions=("${(@f)$(compadd -Q -U -a suggestions -- ${(z)word})}")
-#
-#   # Return the top suggestion
-#   if [ -n "$suggestions[1]" ]; then
-#     echo "$suggestions[1]"
-#   else
-#     echo "No suggestion found"
-#   fi
-# }
-#
-# # Example usage: get top completion for 'cd'
-# get_top_completion "cd"
-#
