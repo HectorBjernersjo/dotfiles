@@ -12,3 +12,4 @@
 /home/hector/Drive/Projects/websitechatter
 /home/hector/Drive/Projects/websitechatter/Frontend
 /home/hector/Drive/Projects/dockertest
+/home/hector/Drive/Projects/hemnet
