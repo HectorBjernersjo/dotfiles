@@ -9,11 +9,8 @@ git clone https://aur.archlinux.org/yay.git $HOME/yay
 cd $HOME/yay && makepkg -si
 # cd $HOME/dotfiles
 
-# Install pacman packages
-$current/install_pacman.sh $current/pacman_packages.txt
-
 # Install aur packages
-$current/install_yay.sh $current/yay_packages.txt
+$current/install_yay.sh $current/packages.txt
 
 $current/tmux-setup.sh
 $current/git-setup.sh

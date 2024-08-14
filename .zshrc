@@ -66,6 +66,7 @@ alias c='clear'
 alias tadd='pwd >> ~/.config/tmux/directories.txt'
 alias history='fc -l -n 0 | fzf'
 alias dir_stats='python3 $DOTFILES_PATH/scripts/dir_stats.py'
+alias padd='~/dotfiles/installation/addpkg.sh'
 
 # Shell integrations
 eval "$(fzf --zsh)"
@@ -139,3 +140,11 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+# Dotnet setup
+export DOTNET_ROOT=$HOME/.dotnet
+export PATH=$DOTNET_ROOT:$DOTNET_ROOT/tools:$PATH
+export PATH=$PATH:~/Programs/netcoredbg
+export PASSWORD_STORE_DIR=/home/hector/Drive/Ica/password-store
+export EDITOR=nvim
+
+eval $(thefuck --alias)
