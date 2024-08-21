@@ -67,6 +67,15 @@ alias tadd='pwd >> ~/.config/tmux/directories.txt'
 alias history='fc -l -n 0 | fzf'
 alias dir_stats='python3 $DOTFILES_PATH/scripts/dir_stats.py'
 alias padd='~/dotfiles/installation/addpkg.sh'
+# Function to generate a random server name and start nvim with it
+nvim_random_listen() {
+    local random_number=$(od -An -N2 -i /dev/random | tr -d ' ')
+    local server_name="/tmp/tjabba${random_number}"
+    nvim --listen "$server_name" "$@"
+}
+
+# Alias the nvim command to use the function
+alias nvim="nvim_random_listen"
 
 # Shell integrations
 eval "$(fzf --zsh)"

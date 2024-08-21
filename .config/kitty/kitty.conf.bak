@@ -19,6 +19,6 @@ disable_paste_warning yes
 
 
 # BEGIN_KITTY_THEME
-# Tokyo Night
+# Gruvbox Dark
 include current-theme.conf
 # END_KITTY_THEME

@@ -1,0 +1,138 @@
+/* Import pywal colors */
+/* @import url('/home/dhanesh/.cache/wal/colors-waybar.css'); */
+
+* {
+	border: none;
+	border-radius: 0px;
+	font-family: "JetBrainsMono Nerd Font";
+	font-weight: bold;
+	font-size: 13px;
+	min-height: 10px;
+}
+
+window#waybar {
+	background-color: rgba(0, 0, 0, .0);
+}
+
+#battery,
+#temperature,
+#clock,
+#workspaces,
+#custom-rofi,
+#tray,
+#pulseaudio,
+#backlight,
+#network,
+#custom-right,
+#custom-left {
+	color: @foreground;
+	background: @background;
+	margin: 4px 0px 4px 0px;
+	opacity: 1;
+	border: 0px solid @color0;
+}
+
+tooltip {
+	background: @background;
+	color: @foreground;
+	border-radius: 22px;
+	border-width: 2px;
+	border-style: solid;
+	border-color: @color0;
+}
+
+#workspaces button {
+	box-shadow: none;
+	text-shadow: none;
+	padding: 0px;
+	border-radius: 9px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	padding-left: 3px;
+	padding-right: 3px;
+	color: @foreground;
+}
+
+#workspaces button.active {
+	background: @color1;
+	color: black;
+	margin-left: 0px;
+	padding-left: 12px;
+	padding-right: 12px;
+	margin-right: 0px;
+}
+
+#workspaces button:hover {
+	background: @color3;
+	border: none;
+}
+
+#workspaces {
+	padding: 0px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+#custom-rofi {
+	color: @color4;
+	padding-left: 0px;
+	padding-right: 10px;
+}
+
+#temperature {
+	color: @color5;
+	padding-left: 0px;
+	padding-right: 19px;
+}
+
+#temperature.critical {
+	color: @color6;
+	padding-left: 0px;
+	padding-right: 19px;
+}
+
+#backlight {
+	color: @color7;
+	padding-left: 0px;
+	padding-right: 19px;
+}
+
+#pulseaudio {
+	color: @color8;
+	padding-left: 0px;
+	padding-right: 19px;
+}
+
+#battery {
+	color: @color9;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+#tray {
+	padding-left: 0px;
+	padding-right: 19px;
+}
+
+#network {
+	padding-left: 0px;
+	padding-right: 19px;
+}
+
+#clock {
+	color: @color9;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+#custom-right {
+	margin-right: 9px;
+	padding-right: 3px;
+	border-radius: 0px 22px 22px 0px;
+}
+
+#custom-left {
+	margin-left: 9px;
+	padding-left: 3px;
+	border-radius: 22px 0px 0px 22px;
+}

@@ -1,170 +1,94 @@
-* {
-    border: none;
-    border-radius: 0;
-    font-family: "JetBrainsMono Nerd Font";
-    font-weight: bold;
-    font-size: 16px;
-    min-height: 0;
+@import 'theme.css';
+
+window {
+	background: transparent;
+	font-family: Jetbrains Mono;
+	font-weight: 500;
+	padding: 200px;
 }
 
-window#waybar {
-    background: rgba(21, 18, 27, 0);
-    color: #cdd6f4;
+#pulseaudio,
+#temperature,
+#backlight,
+#battery,
+#clock,
+#custom-apps,
+#custom-cpu,
+#custom-ram,
+#custom-read,
+#custom-write,
+#network {
+	border-radius: 15px;
+	margin: 2px 6px;
+	padding: 3px 6px;
 }
 
-tooltip {
-    background: #1e1e2e;
-    border-radius: 10px;
-    border-width: 2px;
-    border-style: solid;
-    border-color: #11111b;
+#tray {
+	margin-left: 9px;
+	margin-right: 12px;
 }
 
-#workspaces button {
-    padding: 5px;
-    color: #313244;
-    margin-right: 5px;
+#pulseaudio,
+#temperature,
+#backlight,
+#battery,
+#network {
+	background: @contrast;
+	color: @dark_primary;
 }
 
-#workspaces button.active {
-    color: #a6adc8;
+#custom-divider {
+	font-size: 20px;
+	font-weight: bold;
 }
 
-#workspaces button.focused {
-    color: #a6adc8;
-    background: #eba0ac;
-    border-radius: 10px;
-}
-
-#workspaces button.urgent {
-    color: #11111b;
-    background: #a6e3a1;
-    border-radius: 10px;
-}
-
-#workspaces button:hover {
-    background: #11111b;
-    color: #cdd6f4;
-    border-radius: 10px;
+#clock {
+	background: @light_primary;
+	color: @contrast;
+	border-color: @contrast;
+	border-style: solid;
+	border-width: 2px;
+	padding: 3px 9px;
+	font-weight: bold;
+	font-size: 15px;
+	font-size: 14px;
+	font-weight: 500;
 }
 
 #custom-cpu,
 #custom-ram,
-#custom-disk_io,
-#custom-power_profile,
-#window,
-#clock,
-#battery,
-#pulseaudio,
-#network,
-#bluetooth,
-#temperature,
-#workspaces,
-#tray,
-#backlight {
-    background: #1e1e2e;
-    opacity: 0.8;
-    padding: 0px 10px;
-    margin: 3px 0px;
-    margin-top: 10px;
-    border: 1px solid #181825;
+#custom-read,
+#custom-write {
+	color: @contrast;
+	font-size: 14px;
 }
 
-#temperature {
-    border-radius: 10px 0px 0px 10px;
+#custom-apps {
+	margin-left: 10px;
+	font-size: 14px;
+	font-weight: 500;
 }
 
-#temperature.critical {
-    color: #eba0ac;
-}
-
-#backlight {
-    border-radius: 10px 0px 0px 10px;
-}
-
-#tray {
-    border-radius: 10px;
-    margin-right: 10px;
-}
 
 #workspaces {
-    background: #1e1e2e;
-    border-radius: 10px;
-    margin-left: 10px;
-    padding-right: 0px;
-    padding-left: 5px;
+	/* background-color: rgba(255, 255, 255, 0.5); */
+	border-radius: 20px;
+	padding: 3px 1px;
 }
 
-#custom-power_profile {
-    color: #a6e3a1;
-    border-left: 0px;
-    border-right: 0px;
+#workspaces button {
+	background-color: @light_primary;
+	border-radius: 20px;
+	padding: 0px 5px;
+	margin: 0 3px;
+	color: @primary;
+	font-weight: bold;
+	font-size: 9px;
 }
 
-#window {
-    border-radius: 10px;
-    margin-left: 60px;
-    margin-right: 60px;
-}
-
-#clock {
-    color: #fab387;
-    border-radius: 10px 0px 0px 10px;
-    margin-left: 10px;
-    border-right: 0px;
-}
-
-#network {
-    color: #f9e2af;
-    border-radius: 0px 0px 0px 0px;
-    border-left: 0px;
-    border-right: 0px;
-}
-
-#bluetooth {
-    color: #89b4fa;
-    border-radius: 0px 10px 10px 0px;
-    margin-right: 10px
-} 
-
-#pulseaudio {
-    color: #89b4fa;
-    border-radius: 0px 10px 10px 0px;
-    border-right: 0px;
-}
-
-#pulseaudio.microphone {
-    color: #cba6f7;
-    border-left: 0px;
-    border-right: 0px;
-    border-radius: 0px 10px 10px 0px;
-    margin-right: 10px;
-}
-
-#battery {
-    color: #a6e3a1;
-    border-radius: 0 10px 10px 0;
-    margin-right: 10px;
-    border-left: 0px;
-}
-
-#custom-weather {
-    border-radius: 0px 10px 10px 0px;
-    border-right: 0px;
-    margin-left: 0px;
-}
-
-#custom-cpu {
-    color: #89b4fa;
-    border-radius: 10px 0 0 10px;
-}
-
-#custom-ram {
-    color: #cba6f7;
-}
-
-#custom-disk_io {
-    color: #f9e2af;
-    margin-right: 10px;
-    border-radius: 0 10px 10px 0;
+#workspaces button.active {
+	background-color: @middle_primary;
+	color: @contrast;
+	font-weight: bold;
+	padding: 0px 18px;
 }
