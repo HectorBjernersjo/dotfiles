@@ -2,6 +2,10 @@ if [ "$1" == "tokyo-night" ]; then
 	theme="tokyonight-night"
 elif [ "$1" == "gruvbox-dark" ]; then
 	theme="gruvbox-material"
+elif [ "$1" == "gruvbox-light" ]; then
+	theme="gruvbox-material"
+elif [ "$1" == "solarized-dark" ]; then
+	theme="solarized"
 fi
 
 for server in /tmp/tjabba*; do

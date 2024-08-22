@@ -1,0 +1,4 @@
+tokyo-night
+gruvbox-dark
+gruvbox-light
+solarized-dark

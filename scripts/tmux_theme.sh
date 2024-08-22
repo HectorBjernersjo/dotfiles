@@ -2,7 +2,9 @@ theme=$1
 
 if [ "$theme" == "tokyo-night" ]; then
     echo 'set -g @plugin "janoamaral/tokyo-night-tmux"' > $HOME/.config/tmux/theme.conf
-elif [ "$theme" == "gruvbox-dark" ]; then
+elif [ "$theme" == "solarized-dark" ]; then
+    echo 'set -g @plugin "mkoga/tmux-solarized"' > $HOME/.config/tmux/theme.conf
+elif [ "$theme" == "gruvbox" ]; then
     echo "set -g @plugin 'egel/tmux-gruvbox'" > $HOME/.config/tmux/theme.conf
 	echo "set -g @tmux-gruvbox 'dark'" >> $HOME/.config/tmux/theme.conf
 else
