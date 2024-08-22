@@ -24,7 +24,7 @@ elif [ "$1" == "solarized-dark" ]; then
 	$scriptsDir/waybar_theme.sh $1
 	$scriptsDir/kitty_theme.sh $1
 	$scriptsDir/starship_theme.sh $1
-	$scriptsDir/wofi_theme.sh $1
+	$scriptsDir/wofi_theme.sh solarized
 	$scriptsDir/firefox_theme.sh solarized
 elif [ "$1" == "tokyo-night" ]; then
 	$scriptsDir/nvim_theme.sh $1

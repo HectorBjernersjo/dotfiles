@@ -22,6 +22,7 @@ Doing SUPER + , opens the theme switcher, it currently has 4 themes (perhaps mor
 
 All the theme switcher scripts can be found in the scripts directory, it's a little messy but most of the scripts are simple and just modify some config file.
 You need to start neovim with --listen themelistener each time if you want active sessions to switch automatically. You can do that like this:
+
 ```bash
 nvim_random_listen() {
     local random_number=$(od -An -N2 -i /dev/random | tr -d ' ')
@@ -32,6 +33,14 @@ nvim_random_listen() {
 # Alias the nvim command to use the function
 alias nvim="nvim_random_listen"
 ```
+
+### Background switcher
+You can also switch background style with SUPER + . (dot).
+
+It checks what folders exists in the theme background folder, for example dotfiles/tokyo-night/real and lets you choose between them.
+
+To get a new background of the same style use SUPER + -
+
 ## Controls
 Move around with SUPER + hjkl or SUPER + arrow keys.
 
