@@ -11,7 +11,8 @@
 
 	"tray": {
 		"show-passive-items": true,
-		"icon-size": 20
+		"icon-size": 20,
+		"spacing": 10  // Adjust the value to increase/decrease the gap
 	},
 
 	"custom/apps": {

@@ -53,7 +53,7 @@ window {
 }
 
 #text:selected {
-	margin: 0px 0px;
+	/* margin: 0px 0px; */
 	border: none;
 	border-radius: 15px;
 	background-color: @selected;
@@ -71,4 +71,8 @@ window {
 	border: none;
 	border-radius: 15px;
 	background-color: @selected;
+}
+
+#text {
+	margin: 10px;
 }
