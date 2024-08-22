@@ -8,6 +8,7 @@ gimp
 git
 google-chrome
 hyprland
+imagemagick
 insync
 kitty
 less

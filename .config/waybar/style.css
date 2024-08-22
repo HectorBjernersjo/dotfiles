@@ -33,19 +33,20 @@ window {
 #backlight,
 #battery,
 #network {
-	background: @contrast;
-	color: @dark_primary;
+	background: @color_1;
+	color: @color_4;
 }
 
 #custom-divider {
 	font-size: 20px;
 	font-weight: bold;
+	color: @color_1;
 }
 
 #clock {
-	background: @light_primary;
-	color: @contrast;
-	border-color: @contrast;
+	background: @color_5;
+	color: @color_1;
+	border-color: @color_1;
 	border-style: solid;
 	border-width: 2px;
 	padding: 3px 9px;
@@ -59,7 +60,7 @@ window {
 #custom-ram,
 #custom-read,
 #custom-write {
-	color: @contrast;
+	color: @color_1;
 	font-size: 14px;
 }
 
@@ -77,7 +78,7 @@ window {
 }
 
 #workspaces button {
-	background-color: @light_primary;
+	background-color: @color_2;
 	border-radius: 20px;
 	padding: 0px 5px;
 	margin: 0 3px;
@@ -87,8 +88,8 @@ window {
 }
 
 #workspaces button.active {
-	background-color: @middle_primary;
-	color: @contrast;
+	background-color: @color_3;
+	/* color: @color_1; */
 	font-weight: bold;
 	padding: 0px 18px;
 }
