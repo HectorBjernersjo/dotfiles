@@ -13,3 +13,5 @@ elif [ "$1" == "tokyo-night" ]; then
 	./kitty_theme.sh $1
 	./starship_theme.sh $1
 fi
+
+./hyprland_theme.sh $1
