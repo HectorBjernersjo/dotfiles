@@ -62,6 +62,7 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 # Aliases
 alias ls='ls --color'
 alias vim='nvim'
+alias neofetch='fastfetch'
 alias c='clear'
 alias tadd='pwd >> ~/.config/tmux/directories.txt'
 alias history='fc -l -n 0 | fzf'

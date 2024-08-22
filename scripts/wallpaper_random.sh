@@ -31,4 +31,4 @@ echo "Selected wallpaper: $selectedWallpaper"
 
 # Update the wallpaper using the swww img command
 # swww img "$selectedWallpaper"
-swww img "$selectedWallpaper" --transition-type=random --transition-duration=1
+swww img "$selectedWallpaper" --transition-type=center --transition-duration=1

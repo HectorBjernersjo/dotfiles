@@ -1,6 +1,10 @@
-@define-color color_1 #3c3836;
+/* @define-color color_1 #3c3836; */
+/**/
+/* @define-color color_2 #d79921; */
+/* @define-color color_3 #b57614; */
+/* @define-color color_4 #fbf1c7; */
+/* @define-color color_5 #fbf1c7; */
 
-@define-color color_2 #d79921;
-@define-color color_3 #b57614;
-@define-color color_4 #fbf1c7;
-@define-color color_5 #fbf1c7;
+@define-color color_2 #fbf1c7;
+
+@define-color color_1 #282828;

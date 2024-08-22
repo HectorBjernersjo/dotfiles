@@ -34,7 +34,7 @@ window {
 #battery,
 #network {
 	background: @color_1;
-	color: @color_4;
+	color: @color_2;
 }
 
 #custom-divider {
@@ -44,7 +44,7 @@ window {
 }
 
 #clock {
-	background: @color_5;
+	background: transparent;
 	color: @color_1;
 	border-color: @color_1;
 	border-style: solid;
@@ -78,17 +78,16 @@ window {
 }
 
 #workspaces button {
-	background-color: @color_2;
+	background-color: @color_1;
 	border-radius: 20px;
 	padding: 0px 5px;
 	margin: 0 3px;
-	color: @primary;
+	color: @color_2;
 	font-weight: bold;
 	font-size: 9px;
 }
 
 #workspaces button.active {
-	background-color: @color_2;
 	/* color: @color_1; */
 	font-weight: bold;
 	padding: 0px 18px;

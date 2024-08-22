@@ -421,3 +421,8 @@
 14:12:50 [0m[33m[WARN] [0m(main) Received transform. We currently ignore those
 14:12:50 [0m[33m[WARN] [0m(main) Received transform. We currently ignore those
 14:12:50 [0m[33m[WARN] [0m(main) Received transform. We currently ignore those
+Io error: Broken pipe (os error 32)
+thread 'main' panicked at daemon/src/main.rs:191:30:
+Io error when reading wayland events: Broken pipe (os error 32)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+14:24:58 [0m[34m[INFO] [0m(main) Removed socket at "/run/user/1001/swww-wayland-1.socket"

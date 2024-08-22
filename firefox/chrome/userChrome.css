@@ -1,0 +1,49 @@
+/* Hide the Title Bar */
+/* #titlebar { */
+/* 	display: none !important; */
+/* } */
+
+/* Hide the Tab Bar */
+/* #TabsToolbar { */
+/* 	visibility: collapse !important; */
+/* 	margin-bottom: -26px !important; */
+/* } */
+
+/* Hide the Bookmark Bar */
+#PersonalToolbar {
+	visibility: collapse !important;
+}
+
+/* /* Make the URL Bar and Navigation Buttons in a Single Row */
+#nav-bar {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 1000;
+	background: transparent !important;
+
+	/* Make the nav-bar transparent
+}
+
+/* Adjust Content Position */
+	browser {
+		margin-top: 35px !important;
+	}
+
+	/* Optional: Hide the Menu Bar (File, Edit, View, etc.) */
+	#toolbar-menubar {
+		visibility: collapse !important;
+	}
+
+	/* Optional: Increase URL Bar Width (if needed) */
+	#urlbar {
+		min-width: 600px !important;
+	}
+
+	/* Fullscreen the Background Image */
+	@-moz-document url("about:newtab"), url("about:home") {
+		body {
+			background-size: cover !important;
+			background-attachment: fixed !important;
+		}
+	}

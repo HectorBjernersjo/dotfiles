@@ -1,0 +1,19 @@
+/* Fullscreen Background Image for the Start Page */
+@-moz-document url("about:newtab"), url("about:home") {
+	body::before {
+		content: "";
+		z-index: -1;
+		position: fixed;
+		top: 0;
+		left: 0;
+		background: #f9a no-repeat url(background.png) center;
+		background-size: cover;
+		width: 100vw;
+		height: 100vh;
+	}
+
+	/* Hide Everything in the Middle of the Start Page */
+	main {
+		display: none !important;
+	}
+}
