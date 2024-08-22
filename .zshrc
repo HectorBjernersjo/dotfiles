@@ -71,7 +71,7 @@ alias padd='~/dotfiles/installation/addpkg.sh'
 # Function to generate a random server name and start nvim with it
 nvim_random_listen() {
     local random_number=$(od -An -N2 -i /dev/random | tr -d ' ')
-    local server_name="/tmp/tjabba${random_number}"
+    local server_name="/tmp/themelistener${random_number}"
     nvim --listen "$server_name" "$@"
 }
 

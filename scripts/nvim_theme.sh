@@ -8,7 +8,7 @@ elif [ "$1" == "solarized-dark" ]; then
 	theme="solarized"
 fi
 
-for server in /tmp/tjabba*; do
+for server in /tmp/themelistener*; do
     if [ -e "$server" ]; then
         nvim --server "$server" --remote-send ":colorscheme {$theme}<CR>"
     fi

@@ -27,6 +27,7 @@ starship
 stow
 swaybg
 swayidle
+swww
 thefuck
 tmux
 ttf-iosevka-nerd
@@ -36,3 +37,5 @@ waybar
 wl-clipboard
 wofi
 zip
+python-humanize
+python-psutil
