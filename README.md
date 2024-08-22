@@ -9,6 +9,11 @@ It installs a lot of packages, some of which are nessecary and some that are jus
 
 I use stow to manage the dotfiles so in theory you should just be able to do stow . in the dotfiles directory and it should put the configs in the right places but you may have to move your own configs first.
 
+## Screenshots
+![Screenshot 1](./images/gruvbox.png)
+![Screenshot 2](./images/tokyo-night.png)
+![Screenshot 2](./images/tokyo-night-firefox.png)
+
 ## Theme switcher
 Doing SUPER + , opens the theme switcher, it currently has 4 themes (perhaps more if i haven't updated this text). It is integrated with:
 - kitty
