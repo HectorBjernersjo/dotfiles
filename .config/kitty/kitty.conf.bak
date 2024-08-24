@@ -1,6 +1,5 @@
-
 # BEGIN_KITTY_THEME
-# Solarized Dark
+# Gruvbox Dark
 include current-theme.conf
 # END_KITTY_THEME
 #

@@ -1,4 +1,6 @@
-tokyo-night
-gruvbox-dark
-gruvbox-light
-solarized-dark
+Tokyo Night
+Gruvbox Dark
+Gruvbox Light
+Solarized
+Everforest Light
+Everforest Dark

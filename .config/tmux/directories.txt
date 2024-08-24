@@ -13,4 +13,5 @@
 /home/hector/Drive/Projects/websitechatter/Frontend
 /home/hector/Drive/Projects/dockertest
 /home/hector/Drive/Projects/hemnet
-/home/hector/Drive/Projects/ai_researcher
+/home/hector/Drive/Projects/ai_researcher/ai_researcher
+/home/hector/dotfiles/scripts

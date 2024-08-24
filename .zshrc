@@ -61,6 +61,7 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 # Aliases
 alias ls='ls --color'
+alias rm='trash'
 alias vim='nvim'
 alias neofetch='fastfetch'
 alias c='clear'
@@ -68,6 +69,7 @@ alias tadd='pwd >> ~/.config/tmux/directories.txt'
 alias history='fc -l -n 0 | fzf'
 alias dir_stats='python3 $DOTFILES_PATH/scripts/dir_stats.py'
 alias padd='~/dotfiles/installation/addpkg.sh'
+alias nvim_remove_swap='rm -rf ~/.local/state/nvim/swap/*'
 # Function to generate a random server name and start nvim with it
 nvim_random_listen() {
     local random_number=$(od -An -N2 -i /dev/random | tr -d ' ')

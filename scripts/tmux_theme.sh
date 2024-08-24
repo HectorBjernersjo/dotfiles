@@ -7,6 +7,8 @@ elif [ "$theme" == "solarized-dark" ]; then
 elif [ "$theme" == "gruvbox" ]; then
     echo "set -g @plugin 'egel/tmux-gruvbox'" > $HOME/.config/tmux/theme.conf
 	echo "set -g @tmux-gruvbox 'dark'" >> $HOME/.config/tmux/theme.conf
+elif [ "$theme" == "everforest" ]; then
+	echo "set -g @plugin 'TanglingTreats/tmux-everforest'" > $HOME/.config/tmux/theme.conf
 else
     echo "Theme not recognized"
     exit 1
