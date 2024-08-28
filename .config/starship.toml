@@ -1,133 +1,134 @@
-add_newline = true
+format = """
+[](#3B4252)\
+$python\
+$conda\
+[](bg:#434C5E fg:#3B4252)\
+$directory\
+[](fg:#434C5E bg:#4C566A)\
+$git_branch\
+$git_status\
+[](fg:#4C566A bg:#86BBD8)\
+$c\
+$elixir\
+$elm\
+$golang\
+$haskell\
+$java\
+$julia\
+$nodejs\
+$nim\
+$rust\
+[](fg:#86BBD8 bg:#06969A)\
+$docker_context\
+[](fg:#06969A bg:#33658A)\
+$time\
+[ ](fg:#33658A)\
+"""
+command_timeout = 5000
+# Disable the blank line at the start of the prompt
+# add_newline = false
 
-[line_break]
-disabled = true
-
+# You can also replace your username with a neat symbol like  to save some space
 [username]
-style_root = "red bold"
-format = "🦊 [$user](bold green) "
-disabled = false
 show_always = true
-
-[hostname]
-ssh_only = false
-format = 'on [$hostname](bold yellow) '
-trim_at = "."
-disabled = true
-
-[character]
-success_symbol = " [>](bold green)"
-error_symbol = " [x](bold red)"
-vimcmd_symbol = " [<](bold green)"
-
-
-#cmd duration
-[cmd_duration]
-min_time = 10_000  # Show command duration over 10,000 milliseconds (=10 sec)
-format = " took [$duration]($style)"
+style_user = "bg:#3B4252"
+style_root = "bg:#3B4252"
+format = '[$user ]($style)'
 
 [directory]
-truncation_length = 5
-truncation_symbol = "  "
-format = "[$path]($style)[$read_only]($read_only_style)"
-read_only = "🔒"
-style = "bold cyan"
+style = "bg:#434C5E"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
 
+[conda]
+symbol = " "
+style = "bg:#3B4252"
+format = '[$symbol($environment) ]($style)'
+
+# Here is how you can shorten some long paths by text replacement
+# similar to mapped_locations in Oh My Posh:
 [directory.substitutions]
-Applications = " "
-Documents = "󰈔 "
-Downloads = " "
-Music = "󰎈 "
-Pictures = "󰋩 "
-Videos = " "
+"Documents" = " "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+# Keep in mind that the order matters. For example:
+# "Important Documents" = "  "
+# will not be replaced, because "Documents" was already substituted before.
+# So either put "Important Documents" before "Documents" or use the substituted version:
+# "Important  " = "  "
 
-#git
+[c]
+symbol = " "
+style = "bg:#86BBD8"
+format = '[ $symbol ($version) ]($style)'
+
+[docker_context]
+symbol = " "
+style = "bg:#06969A"
+format = '[ $symbol $context ]($style) $path'
+
+[elixir]
+symbol = " "
+style = "bg:#86BBD8"
+format = '[ $symbol ($version) ]($style)'
+
+[elm]
+symbol = " "
+style = "bg:#86BBD8"
+format = '[ $symbol ($version) ]($style)'
+
 [git_branch]
-format = " [$symbol$branch]($style) "
-symbol = "🍣 "
-style = "bold green"
-always_show_remote = false
-only_attached = false
-disabled = false
-
-[git_state]
-format = '[\($state( $progress_current of $progress_total)\)]($style) '
-style = "bold yellow"
-disabled = true
-
-
-[git_commit]
-commit_hash_length = 4
-style = "bold white"
-tag_symbol = " 🏷 "
-disabled = true
-
-
-
-[git_metrics]
-added_style = "bold green"
-deleted_style = "bold red"
-only_nonzero_diffs = true
-format = '([+$added]($added_style) )([-$deleted]($deleted_style) )'
-disabled = true
+symbol = " "
+style = "bg:#4C566A"
+format = '[ $symbol $branch ]($style)'
 
 [git_status]
-conflicted = "⚔️ "
-ahead = "⇡"
-behind = "[⇣${count}](bold dimmed blue)"
-diverged = "⇕${ahead_count}⇣${behind_count}"
-untracked = "[?${count}](bold blue)"
-modified ="[!${count}](bold yellow)"
-staged = "[+${count}](bold yellow)"
-renamed = "» ×${count}"
-deleted = "[✘ ×${count}](bold red)"
-format = "$all_status$ahead_behind"
-disabled = true
+style = "bg:#4C566A"
+format = '[$all_status$ahead_behind ]($style)'
 
-[memory_usage]
-format = "$symbol[${ram}( | ${swap})]($style) "
-threshold = 70
-style = "bold dimmed white"
-disabled = true
+[golang]
+symbol = " "
+style = "bg:#86BBD8"
+format = '[ $symbol ($version) ]($style)'
 
-[package]
-disabled = true
-
-[python]
-format = "[$symbol$version](bold ) "
-symbol =  "  "
-disabled = true
-
-
-[lua]
-format = "[$symbol($version )]($style)"
-detect_extensions = ["lua"]
-symbol =  "  "
-style = "bold red"
-disabled = true
-
+[haskell]
+symbol = " "
+style = "bg:#86BBD8"
+format = '[ $symbol ($version) ]($style)'
 
 [java]
-format = "[$symbol($version )]($style)"
-detect_extensions = ["java", "class", "gradle", "jar", "cljc"]
-symbol ="  "
-style = "white bold"
-disabled = true
+symbol = " "
+style = "bg:#86BBD8"
+format = '[ $symbol ($version) ]($style)'
+
+[julia]
+symbol = " "
+style = "bg:#86BBD8"
+format = '[ $symbol ($version) ]($style)'
 
 [nodejs]
-format = "[$symbol($version )]($style)"
-detect_extensions = ["js", "mjs", "cjs", "ts", "mts", "cts"]
-symbol ="  "
-style = "bold green"
-disabled = true
+symbol = ""
+style = "bg:#86BBD8"
+format = '[ $symbol ($version) ]($style)'
+
+[nim]
+symbol = " "
+style = "bg:#86BBD8"
+format = '[ $symbol ($version) ]($style)'
+
+[python]
+style = "bg:#3B4252"
+format = '[(\($virtualenv\) )]($style)'
 
 [rust]
-format = "[$symbol$version]($style) "
-style = "bold green"
-disabled = true
+symbol = ""
+style = "bg:#86BBD8"
+format = '[ $symbol ($version) ]($style)'
 
-#[time]
-#time_format = "%T"
-#format = "$time($style) "
-#style = "bright-white"
-#disabled = false
+[time]
+disabled = false
+time_format = "%R" # Hour:Minute Format
+style = "bg:#33658A"
+format = '[ $time ]($style)'
