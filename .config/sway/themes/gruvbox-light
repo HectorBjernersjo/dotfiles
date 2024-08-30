@@ -1,0 +1,4 @@
+client.focused          #fabd2f #fabd2f #fabd2f #fabd2f #fabd2f
+client.focused_inactive #ebdbb2 #ebdbb2 #ebdbb2 #ebdbb2 #ebdbb2
+client.unfocused        #ebdbb2 #ebdbb2 #ebdbb2 #ebdbb2 #ebdbb2
+client.urgent           #ebdbb2 #ebdbb2 #ebdbb2 #ebdbb2 #ebdbb2

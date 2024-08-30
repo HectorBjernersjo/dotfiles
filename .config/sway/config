@@ -1,0 +1,47 @@
+output eDP-1 scale 1.5
+output eDP-2 scale 1.5
+include workspaces
+include laptop
+include keybinds
+include programs
+include startup
+include style
+include theme
+# Sway configuration file
+#
+# Copy this to ~/.config/sway/config and edit it to your liking.
+# Read `man 5 sway` for a complete reference.
+input * {
+	xkb_layout "se"
+}
+
+# Set the default terminal
+set $term kitty
+
+# Set the default launcher (wofi)
+set $menu wofi --show drun
+
+# Set the mod key (Mod4 is usually the Super/Windows key)
+set $mod Mod4
+
+# Font configuration for swaybar
+font pango:monospace 10
+
+# Use variable pitch font in window titles
+titlebar_padding 4
+font pango:monospace 10
+
+# # Start wofi with $mod+d
+# bindsym $mod+space exec $menu
+
+# Open a terminal with $mod+Return
+bindsym $mod+Return exec $term
+
+# Kill focused window with $mod+Shift+q
+bindsym $mod+w kill
+
+# Exit sway with $mod+Shift+e
+# bindsym $mod+8 exec "swaymsg exit"
+
+# Reload the config file with $mod+Shift+c
+bindsym $mod+9 reload

@@ -15,3 +15,4 @@
 /home/hector/Drive/Projects/hemnet
 /home/hector/Drive/Projects/ai_researcher/ai_researcher
 /home/hector/dotfiles/scripts
+/home/hector/dotfiles/.config/sway

@@ -1,0 +1,33 @@
+bindsym $mod+Left focus left
+bindsym $mod+Right focus right
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+h focus left
+bindsym $mod+l focus right
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+l move right
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Right move right
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+
+bindsym $mod+v floating toggle
+
+# Resize window to the left
+bindsym $mod+Ctrl+minus resize shrink width 20px
+bindsym $mod+Shift+minus resize shrink height 20px
+bindsym $mod+Ctrl+plus resize grow width 20px
+bindsym $mod+Shift+plus resize grow height 20px
+
+# Move floating windows with Mod + Left Click
+# Hold $mod and left-click to drag the window
+floating_modifier $mod
+
+# To allow moving tiling windows with the mouse as well (not just floating windows)
+# Use this configuration
+for_window [con_id="__focused__"] floating enable, move position cursor

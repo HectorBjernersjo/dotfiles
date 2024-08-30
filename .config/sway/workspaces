@@ -1,0 +1,70 @@
+# Set your switcher key (Super/Windows key)
+set $mod Mod4
+
+# Workspace assignments and auto-start applications
+workspace 1
+workspace A output HDMI-A-1
+workspace R output HDMI-A-1
+workspace E output HDMI-A-1
+workspace O output HDMI-A-1
+workspace I output HDMI-A-1
+workspace B output DP-1
+workspace D output DP-1
+workspace Y output DP-1
+workspace C output DP-1
+workspace N output HDMI-A-1
+workspace S output HDMI-A-1
+workspace M output HDMI-A-1
+workspace G output HDMI-A-1
+workspace X output HDMI-A-1
+
+assign [app_id="tjabba"] workspace A
+
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+# bindsym $mod+r workspace R
+# bindsym $mod+e workspace E
+# bindsym $mod+o workspace O
+# bindsym $mod+i workspace I
+# bindsym $mod+b workspace B
+# bindsym $mod+d workspace D
+# bindsym $mod+y workspace Y
+# bindsym $mod+c workspace C
+# bindsym $mod+n workspace N
+# bindsym $mod+s workspace S
+# bindsym $mod+m workspace M
+# bindsym $mod+g workspace G
+# bindsym $mod+x workspace X
+
+# Keybindings to switch workspaces
+bindsym $mod+5 workspace A; exec ~/.config/sway/test.sh A mousepad
+bindsym $mod+r workspace R; exec ~/.config/sway/test.sh R mousepad
+bindsym $mod+e workspace E; exec ~/.config/sway/test.sh E code
+bindsym $mod+o workspace O; exec ~/.config/sway/test.sh O obsidian
+bindsym $mod+i workspace I; exec ~/.config/sway/test.sh I firefox --new-window
+bindsym $mod+b workspace B; exec ~/.config/sway/test.sh B mousepad
+bindsym $mod+d workspace D; exec ~/.config/sway/test.sh D discord
+bindsym $mod+y workspace Y; exec ~/.config/sway/test.sh Y firefox --new-window youtube.com
+bindsym $mod+c workspace C; exec ~/.config/sway/test.sh C firefox --new-window chatgpt.com
+bindsym $mod+n workspace N; exec ~/.config/sway/test.sh N kitty /home/hector/.config/hypr/attatch_or_create_tmux.sh default
+bindsym $mod+s workspace S; exec ~/.config/sway/test.sh S spotify
+bindsym $mod+m workspace M; exec ~/.config/sway/test.sh M firefox --new-window mail.one.com
+bindsym $mod+g workspace G; exec ~/.config/sway/test.sh G gimp
+bindsym $mod+x workspace X; exec ~/.config/sway/test.sh X mousepad
+
+# Move focused container to workspace
+bindsym $mod+Shift+a move container to workspace "A"
+bindsym $mod+Shift+r move container to workspace "R"
+bindsym $mod+Shift+e move container to workspace "E"
+bindsym $mod+Shift+o move container to workspace "O"
+bindsym $mod+Shift+i move container to workspace "I"
+bindsym $mod+Shift+b move container to workspace "B"
+bindsym $mod+Shift+d move container to workspace "D"
+bindsym $mod+Shift+y move container to workspace "Y"
+bindsym $mod+Shift+c move container to workspace "C"
+bindsym $mod+Shift+n move container to workspace "N"
+bindsym $mod+Shift+s move container to workspace "S"
+bindsym $mod+Shift+m move container to workspace "M"
+bindsym $mod+Shift+g move container to workspace "G"
+bindsym $mod+Shift+x move container to workspace "X"

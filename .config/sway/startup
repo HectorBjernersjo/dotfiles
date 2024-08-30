@@ -1,0 +1,10 @@
+exec ~/.config/hypr/xdg-portal-hyprland
+exec ~/.config/hypr/vmstuff.sh
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec waybar
+exec swayidle timeout 3600 'systemctl suspend'
+exec insync start
+# exec kanata -c /home/hector/.config/kanata/config.kbd
+exec swww-daemon --format xrgb

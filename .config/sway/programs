@@ -1,0 +1,53 @@
+# Open a terminal
+bindsym Ctrl+Alt+T exec kitty
+
+# Switch to or start Firefox
+bindsym Ctrl+Alt+F exec /home/hector/.config/hypr/scripts/app_switch_or_start.sh firefox
+
+# Open Google Chrome with specific URLs
+bindsym Ctrl+Alt+C exec google-chrome 'https://chat.openai.com/?model=gpt-4'
+bindsym Ctrl+Alt+H exec google-chrome 'https://google.com'
+bindsym Ctrl+Alt+Y exec google-chrome 'https://youtube.com'
+bindsym Ctrl+Alt+I exec google-chrome 'https://m46-mg-local.e24.orebro.se/mg-local/login?type=webtoken'
+bindsym Ctrl+Alt+M exec google-chrome https://mail.one.com/mail/INBOX/1/
+
+# Open Qutebrowser
+bindsym Ctrl+Alt+Q exec qutebrowser
+
+# Open Obsidian
+bindsym Ctrl+Alt+O exec /home/hector/Programs/obsidian/Obsidian-1.5.12.AppImage
+
+# Run a script for text from screen
+bindsym Ctrl+Alt+E exec ~/dotfiles/scripts/text_from_screen.sh
+
+# Show the graphical app launcher (Wofi)
+bindsym $mod+space exec wofi
+
+# Take a screenshot with grim and swappy
+bindsym Ctrl+Alt+S exec grim -g "$(slurp)" - | swappy -f - -o ~/Pictures/screenshot_$(date +'%Y%m%d_%H%M%S').png
+
+# Toggle Waybar
+bindsym $mod+F exec /home/hector/.config/hypr/toggle_waybar.sh
+
+# Toggle night mode
+bindsym $mod+T exec /home/hector/.config/hypr/toggle_nightmode.sh
+
+# Start Windows with a script
+bindsym Ctrl+Alt+W exec /home/hector/.config/hypr/start_windows.sh
+
+# Adjust brightness
+bindsym $mod+Alt+B+1 exec brightnessctl set 1%
+bindsym $mod+Alt+B+2 exec brightnessctl set 15%
+bindsym $mod+Alt+B+3 exec brightnessctl set 100%
+
+# Wofi theme selection
+bindsym $mod+comma exec $HOME/dotfiles/scripts/wofi_select_theme.sh
+
+# Wofi wallpaper style
+bindsym $mod+period exec $HOME/dotfiles/scripts/wofi_wallpaper_style.sh
+
+# Set random wallpaper
+bindsym $mod+minus exec $HOME/dotfiles/scripts/wallpaper_random.sh
+
+# Apply Hyprland style
+bindsym $mod+Q exec $HOME/dotfiles/scripts/hyprland_style.sh

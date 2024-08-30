@@ -1,0 +1,6 @@
+bindsym F12 exec wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%+ 
+bindsym F11 exec wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%- 
+bindsym F10 exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+bindsym F5 exec brightnessctl set 5%-
+bindsym F6 exec brightnessctl set +5%

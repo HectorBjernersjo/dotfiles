@@ -5,9 +5,19 @@
 	"margin": 12,
 
 	"modules-left": ["clock", "tray", "pulseaudio", "temperature", "battery", "backlight"],
-	"modules-center": ["hyprland/workspaces"],
+	"modules-center": ["hyprland/workspaces", "sway/workspaces"],
 	// "modules-center": ["hyprland/window"],
     "modules-right": ["custom/cpu", "custom/divider", "custom/ram", "custom/divider", "custom/read", "custom/divider", "custom/write", "network"],
+
+"sway/workspaces": {
+    "format": "{name}",
+    "max-length": 20,
+    "class-format": {
+        "active": "active",
+        "urgent": "urgent",
+        "focused": "focused"
+    }
+},
 
 	"tray": {
 		"show-passive-items": true,

@@ -87,7 +87,8 @@ window {
 	font-size: 9px;
 }
 
-#workspaces button.active {
+#workspaces button.active,
+#workspaces button.focused {
 	/* color: @color_1; */
 	font-weight: bold;
 	padding: 0px 18px;

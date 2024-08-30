@@ -108,3 +108,10 @@ export PASSWORD_STORE_DIR=/home/hector/Drive/Ica/password-store
 export EDITOR=nvim
 
 eval $(thefuck --alias)
+
+# Test for macbook but probably good either way
+export XDG_SESSION_TYPE=wayland
+export GDK_BACKEND=wayland
+export QT_QPA_PLATFORM=wayland
+export CLUTTER_BACKEND=wayland
+export SDL_VIDEODRIVER=wayland
