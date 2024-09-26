@@ -30,4 +30,4 @@ floating_modifier $mod
 
 # To allow moving tiling windows with the mouse as well (not just floating windows)
 # Use this configuration
-for_window [con_id="__focused__"] floating enable, move position cursor
+# for_window [con_id="__focused__"] floating enable, move position cursor

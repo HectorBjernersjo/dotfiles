@@ -1,0 +1,8 @@
+[[layouts]]
+name = "default"
+
+[[layouts.layers]]
+name = "base"
+[[layouts.layers.bindings]]
+key = "Cmd_R"
+send = "Alt_R"
