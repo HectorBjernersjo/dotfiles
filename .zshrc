@@ -67,7 +67,7 @@ alias nano='nvim'
 alias neofetch='fastfetch'
 alias c='clear'
 alias tadd='pwd >> ~/.config/tmux/directories.txt'
-alias history='fc -l -n 0 | fzf'
+# alias history='fc -l -n 0 | fzf'
 alias dir_stats='python3 $DOTFILES_PATH/scripts/dir_stats.py'
 alias mv_dir='$DOTFILES_PATH/scripts/move_dir.sh'
 alias cp_dir='$DOTFILES_PATH/scripts/copy_dir.sh'
@@ -107,8 +107,16 @@ unset __conda_setup
 export DOTNET_ROOT=$HOME/.dotnet
 export PATH=$DOTNET_ROOT:$DOTNET_ROOT/tools:$PATH
 export PATH=$PATH:~/Programs/netcoredbg
+export PATH=/opt/cuda/bin:$PATH
+export LD_LIBRARY_PATH=/opt/cuda/lib64:$LD_LIBRARY_PATH
 export PASSWORD_STORE_DIR=/home/hector/Drive/Ica/password-store
 export EDITOR=nvim
+
+# Rocm setup
+export HSA_OVERRIDE_GFX_VERSION=10.3.0
+export AMD_SERIALIZE_KERNEL=3
+export ROC_ENABLE_PREEMPTION=0
+export HSA_ENABLE_SDMA=0
 
 eval $(thefuck --alias)
 

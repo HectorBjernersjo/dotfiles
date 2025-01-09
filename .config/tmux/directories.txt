@@ -16,3 +16,8 @@
 /home/hector/Drive/Projects/ai_researcher/ai_researcher
 /home/hector/dotfiles/scripts
 /home/hector/dotfiles/.config/sway
+/home/hector/Drive/Projects/bimlet
+/home/hector/Drive/LinkedIn
+/home/hector/Drive/Projects/learnpytorch
+/home/hector/Drive/Projects/reddit_videos/new
+/home/hector/Drive/Projects/trav

@@ -1,5 +1,5 @@
-output eDP-1 scale 1.5
-output eDP-2 scale 1.5
+output eDP-1 scale 1
+output eDP-2 scale 1
 include workspaces
 include laptop
 include keybinds
@@ -13,6 +13,7 @@ include theme
 # Read `man 5 sway` for a complete reference.
 input * {
 	xkb_layout "se"
+    natural_scroll enabled
 }
 
 # Set the default terminal
