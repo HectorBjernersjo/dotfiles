@@ -61,7 +61,7 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 # Aliases
 alias ls='ls --color'
-alias rm='trash'
+# alias rm='trash'
 alias vim='nvim'
 alias nano='nvim'
 alias neofetch='fastfetch'

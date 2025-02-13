@@ -1,1 +1,1 @@
-gruvbox-dark
+tokyo-night

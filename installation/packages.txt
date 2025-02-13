@@ -17,6 +17,7 @@ nodejs
 noto-fonts-emoji
 npm
 obsidian
+paplay
 pass
 pavucontrol
 pipewire
@@ -37,4 +38,5 @@ unzip
 waybar
 wl-clipboard
 wofi
+zenity
 zip

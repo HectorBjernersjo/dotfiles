@@ -1,0 +1,5 @@
+[Unit]
+Description=Squat Reminder Notification
+
+[Service]
+ExecStart=/home/hector/dotfiles/scripts/squat_reminder.sh
