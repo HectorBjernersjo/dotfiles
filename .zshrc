@@ -81,7 +81,7 @@ nvim_random_listen() {
 }
 
 # Alias the nvim command to use the function
-alias nvim="nvim_random_listen"
+# alias nvim="nvim_random_listen"
 
 # Shell integrations
 eval "$(fzf --zsh)"
@@ -109,7 +109,7 @@ export PATH=$DOTNET_ROOT:$DOTNET_ROOT/tools:$PATH
 export PATH=$PATH:~/Programs/netcoredbg
 export PATH=/opt/cuda/bin:$PATH
 export LD_LIBRARY_PATH=/opt/cuda/lib64:$LD_LIBRARY_PATH
-export PASSWORD_STORE_DIR=/home/hector/Drive/Ica/password-store
+export PASSWORD_STORE_DIR=/home/hector/drive/Ica/password-store
 export EDITOR=nvim
 
 # Rocm setup
@@ -128,3 +128,4 @@ export CLUTTER_BACKEND=wayland
 export SDL_VIDEODRIVER=wayland
 # For cv2
 export QT_QPA_PLATFORM=xcb
+export LS_COLORS=$LS_COLORS:'ow=1;34:'
