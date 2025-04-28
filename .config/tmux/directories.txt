@@ -21,3 +21,4 @@
 /home/hector/drive/Projects/learnpytorch
 /home/hector/drive/Projects/reddit_videos/new
 /home/hector/drive/Projects/trav
+/home/hector/CityInfo
