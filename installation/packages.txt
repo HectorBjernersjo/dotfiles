@@ -40,3 +40,4 @@ wl-clipboard
 wofi
 zenity
 zip
+trash-cli

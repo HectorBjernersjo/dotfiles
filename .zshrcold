@@ -1,6 +1,5 @@
 NVM=true;
 CONDA=false;
-NVIM_THEME=false;
 
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
@@ -38,7 +37,6 @@ HISTFILESIZE=100000
 HISTFILE=~/.zsh_history
 SAVEHIST=$HISTSIZE
 HISTDUP=erase
-
 setopt appendhistory
 setopt sharehistory
 setopt hist_ignore_space
@@ -62,21 +60,22 @@ alias vim='nvim'
 alias nano='nvim'
 alias neofetch='fastfetch'
 alias tadd='pwd >> ~/.config/tmux/directories.txt'
-alias hist='fc -l -n 0'
-alias shist='fc -l -n 0'
+alias hist='fc -l -n 0 | fzf'
 alias dir_stats='python3 $DOTFILES_PATH/scripts/dir_stats.py'
 alias mv_dir='$DOTFILES_PATH/scripts/move_dir.sh'
 alias cp_dir='$DOTFILES_PATH/scripts/copy_dir.sh'
 alias padd='~/dotfiles/installation/addpkg.sh'
-alias nvim_clear='rm -rf ~/.local/state/nvim/swap/*'
+alias nvim_remove_swap='rm -rf ~/.local/state/nvim/swap/*'
 
-if [ $NVIM_THEME ]; then
-    nvim_random_listen() {
-        local random_number=$(od -An -N2 -i /dev/random | tr -d ' ')
-        local server_name="/tmp/themelistener${random_number}"
-        nvim --listen "$server_name" "$@"
-    }
-fi
+# Function to generate a random server name and start nvim with it
+nvim_random_listen() {
+    local random_number=$(od -An -N2 -i /dev/random | tr -d ' ')
+    local server_name="/tmp/themelistener${random_number}"
+    nvim --listen "$server_name" "$@"
+}
+
+# Alias the nvim command to use the function
+# alias nvim="nvim_random_listen"
 
 # Shell integrations
 eval "$(fzf --zsh)"
@@ -84,7 +83,7 @@ eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 # eval $(thefuck --alias)
 
-if [ $CONDA ]; then
+if [$CONDA]
     __conda_setup="$('/home/hector/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
     if [ $? -eq 0 ]; then
         eval "$__conda_setup"
@@ -98,7 +97,7 @@ if [ $CONDA ]; then
     unset __conda_setup
 fi
 
-if [ $NVM ]; then
+if [$NVM]
     export NVM_DIR="$HOME/.nvm"
     [ -s "/usr/share/nvm/nvm.sh" ] && \. "/usr/share/nvm/nvm.sh"  # This loads nvm
     [ -s "/usr/share/nvm/bash_completion" ] && \. "/usr/share/nvm/bash_completion"  # This loads nvm bash_completion
@@ -115,10 +114,8 @@ export PATH=$DOTNET_ROOT:$DOTNET_ROOT/tools:$PATH
 export PATH=$PATH:~/Programs/netcoredbg
 export PATH=/opt/cuda/bin:$PATH
 export LD_LIBRARY_PATH=/opt/cuda/lib64:$LD_LIBRARY_PATH
-
 export PASSWORD_STORE_DIR=/home/hector/drive/Ica/password-store
 export EDITOR=nvim
-export VISUAL=nvim
 
 # Rocm setup
 export HSA_OVERRIDE_GFX_VERSION=10.3.0
@@ -126,13 +123,13 @@ export AMD_SERIALIZE_KERNEL=3
 export ROC_ENABLE_PREEMPTION=0
 export HSA_ENABLE_SDMA=0
 
+
 # Test for macbook but probably good either way
 export XDG_SESSION_TYPE=wayland
 export GDK_BACKEND=wayland
 export QT_QPA_PLATFORM=wayland
 export CLUTTER_BACKEND=wayland
 export SDL_VIDEODRIVER=wayland
-
 # For cv2
 export QT_QPA_PLATFORM=xcb
 export LS_COLORS=$LS_COLORS:'ow=1;34:'

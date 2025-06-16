@@ -2,7 +2,7 @@
 
 format = """
 [](color_orange)\
-$os\
+[󰣇](bg:color_orange fg:color_fg0)\
 $username\
 [](bg:color_yellow fg:color_orange)\
 $directory\
