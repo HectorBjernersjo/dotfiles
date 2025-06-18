@@ -1,0 +1,105 @@
+#!/bin/bash
+#
+# A wrapper script for the Flex.Net database migration tool.
+#
+set -e # Exit immediately if any command fails
+
+# --- Configuration ---
+# Absolute paths to your project and built DLL
+PROJECT_PATH="/home/hector/HRM/Flex.Net/Flex.Net.DatabaseMigration/Flex.Net.DatabaseMigration.csproj"
+DLL_PATH="/home/hector/HRM/Flex.Net/Flex.Net.DatabaseMigration/bin/Debug/net8.0/Flex.Net.DatabaseMigration.dll"
+
+# Configuration for the single test database
+TEST_DB_CONNECTION_STRING="Server=localhost,1433;Database=pelle;User Id=sa;Password=HejHoj1!;TrustServerCertificate=True;Encrypt=False"
+TEST_DB_TENANT_ID="TestDatabase"
+
+
+# --- Help Message ---
+usage() {
+  echo "Usage: $0 [command] [options]"
+  echo ""
+  echo "A wrapper for the Flex.Net database migration tool."
+  echo ""
+  echo "Commands:"
+  echo "  (no command)    Runs migrations (default action)."
+  echo "  list            Lists the current database versions."
+  echo ""
+  echo "Options:"
+  echo "  -d <direction>  Specifies the migration direction: 'up' (default) or 'down'."
+  echo "  --test          Targets the single test database instead of all tenants."
+  echo "  -h, --help      Shows this help message."
+  exit 0
+}
+
+
+# --- Argument Parsing ---
+# Default values
+DIRECTION="up"
+IS_TEST=false
+COMMAND="run" # The default action is to run migrations
+
+# Check for a command (list) or help flag first
+if [[ "$1" == "list" ]]; then
+  COMMAND="list"
+  shift # Consume the 'list' argument so the loop can parse the rest
+elif [[ "$1" == "-h" || "$1" == "--help" ]]; then
+  usage
+fi
+
+# Parse the remaining options
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    -d)
+      if [[ -n "$2" && "$2" != "--test" ]]; then
+        DIRECTION="$2"
+        shift 2 # Consume flag and its value
+      else
+        echo "Error: -d option requires a direction ('up' or 'down')." >&2
+        exit 1
+      fi
+      ;;
+    --test)
+      IS_TEST=true
+      shift # Consume flag
+      ;;
+    *)
+      echo "Error: Unknown option '$1'" >&2
+      usage
+      exit 1
+      ;;
+  esac
+done
+
+
+# --- Execution ---
+echo "▶️ Building migration tool..."
+dotnet build "$PROJECT_PATH"
+echo "✅ Build complete."
+echo "---"
+
+# Main logic based on the parsed command
+if [[ "$COMMAND" == "list" ]]; then
+  echo "🔎 Listing database versions..."
+  if [ "$IS_TEST" = true ]; then
+    echo "🎯 Target: Test Database"
+    dotnet "$DLL_PATH" list-versions -c "$TEST_DB_CONNECTION_STRING"
+  else
+    echo "🎯 Target: All Tenants"
+    dotnet "$DLL_PATH" list-versions
+  fi
+else
+  # This block runs migrations
+  echo "🚀 Running migrations..."
+  echo "  Direction: $DIRECTION"
+
+  if [ "$IS_TEST" = true ]; then
+    echo "  🎯 Target: Test Database"
+    dotnet "$DLL_PATH" single -d "$DIRECTION" -c "$TEST_DB_CONNECTION_STRING" -t "$TEST_DB_TENANT_ID"
+  else
+    echo "  🎯 Target: All Tenants"
+    dotnet "$DLL_PATH" batch -d "$DIRECTION"
+  fi
+fi
+
+echo "---"
+echo "✅ Script finished successfully."

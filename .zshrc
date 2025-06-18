@@ -22,6 +22,7 @@ zinit light Aloxaf/fzf-tab
 # Load completions
 autoload -Uz compinit && compinit
 
+
 # Keybindings
 bindkey '^y' autosuggest-accept
 bindkey '^p' history-search-backward
@@ -48,12 +49,18 @@ setopt hist_ignore_dups
 setopt hist_find_no_dups
 unsetopt extended_history
 
+# Shell integrations
+eval "$(fzf --zsh)"
+eval "$(zoxide init zsh)"
+eval "$(starship init zsh)"
+
 # Completion styling
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+zstyle ':autocomplete:*' default-context history-incremental-search-backward
 
 # Aliases
 alias ls='ls --color'
@@ -63,7 +70,8 @@ alias nano='nvim'
 alias neofetch='fastfetch'
 alias tadd='pwd >> ~/.config/tmux/directories.txt'
 alias hist='fc -l -n 0'
-alias shist='fc -l -n 0'
+alias shist='fc -l -n 0 | fzf'
+alias clip='clip.exe'
 alias dir_stats='python3 $DOTFILES_PATH/scripts/dir_stats.py'
 alias mv_dir='$DOTFILES_PATH/scripts/move_dir.sh'
 alias cp_dir='$DOTFILES_PATH/scripts/copy_dir.sh'
@@ -78,10 +86,6 @@ if [ $NVIM_THEME ]; then
     }
 fi
 
-# Shell integrations
-eval "$(fzf --zsh)"
-eval "$(zoxide init zsh)"
-eval "$(starship init zsh)"
 # eval $(thefuck --alias)
 
 if [ $CONDA ]; then
@@ -107,6 +111,7 @@ fi
 export PATH=~/.npm-global/bin:$PATH
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH"
+export PATH="$DOTFILES_PATH/allwaysinpath:$PATH"
 
 export DOTFILES_PATH=~/dotfiles
 
