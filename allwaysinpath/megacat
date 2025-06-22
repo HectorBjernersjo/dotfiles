@@ -1,0 +1,55 @@
+#!/bin/bash
+
+#==============================================================================
+# SCRIPT: cat_with_headers.sh
+#
+# DESCRIPTION:
+# This script reads a list of file paths from standard input (one file per
+# line) and prints the content of each file to standard output. Before
+# printing the content of each file, it prints a decorative header
+# containing the name of the file.
+#
+# USAGE:
+# Make the script executable:
+#   chmod +x cat_with_headers.sh
+#
+# Pipe a list of files to it, for example:
+#   find . -name "*.lua" | ./cat_with_headers.sh
+#   ls *.txt | ./cat_with_headers.sh
+#
+#==============================================================================
+
+# Check if input is being piped into the script.
+# If the script is run without a pipe (i.e., connected to a terminal),
+# print usage instructions and exit.
+if [ -t 0 ]; then
+  echo "This script is intended to be used with a pipe." >&2
+  echo "Usage: command-that-lists-files | $(basename "$0")" >&2
+  exit 1
+fi
+
+# The `while read` loop reads from standard input line by line.
+# `IFS= ` and `-r` prevent word splitting and backslash interpretation,
+# which ensures that filenames with spaces or special characters are
+# handled correctly.
+while IFS= read -r filepath; do
+  # Check if the given path actually exists and is a regular file.
+  if [ -f "$filepath" ]; then
+    # Print a decorative header.
+    # echo "#################################################################"
+    echo "### FILE: $filepath"
+    # echo "#################################################################"
+    
+    # Use `cat` to print the contents of the file.
+    cat "$filepath"
+    
+    # Add a blank line after the file's content for better separation.
+    echo
+  else
+    # If the file doesn't exist or isn't a regular file, print a warning
+    # to standard error and continue to the next file.
+    echo "Warning: Skipping '$filepath' because it is not a regular file." >&2
+  fi
+done
+
+echo "--- End of script ---"

@@ -1,8 +1,10 @@
-NVM=true;
-CONDA=false;
-NVIM_THEME=false;
+NVM=0;
+CONDA=0;
+NVIM_THEME=0;
+VIM_MODE=1;
 
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+DOTFILES_PATH="$HOME/dotfiles"
 
 if [ ! -d "$ZINIT_HOME" ]; then
    mkdir -p "$(dirname $ZINIT_HOME)"
@@ -101,19 +103,20 @@ if [ $CONDA ]; then
     fi
     unset __conda_setup
 fi
+export CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1
 
-if [ $NVM ]; then
+if (( NVM )); then
     export NVM_DIR="$HOME/.nvm"
     [ -s "/usr/share/nvm/nvm.sh" ] && \. "/usr/share/nvm/nvm.sh"  # This loads nvm
     [ -s "/usr/share/nvm/bash_completion" ] && \. "/usr/share/nvm/bash_completion"  # This loads nvm bash_completion
 fi
+
 
 export PATH=~/.npm-global/bin:$PATH
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH"
 export PATH="$DOTFILES_PATH/allwaysinpath:$PATH"
 
-export DOTFILES_PATH=~/dotfiles
 
 # Dotnet setup
 export PATH=$DOTNET_ROOT:$DOTNET_ROOT/tools:$PATH
@@ -141,4 +144,38 @@ export SDL_VIDEODRIVER=wayland
 # For cv2
 export QT_QPA_PLATFORM=xcb
 export LS_COLORS=$LS_COLORS:'ow=1;34:'
+
+
+if [ $VIM_MODE ]; then
+    set -o vi
+    export KEYTIMEOUT=1
+    function zle-keymap-select () {
+      if [[ ${KEYMAP} == 'vicmd' ]]; then
+        # Block cursor for command mode
+        echo -ne '\e[2 q'
+      else
+        # I-beam cursor for insert mode
+        echo -ne '\e[5 q'
+      fi
+    }
+
+    # Ensure the correct cursor is displayed when the line editor is initialized
+    function zle-line-init () {
+      # I-beam cursor for insert mode
+      echo -ne '\e[5 q'
+    }
+
+    # Tell ZLE to call our functions
+    zle -N zle-keymap-select
+    zle -N zle-line-init
+
+    bindkey -M viins '^y' autosuggest-accept
+    bindkey -M viins '^p' history-search-backward
+    bindkey -M viins '^n' history-search-forward
+    bindkey -M viins '^[w' kill-region
+    bindkey -M viins "^[[1;5C" forward-word
+    bindkey -M viins "^[[1;5D" backward-word
+    bindkey -M viins "^[[3~" delete-char
+    bindkey -M viins "^o" fzf-completion
+fi
 
