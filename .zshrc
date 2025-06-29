@@ -16,7 +16,7 @@ source "${ZINIT_HOME}/zinit.zsh"
 # Set PATH
 
 # Add in zsh plugins
-zinit light zsh-users/zsh-syntax-highlighting
+# zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
@@ -55,6 +55,7 @@ unsetopt extended_history
 eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
+eval "$(fnm env --use-on-cd)"
 
 # Completion styling
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
@@ -110,7 +111,6 @@ if (( NVM )); then
     [ -s "/usr/share/nvm/nvm.sh" ] && \. "/usr/share/nvm/nvm.sh"  # This loads nvm
     [ -s "/usr/share/nvm/bash_completion" ] && \. "/usr/share/nvm/bash_completion"  # This loads nvm bash_completion
 fi
-
 
 export PATH=~/.npm-global/bin:$PATH
 export PATH="$HOME/.cargo/bin:$PATH"

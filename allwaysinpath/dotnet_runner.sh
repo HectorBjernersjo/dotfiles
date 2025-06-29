@@ -111,7 +111,7 @@ find_or_create_window "$WINDOW_NAME" "$TARGET_DIR" > /dev/null
 dotnet_pane_id=$(find_or_create_pane "$WINDOW_NAME" "$PANE_NAME" "$TARGET_DIR")
 
 # Run dotnet command
-run_command_in_pane "$dotnet_pane_id" "$PANE_NAME" "dotnet run"
+run_command_in_pane "$dotnet_pane_id" "$PANE_NAME" "dotnet run -p:WarningLevel=0"
 
 # Handle TypeScript if requested
 if [ "$LAUNCH_TS" = true ]; then
@@ -137,7 +137,7 @@ if [ "$LAUNCH_TS" = true ]; then
     fi
     
     # Run TypeScript compiler
-    run_command_in_pane "$ts_pane_id" "$TS_PANE_NAME" "npx tsc --watch"
+    run_command_in_pane "$ts_pane_id" "$TS_PANE_NAME" "tsc --watch"
 fi
 
 # Switch to the dotnet pane
