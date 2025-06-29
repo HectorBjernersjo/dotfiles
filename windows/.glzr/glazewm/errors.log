@@ -1,0 +1,26 @@
+[2m2025-06-22T10:15:56.485875Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m window_rules[1].match: invalid type: string "Navigator", expected a sequence at line 174 column 12
+[2m2025-06-22T10:20:00.109112Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m keybindings[37].commands: unexpected argument found
+ at line 305 column 15
+[2m2025-06-22T10:20:18.205573Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m keybindings[37].commands: unexpected argument found
+ at line 305 column 15
+[2m2025-06-22T10:20:40.692895Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m keybindings[64].commands: unexpected argument found
+ at line 365 column 15
+[2m2025-06-22T10:32:24.242277Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Another instance of the application is already running.
+[2m2025-06-22T13:10:20.591960Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m keybindings[43].commands: unrecognized subcommand
+ at line 326 column 15
+[2m2025-06-22T17:25:45.172273Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Another instance of the application is already running.
+[2m2025-06-22T19:12:14.069277Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Command doesn't have an ending `"`: '"%userprofile%/.glzr/glazewm/lock.bat"'.
+[2m2025-06-22T19:12:26.309574Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Command doesn't have an ending `"`: '"%userprofile%/.glzr/glazewm/lock.bat"'.
+[2m2025-06-22T19:12:57.462225Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Command doesn't have an ending `"`: '"%userprofile%/.glzr/glazewm/lock.bat"'.
+[2m2025-06-23T11:29:53.289278Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Failed to send response: channel closed
+[2m2025-06-23T11:29:53.298014Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Failed to send response: channel closed
+[2m2025-06-23T11:29:53.302145Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Failed to send response: channel closed
+[2m2025-06-23T11:29:53.306129Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Failed to send response: channel closed
+[2m2025-06-23T11:29:53.311063Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Failed to send response: channel closed
+[2m2025-06-25T11:57:51.496347Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Failed to send response: channel closed
+[2m2025-06-25T11:57:51.664615Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Failed to send response: channel closed
+[2m2025-06-25T11:57:51.672970Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Failed to send response: channel closed
+[2m2025-06-25T11:57:51.673820Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Failed to send response: channel closed
+[2m2025-06-25T11:57:51.684105Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Failed to send response: channel closed
+[2m2025-06-25T19:04:52.334003Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Failed to send response: channel closed
+[2m2025-06-25T19:04:52.334791Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Failed to send response: channel closed
