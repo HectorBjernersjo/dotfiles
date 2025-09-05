@@ -1,13 +1,32 @@
-;; Kanata config for caps to esc+ctrl
+;; --- Kanata: caps = Esc on tap, Ctrl on hold; Alt+hjkl = arrows ---
+
+(defcfg
+  process-unmapped-keys yes
+)
 
 (defsrc
-  caps
+  caps lalt h j k l
 )
 
 (defalias
   escctrl (tap-hold 200 200 esc lctrl)
+  alt_nav (tap-hold 200 200 lalt (layer-while-held nav))
 )
 
 (deflayer base
-	@escctrl
+  @escctrl
+  @alt_nav
+  h
+  j
+  k
+  l
+)
+
+(deflayer nav
+  _
+  _
+  left
+  down
+  up
+  rght
 )
