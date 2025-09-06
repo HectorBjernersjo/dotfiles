@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 COMMIT_OLD=$1
 COMMIT_NEW=$2

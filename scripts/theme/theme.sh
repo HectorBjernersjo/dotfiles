@@ -1,4 +1,4 @@
-scriptsDir=$HOME/dotfiles/scripts
+scriptsDir=$HOME/dotfiles/scripts/theme
 if [ "$1" == "Gruvbox Dark" ]; then
 	$scriptsDir/nvim_theme.sh gruvbox-material
 	$scriptsDir/nvim_background.sh dark
@@ -71,6 +71,6 @@ elif [ "$1" == "Everforest Dark" ]; then
 	$scriptsDir/firefox_theme.sh everforest
 	$scriptsDir/hyprland_theme.sh everforest-dark
 	$scriptsDir/sway_theme.sh everforest-dark
+else
+    echo "Bad theme"
 fi
-
-	# $scriptsDir/kitty_theme.sh "Everforest Dark Hard"

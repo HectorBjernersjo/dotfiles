@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Check if the file is provided as an argument
 if [ -z "$1" ]; then

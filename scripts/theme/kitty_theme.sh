@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # if [ "$1" == "tokyo-night" ]; then
 #     kitten themes --reload-in=all "Tokyo Night"

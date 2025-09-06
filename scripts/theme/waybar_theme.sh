@@ -1,3 +1,3 @@
 echo "@import 'themes/$1.css';" > $HOME/.config/waybar/theme.css
-killall waybar
+pkill waybar
 waybar &

@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 theme=$1
 
 if [ "$theme" == "tokyo-night" ]; then

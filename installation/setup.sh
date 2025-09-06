@@ -1,1 +1,2 @@
-systemctl --user enable --now squat_reminder.timer
+#!/usr/bin/env bash
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm

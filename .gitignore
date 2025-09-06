@@ -1,2 +1,4 @@
 .config/tmux/plugins/
 .config/kitty/current-theme.conf
+.config/github-copilot
+.config/pulse

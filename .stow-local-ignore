@@ -1,8 +1,13 @@
 .git
+.gitignore
+.gitmodules
 scripts
-firefox
+programs
 installation
 wallpapers
 images
 windows
+vms
+allwaysinpath
 README.md
+old

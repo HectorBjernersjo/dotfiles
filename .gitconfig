@@ -1,0 +1,6 @@
+[user]
+	name = Hector Bjernersjö
+	email = hector@bjernersjo.se
+
+[init]
+	defaultBranch = main

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 virt-manager --connect qemu:///system --show-domain-console win11 &
 

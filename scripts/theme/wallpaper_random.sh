@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 theme=$(cat "$HOME/dotfiles/wallpapers/theme.txt")
 style=$(cat "$HOME/dotfiles/wallpapers/style.txt")
 

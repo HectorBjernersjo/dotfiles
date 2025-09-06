@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Capture the selected region using grim and save it directly to a file
 grim -g "$(slurp)" /tmp/image.png
