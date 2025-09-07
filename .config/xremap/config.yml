@@ -1,0 +1,15 @@
+modmap:
+  - name: CapsLock to RightCtrl/Esc
+    remap:
+      CapsLock:
+        held: Ctrl_R
+        alone: Esc
+        alone_timeout: 500
+
+keymap:
+  - name: RightCtrl+hjkl to Arrows
+    remap:
+      Ctrl_R-h: Left
+      Ctrl_R-l: Right
+      Ctrl_R-j: Down
+      Ctrl_R-k: Up

@@ -11,19 +11,14 @@ if [ ! -d "$ZINIT_HOME" ]; then
    git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 fi
 
+
 source "${ZINIT_HOME}/zinit.zsh"
-
-# Set PATH
-
-# Add in zsh plugins
-# zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
 
-# Load completions
-autoload -Uz compinit && compinit
-
+# Really slow and doesn't really do shit
+# autoload -Uz compinit && compinit
 
 # Keybindings
 bindkey '^y' autosuggest-accept
@@ -87,29 +82,6 @@ if [ $NVIM_THEME ]; then
         local server_name="/tmp/themelistener${random_number}"
         nvim --listen "$server_name" "$@"
     }
-fi
-
-# eval $(thefuck --alias)
-
-if [ $CONDA ]; then
-    __conda_setup="$('/home/hector/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-    if [ $? -eq 0 ]; then
-        eval "$__conda_setup"
-    else
-        if [ -f "/home/hector/miniconda3/etc/profile.d/conda.sh" ]; then
-            . "/home/hector/miniconda3/etc/profile.d/conda.sh"
-        else
-            export PATH="/home/hector/miniconda3/bin:$PATH"
-        fi
-    fi
-    unset __conda_setup
-fi
-export CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1
-
-if (( NVM )); then
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "/usr/share/nvm/nvm.sh" ] && \. "/usr/share/nvm/nvm.sh"  # This loads nvm
-    [ -s "/usr/share/nvm/bash_completion" ] && \. "/usr/share/nvm/bash_completion"  # This loads nvm bash_completion
 fi
 
 export PATH=~/.npm-global/bin:$PATH

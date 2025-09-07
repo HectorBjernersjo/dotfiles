@@ -58,8 +58,9 @@
   users.users.hector = {
     isNormalUser = true;
     description = "Hector Bjernersjö";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "input" "uinput"];
     packages = with pkgs; [];
+    shell = pkgs.zsh;
   };
 
   # Enable automatic login for the user.
@@ -69,12 +70,42 @@
   nixpkgs.config.allowUnfree = true;
 
   programs.hyprland.enable = true;
+  programs.zsh.enable = true;
   nix.settings.experimental-features = [ "nix-command" "flakes"];
   security.sudo.wheelNeedsPassword = false;
 
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
+  # services.xserver.enable = true; # if you use Xwayland
+  # xdg.portal.enable = true;
+  # xdg.portal.extraPortals = [
+  #   pkgs.xdg-desktop-portal-gtk
+  #   pkgs.xdg-desktop-portal-hyprland
+  # ];
+
+  # xremap service configuration for Hyprland
+  services.xremap = {
+    serviceMode = "system";
+    withHypr = true;
+    watch = true;
+    mouse = true;
+    config = {
+      modmap = [
+        {
+          name = "Global";
+          remap = { "CapsLock" = "Esc"; };
+        }
+      ];
+      keymap = [
+        {
+          name = "Alt hjkl to arrows";
+          remap = {
+            "M-h" = "LEFT";
+            "M-j" = "DOWN";
+            "M-k" = "UP";
+            "M-l" = "RIGHT";
+          };
+        }
+      ];
+    };
   };
 
   # List packages installed in system profile. To search, run:
@@ -99,13 +130,30 @@
   killall
   cargo
   rustc
+  fnm
+  zoxide
+  starship
+  trash-cli
+  fastfetch
+  bibata-cursors
+  gdu
+  swww
+  code-cursor
+  grim
+  slurp
+  swappy
 
-  nerd-fonts.jetbrains-mono
+  xremap
 
   (python3.withPackages (pythonPackages: with pythonPackages; [
     numpy 
     psutil
   ]))
+  ];
+
+  # Enable fonts
+  fonts.packages = with pkgs; [
+    (nerd-fonts.jetbrains-mono)
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
