@@ -23,3 +23,4 @@
 /home/hector/drive/Projects/trav
 /home/hector/CityInfo
 /home/hector/HRM/Flex.Net
+/home/hector/test/hasktest

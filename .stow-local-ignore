@@ -11,3 +11,6 @@ vms
 allwaysinpath
 README.md
 old
+flake.nix
+flake.lock
+nixos

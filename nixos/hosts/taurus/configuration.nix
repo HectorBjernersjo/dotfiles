@@ -144,12 +144,21 @@
   swappy
 
   xremap
+  discord
+  google-chrome
+  steam
+  lutris
 
   (python3.withPackages (pythonPackages: with pythonPackages; [
     numpy 
     psutil
   ]))
+
+  haskellPackages.ghc
+  haskellPackages.cabal-install
+  haskellPackages.haskell-language-server
   ];
+
 
   # Enable fonts
   fonts.packages = with pkgs; [
