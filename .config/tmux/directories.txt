@@ -32,3 +32,7 @@
 /home/hector/emma
 /home/hector/chatbot-integrations
 /home/hector/HRM.DeployAzure
+/home/hector/Drive/Projects/RustTutorial/rustlings
+/home/hector/Drive/Projects/RustTutorial/gol
+/home/hector/Drive/Projects/RustTutorial/rust-wasm
+/home/hector/clickerfactory

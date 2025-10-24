@@ -4,5 +4,5 @@ if pgrep -x "wlsunset" > /dev/null
 then
 	killall wlsunset
 else
-	wlsunset -t 3000 -T 8000
+	wlsunset -t 4000 -T 4001
 fi
