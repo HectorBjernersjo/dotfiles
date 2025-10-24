@@ -1,0 +1,24 @@
+#!/bin/bash
+PATTERNS="Request starting|\
+.nuget/packages/telerik.licensing|\
+Request started for|\
+Request finished|\
+Generated output and responded to request for|\
+Executing endpoint|\
+Executed endpoint|\
+Executing action|\
+Executed action|\
+Executing JsonResult|\
+Route matched with|\
+Executing ContentResult|\
+The response has been cached.|\
+Executing PartialViewResult|\
+Executing FileContentResult|\
+The response could not be cached for this request.|\
+No cached response available for this request.|\
+Responding from memory cache for|\
+Sending file. Request path:|\
+the application completed without reading the entire request body."
+
+script -q /dev/null -c "dotnet run --property:warningLevel=0" | \
+grep -E --color=always -v "$PATTERNS"

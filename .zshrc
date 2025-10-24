@@ -75,6 +75,7 @@ alias mv_dir='$DOTFILES_PATH/scripts/move_dir.sh'
 alias cp_dir='$DOTFILES_PATH/scripts/copy_dir.sh'
 alias padd='~/dotfiles/installation/addpkg.sh'
 alias nvim_clear='rm -rf ~/.local/state/nvim/swap/*'
+alias gl="git log --pretty=format:'%C(auto)%as %h%d %s'"
 
 if [ $NVIM_THEME ]; then
     nvim_random_listen() {
@@ -84,6 +85,30 @@ if [ $NVIM_THEME ]; then
     }
 fi
 
+# eval $(thefuck --alias)
+
+if [ $CONDA ]; then
+    __conda_setup="$('/home/hector/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        eval "$__conda_setup"
+    else
+        if [ -f "/home/hector/miniconda3/etc/profile.d/conda.sh" ]; then
+            . "/home/hector/miniconda3/etc/profile.d/conda.sh"
+        else
+            export PATH="/home/hector/miniconda3/bin:$PATH"
+        fi
+    fi
+    unset __conda_setup
+fi
+export CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1
+
+if (( NVM )); then
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "/usr/share/nvm/nvm.sh" ] && \. "/usr/share/nvm/nvm.sh"  # This loads nvm
+    [ -s "/usr/share/nvm/bash_completion" ] && \. "/usr/share/nvm/bash_completion"  # This loads nvm bash_completion
+fi
+
+export PATH="$HOME/.local/bin:$PATH"
 export PATH=~/.npm-global/bin:$PATH
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH"

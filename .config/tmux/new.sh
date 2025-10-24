@@ -51,7 +51,7 @@ if echo "$session_names" | grep -q "^$selected_option$"; then
     tmux switch-client -t "$selected_option"
 else
     # Extract the target directory name (basename)
-    target=$(basename "$selected_option")
+    target=$(basename "$selected_option" | tr '.' '_')
     
     # Create a new tmux session with the name of the target directory
     tmux new-session -d -s "$target" -c "$selected_option"
