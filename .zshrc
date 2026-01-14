@@ -18,7 +18,8 @@ zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
 
 # Really slow and doesn't really do shit
-# autoload -Uz compinit && compinit
+autoload -Uz compinit && compinit
+# zinit ice lucid wait'0' && zinit snippet "autoload -Uz compinit && compinit"
 
 # Keybindings
 bindkey '^y' autosuggest-accept
@@ -116,6 +117,7 @@ export PATH="$DOTFILES_PATH/allwaysinpath:$PATH"
 
 
 # Dotnet setup
+export DOTNET_ROOT="$HOME/.dotnet"
 export PATH=$DOTNET_ROOT:$DOTNET_ROOT/tools:$PATH
 export PATH=$PATH:~/Programs/netcoredbg
 export PATH=/opt/cuda/bin:$PATH

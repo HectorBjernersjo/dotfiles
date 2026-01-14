@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+REPO_PATH='/home/hector/HRM'
+
+if [[ $(pwd) != $REPO_PATH/* ]]; then
+    echo "You are not in a worktree, exiting"
+    exit 1
+fi
+
+WORKTREE_PATH="/$(pwd | cut -d'/' -f2-5)"
+echo "You seem to be in the worktree: $WORKTREE_PATH"
+
+ln -s "$REPO_PATH/hectors_stuff/Flex.Net/.claude" "$WORKTREE_PATH/Flex.Net/.claude"
+
+find $REPO_PATH/hectors_stuff -type f | cut -d'/' -f6- | xargs -I {}  cp $REPO_PATH/hectors_stuff/{} $WORKTREE_PATH/{}
+find $REPO_PATH/hectors_stuff -type f | cut -d'/' -f6- | xargs -t -I {} git update-index --skip-worktree $WORKTREE_PATH/{}
+
+rg -l -g '*.csproj' 'annotations' | grep -v 'Common' | xargs -I {} sed -i 's/annotations/enable/' {}
+git status | grep csproj | awk '{print $2}' | xargs -I {} git update-index --skip-worktree {}
+sed -i 's/<RazorCompileOnBuild>false<\/RazorCompileOnBuild>/<RazorCompileOnBuild>true<\/RazorCompileOnBuild>/' $WORKTREE_PATH/Flex.Net/Flex.Net.Web/Flex.Net.Web.csproj 
+
+sed -i -e '/^Project.*"Flex\.Net\.CryptographyTool"/,/^EndProject/d' \
+    -e '/^Project.*"Flex\.Net\.Leverans"/,/^EndProject/d' \
+    -e '/^Project.*"Flex\.Net\.Installer"/,/^EndProject/d' \
+    $WORKTREE_PATH/Flex.Net/Flex.Net.sln
+git update-index --skip-worktree $WORKTREE_PATH/Flex.Net/Flex.Net.sln
+
+git update-index --skip-worktree "$WORKTREE_PATH/Flex.Net/.cursor/rules/"*
+git update-index --skip-worktree "$WORKTREE_PATH/Flex.Net/.cursor/commands/"*
+
+rm -rf "$WORKTREE_PATH/Flex.Net/.cursor/rules"
+rm -rf "$WORKTREE_PATH/Flex.Net/.cursor/commands"
+
+ln -s "$REPO_PATH/hectors_stuff/Flex.Net/.cursor/rules" "$WORKTREE_PATH/Flex.Net/.cursor/rules"
+ln -s "$REPO_PATH/hectors_stuff/Flex.Net/.cursor/commands" "$WORKTREE_PATH/Flex.Net/.cursor/commands"
+
+cd $WORKTREE_PATH/Flex.Net/Flex.Net.Web
+npm install
+npm run-script build-prod
+cd $WORKTREE_PATH/Flex.Net
+dotnet restore
+
+echo "Your new worktree is now set up"

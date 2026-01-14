@@ -22,13 +22,8 @@
 /home/hector/drive/Projects/reddit_videos/new
 /home/hector/drive/Projects/trav
 /home/hector/CityInfo
-/home/hector/HRM/Flex.Net
 /home/hector/test/hasktest
 /home/hector/FlexAI
-/home/hector/HRMTest/Inspektorn
-/home/hector/test/hubstuff/hubstuff
-/home/hector/chatbot-iac
-/home/hector/test/hubfunc
 /home/hector/emma
 /home/hector/chatbot-integrations
 /home/hector/HRM.DeployAzure
@@ -36,3 +31,8 @@
 /home/hector/Drive/Projects/RustTutorial/gol
 /home/hector/Drive/Projects/RustTutorial/rust-wasm
 /home/hector/clickerfactory
+/home/hector/HRM
+/home/hector/flexmcp
+/home/hector/HRM.InfraAzure
+/home/hector/HRM/hectors_stuff
+/home/hector/Mudspike

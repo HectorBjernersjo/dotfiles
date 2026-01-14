@@ -6,8 +6,8 @@ set -e # Exit immediately if any command fails
 
 # --- Configuration ---
 # Absolute paths to your project and built DLL
-PROJECT_PATH="/home/hector/HRM/Flex.Net/Flex.Net.DatabaseMigration/Flex.Net.DatabaseMigration.csproj"
-DLL_PATH="/home/hector/HRM/Flex.Net/Flex.Net.DatabaseMigration/bin/Debug/net8.0/Flex.Net.DatabaseMigration.dll"
+PROJECT_PATH="/home/hector/HRM/chatbot-accept-knapp/Flex.Net/Flex.Net.DatabaseMigration/Flex.Net.DatabaseMigration.csproj"
+DLL_PATH="/home/hector/HRM/chatbot-accept-knapp/Flex.Net/Flex.Net.DatabaseMigration/bin/Debug/net8.0/Flex.Net.DatabaseMigration.dll"
 
 # Configuration for the single test database
 TEST_DB_CONNECTION_STRING="Server=localhost,1433;Database=pelle;User Id=sa;Password=HejHoj1!;TrustServerCertificate=True;Encrypt=False"

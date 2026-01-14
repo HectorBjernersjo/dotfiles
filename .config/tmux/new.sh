@@ -1,10 +1,20 @@
 #!/usr/bin/env bash
 
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 source "$CURRENT_DIR/.envs"
 
 # Define the directory containing the list of directories
 DIRECTORIES_FILE="$HOME/.config/tmux/directories.txt"
+
+# Get worktree directories from HRM.git
+HRM_REPO="$HOME/HRM"
+worktree_dirs=""
+
+if [[ -d "$HRM_REPO" ]]; then
+    # Get worktree paths (skip the main repo itself)
+    worktree_dirs=$(cd "$HRM_REPO" && git worktree list --porcelain 2>/dev/null | grep "^worktree" | awk '{print $2}' | grep -v "^$HRM_REPO$")
+fi
 
 # Ensure the directories file exists
 if [[ ! -f "$DIRECTORIES_FILE" ]]; then
@@ -13,7 +23,10 @@ if [[ ! -f "$DIRECTORIES_FILE" ]]; then
 fi
 
 # Read directories from the file
-directories=$(cat "$DIRECTORIES_FILE")
+file_directories=$(cat "$DIRECTORIES_FILE")
+
+# Combine file directories and worktree directories
+directories=$(printf "%s\n%s" "$file_directories" "$worktree_dirs" | grep -v '^$')
 
 # List tmux sessions
 if [[ -z "$TMUX_FZF_SESSION_FORMAT" ]]; then
@@ -27,6 +40,9 @@ session_names=$(tmux list-sessions -F "#S")
 
 # Filter directories to exclude those that already have a session
 filtered_directories=$(echo "$directories" | while read -r dir; do
+    # Skip if directory doesn't exist
+    [[ ! -d "$dir" ]] && continue
+    
     dir_name=$(basename "$dir")
     if ! echo "$session_names" | grep -q "^$dir_name$"; then
         echo "$dir"

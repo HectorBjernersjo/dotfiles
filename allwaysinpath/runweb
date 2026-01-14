@@ -1,6 +1,6 @@
 #!/bin/bash
 PATTERNS="Request starting|\
-.nuget/packages/telerik.licensing|\
+Telerik and Kendo UI Licensing warning|\
 Request started for|\
 Request finished|\
 Generated output and responded to request for|\
