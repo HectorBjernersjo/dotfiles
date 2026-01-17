@@ -1,32 +1,20 @@
-;; --- Kanata: caps = Esc on tap, Ctrl on hold; Alt+hjkl = arrows ---
-
 (defcfg
-  process-unmapped-keys yes
+    process-unmapped-keys yes
 )
 
-(defsrc
-  caps lalt h j k l
-)
+(defsrc)
 
-(defalias
-  escctrl (tap-hold 200 200 esc lctrl)
-  alt_nav (tap-hold 200 200 lalt (layer-while-held nav))
-)
+(deflayer base)
 
-(deflayer base
-  @escctrl
-  @alt_nav
-  h
-  j
-  k
-  l
-)
-
-(deflayer nav
-  _
-  _
-  left
-  down
-  up
-  rght
+(defoverrides
+  (lalt h) (left)
+  (lalt j) (down)
+  (lalt k) (up)
+  (lalt l) (rght)
+  (lalt a) (end)
+  (lalt i) (home)
+  (lalt d) (del)
+  (lalt p) (bspc)
+  (lalt scln) (ret)
+  (caps) (esc)
 )

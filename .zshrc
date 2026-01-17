@@ -52,6 +52,7 @@ eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 eval "$(fnm env --use-on-cd)"
+eval "$(mise activate bash)"
 
 # Completion styling
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
@@ -123,7 +124,7 @@ export PATH=$PATH:~/Programs/netcoredbg
 export PATH=/opt/cuda/bin:$PATH
 export LD_LIBRARY_PATH=/opt/cuda/lib64:$LD_LIBRARY_PATH
 
-export PASSWORD_STORE_DIR=/home/hector/drive/Ica/password-store
+export PASSWORD_STORE_DIR=/home/hector/Drive/Ica/password-store
 export EDITOR=nvim
 export VISUAL=nvim
 
@@ -178,3 +179,7 @@ if [ $VIM_MODE ]; then
     bindkey -M viins "^o" fzf-completion
 fi
 
+
+# . "$HOME/.local/share/../bin/env"
+
+# [ -f "/home/hector/.ghcup/env" ] && . "/home/hector/.ghcup/env" # ghcup-env

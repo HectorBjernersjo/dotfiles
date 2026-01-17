@@ -66,10 +66,40 @@ if echo "$session_names" | grep -q "^$selected_option$"; then
     # Switch to the existing session
     tmux switch-client -t "$selected_option"
 else
-    # Extract the target directory name (basename)
-    target=$(basename "$selected_option" | tr '.' '_')
-    
-    # Create a new tmux session with the name of the target directory
-    tmux new-session -d -s "$target" -c "$selected_option"
-    tmux switch-client -t "$target"
+  target=$(basename "$selected_option" | tr '.' '_')
+
+  # Build -e VAR=VALUE args from .env (strip surrounding quotes)
+  envargs=()
+  if [[ -f "$selected_option/.env" ]]; then
+    while IFS='=' read -r k v; do
+      # skip blanks/comments
+      [[ -z "$k" || "$k" =~ ^# ]] && continue
+      # trim whitespace
+      k="${k#"${k%%[![:space:]]*}"}"; k="${k%"${k##*[![:space:]]}"}"
+      v="${v#"${v%%[![:space:]]*}"}"; v="${v%"${v##*[![:space:]]}"}"
+      # remove surrounding quotes if present
+      [[ "$v" == \"*\" && "$v" == *\" ]] && v="${v:1:-1}"
+      envargs+=(-e "$k=$v")
+    done < "$selected_option/.env"
+  fi
+
+  # Create the session WITH env vars applied
+  # (tmux >= 3.2 supports multiple -e)
+  tmux new-session -d -s "$target" -c "$selected_option" "${envargs[@]}"
+
+  # Optional: also set them in tmux's env for future windows in this session
+  if [[ -n "${envargs[*]}" ]]; then
+    while IFS='=' read -r k v; do
+      [[ -z "$k" || "$k" =~ ^# ]] && continue
+      [[ "$v" == \"*\" && "$v" == *\" ]] && v="${v:1:-1}"
+      tmux set-environment -t "$target" "$k" "$v"
+    done < "$selected_option/.env"
+  fi
+
+  # Per-project hook after env is in place
+  if [[ -x "$selected_option/.tmux.sh" ]]; then
+    "$selected_option/.tmux.sh" "$target" "$selected_option"
+  fi
+
+  tmux switch-client -t "$target"
 fi
