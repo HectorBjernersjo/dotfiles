@@ -181,16 +181,14 @@ if [ $VIM_MODE ]; then
     bindkey -M viins "^o" fzf-completion
 fi
 
-
 # . "$HOME/.local/share/../bin/env"
 
 # [ -f "/home/hector/.ghcup/env" ] && . "/home/hector/.ghcup/env" # ghcup-env
 
 # bun completions
-[ -s "/home/hector/.bun/_bun" ] && source "/home/hector/.bun/_bun"
+# [ -s "/home/hector/.bun/_bun" ] && source "/home/hector/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
-
 source ~/.zshrc.local

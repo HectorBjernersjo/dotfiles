@@ -5,9 +5,18 @@
 set -e # Exit immediately if any command fails
 
 # --- Configuration ---
-# Absolute paths to your project and built DLL
-PROJECT_PATH="/home/hector/HRM/chatbot-accept-knapp/Flex.Net/Flex.Net.DatabaseMigration/Flex.Net.DatabaseMigration.csproj"
-DLL_PATH="/home/hector/HRM/chatbot-accept-knapp/Flex.Net/Flex.Net.DatabaseMigration/bin/Debug/net8.0/Flex.Net.DatabaseMigration.dll"
+# Detect the active worktree from the current directory
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    echo "Error: Not in a git worktree. Run this from within /home/hector/HRM/{worktree}" >&2
+    exit 1
+fi
+
+WORKTREE_PATH=$(git rev-parse --show-toplevel)
+echo "📂 Using worktree: $WORKTREE_PATH"
+
+# Paths relative to the worktree
+PROJECT_PATH="$WORKTREE_PATH/Flex.Net/Flex.Net.DatabaseMigration/Flex.Net.DatabaseMigration.csproj"
+DLL_PATH="$WORKTREE_PATH/Flex.Net/Flex.Net.DatabaseMigration/bin/Debug/net8.0/Flex.Net.DatabaseMigration.dll"
 
 # Configuration for the single test database
 TEST_DB_CONNECTION_STRING="Server=localhost,1433;Database=pelle;User Id=sa;Password=HejHoj1!;TrustServerCertificate=True;Encrypt=False"

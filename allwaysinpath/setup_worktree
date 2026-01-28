@@ -1,43 +1,87 @@
 #!/usr/bin/env bash
 
-REPO_PATH='/home/hector/HRM'
+# Configuration
+PERSONAL_DIR="/home/hector/HRM/hector"
 
-if [[ $(pwd) != $REPO_PATH/* ]]; then
-    echo "You are not in a worktree, exiting"
+# Validate we're in a git worktree
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    echo "Error: Not in a git worktree"
     exit 1
 fi
 
-WORKTREE_PATH="/$(pwd | cut -d'/' -f2-5)"
-echo "You seem to be in the worktree: $WORKTREE_PATH"
+WORKTREE_PATH=$(git rev-parse --show-toplevel)
+EXCLUDE_FILE="$(git rev-parse --git-common-dir)/info/exclude"
 
-ln -s "$REPO_PATH/hectors_stuff/Flex.Net/.claude" "$WORKTREE_PATH/Flex.Net/.claude"
+echo "Setting up worktree at: $WORKTREE_PATH"
 
-find $REPO_PATH/hectors_stuff -type f | cut -d'/' -f6- | xargs -I {}  cp $REPO_PATH/hectors_stuff/{} $WORKTREE_PATH/{}
-find $REPO_PATH/hectors_stuff -type f | cut -d'/' -f6- | xargs -t -I {} git update-index --skip-worktree $WORKTREE_PATH/{}
+# ---------------------------------------------------------
+# 1. Get changed files from personal directory and copy them
+# ---------------------------------------------------------
+echo "Getting changed files from $PERSONAL_DIR..."
 
-rg -l -g '*.csproj' 'annotations' | grep -v 'Common' | xargs -I {} sed -i 's/annotations/enable/' {}
-git status | grep csproj | awk '{print $2}' | xargs -I {} git update-index --skip-worktree {}
-sed -i 's/<RazorCompileOnBuild>false<\/RazorCompileOnBuild>/<RazorCompileOnBuild>true<\/RazorCompileOnBuild>/' $WORKTREE_PATH/Flex.Net/Flex.Net.Web/Flex.Net.Web.csproj 
+cd "$PERSONAL_DIR" || exit 1
+changed_files=$(git diff master... --name-only)
 
-sed -i -e '/^Project.*"Flex\.Net\.CryptographyTool"/,/^EndProject/d' \
-    -e '/^Project.*"Flex\.Net\.Leverans"/,/^EndProject/d' \
-    -e '/^Project.*"Flex\.Net\.Installer"/,/^EndProject/d' \
-    $WORKTREE_PATH/Flex.Net/Flex.Net.sln
-git update-index --skip-worktree $WORKTREE_PATH/Flex.Net/Flex.Net.sln
+if [ -z "$changed_files" ]; then
+    echo "No changed files found"
+    exit 0
+fi
 
-git update-index --skip-worktree "$WORKTREE_PATH/Flex.Net/.cursor/rules/"*
-git update-index --skip-worktree "$WORKTREE_PATH/Flex.Net/.cursor/commands/"*
+echo "Copying files..."
+while IFS= read -r file; do
+    src="$PERSONAL_DIR/$file"
+    dst="$WORKTREE_PATH/$file"
+    
+    if [ -f "$src" ]; then
+        mkdir -p "$(dirname "$dst")"
+        cp "$src" "$dst"
+        echo "  Copied: $file"
+    fi
+done <<< "$changed_files"
 
-rm -rf "$WORKTREE_PATH/Flex.Net/.cursor/rules"
-rm -rf "$WORKTREE_PATH/Flex.Net/.cursor/commands"
+cp $PERSONAL_DIR/parentsettings.config $WORKTREE_PATH/parentsettings.config
 
-ln -s "$REPO_PATH/hectors_stuff/Flex.Net/.cursor/rules" "$WORKTREE_PATH/Flex.Net/.cursor/rules"
-ln -s "$REPO_PATH/hectors_stuff/Flex.Net/.cursor/commands" "$WORKTREE_PATH/Flex.Net/.cursor/commands"
+# ---------------------------------------------------------
+# 2. Skip-worktree or ignore each file
+# ---------------------------------------------------------
+cd "$WORKTREE_PATH" || exit 1
 
-cd $WORKTREE_PATH/Flex.Net/Flex.Net.Web
-npm install
-npm run-script build-prod
-cd $WORKTREE_PATH/Flex.Net
-dotnet restore
+echo "Configuring git to ignore changes..."
+while IFS= read -r file; do
+    # If file is tracked by git, use skip-worktree
+    if git ls-files --error-unmatch "$file" >/dev/null 2>&1; then
+        git update-index --skip-worktree "$file"
+        echo "  Skip-worktree: $file"
+    else
+        # Untracked file - add to exclude
+        if ! grep -Fxq "$file" "$EXCLUDE_FILE" 2>/dev/null; then
+            echo "$file" >> "$EXCLUDE_FILE"
+            echo "  Excluded: $file"
+        fi
+    fi
+done <<< "$changed_files"
 
-echo "Your new worktree is now set up"
+# ---------------------------------------------------------
+# 3. Build steps
+# ---------------------------------------------------------
+echo "Running build steps..."
+
+if [ -d "$WORKTREE_PATH/Flex.Net/Flex.Net.Web" ]; then
+    echo "Running npm install and build..."
+    cd "$WORKTREE_PATH/Flex.Net/Flex.Net.Web"
+    npm install
+    npm run build-prod
+    
+    # Skip package-lock.json if it changed
+    if [ -f "package-lock.json" ]; then
+        git update-index --skip-worktree "Flex.Net/Flex.Net.Web/package-lock.json" 2>/dev/null
+    fi
+fi
+
+if [ -d "$WORKTREE_PATH/Flex.Net" ]; then
+    echo "Running dotnet restore..."
+    cd "$WORKTREE_PATH/Flex.Net"
+    dotnet restore
+fi
+
+echo "Done!"
