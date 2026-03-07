@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$CURRENT_DIR/.envs"
+source "$CURRENT_DIR/../.envs"
 
 # Get the pane's current working directory
 pane_path=$(tmux display-message -p '#{pane_current_path}')
