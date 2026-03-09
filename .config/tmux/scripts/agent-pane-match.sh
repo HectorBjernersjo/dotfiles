@@ -30,3 +30,9 @@ is_codex_running() {
   local content_lc="${1:-}"
   [[ "$content_lc" == *"esc to interrupt"* ]]
 }
+
+is_claude_blocked() {
+  local content="${1:-}"
+  # Claude Code shows a permission prompt with "Do you want to" and Yes/No options
+  [[ "$content" == *"Do you want to"* ]] && [[ "$content" == *"Yes"* || "$content" == *"No"* ]]
+}

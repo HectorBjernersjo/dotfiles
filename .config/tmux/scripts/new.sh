@@ -6,21 +6,6 @@ source "$CURRENT_DIR/../.envs"
 # Define the directory containing the list of directories
 DIRECTORIES_FILE="$HOME/.config/tmux/directories.txt"
 
-# --- NEW: configure repos that may have worktrees ---
-# Option A: hardcode an array here
-WORKTREE_REPOS=(
-  "$HOME/Projects/infinitycrafts/infinitycraft"
-  "$HOME/Projects/rustcrafts/rustcraft"
-  # "$HOME/Projects/another/repo"
-)
-
-# Option B (optional): allow .envs to override/extend via TMUX_WORKTREE_REPOS
-# e.g. in .envs: export TMUX_WORKTREE_REPOS="$HOME/repo1:$HOME/repo2"
-if [[ -n "${TMUX_WORKTREE_REPOS:-}" ]]; then
-  IFS=':' read -r -a WORKTREE_REPOS <<< "$TMUX_WORKTREE_REPOS"
-fi
-# --- end NEW ---
-
 # Ensure the directories file exists
 if [[ ! -f "$DIRECTORIES_FILE" ]]; then
   echo "Directory list file not found: $DIRECTORIES_FILE"
@@ -28,27 +13,7 @@ if [[ ! -f "$DIRECTORIES_FILE" ]]; then
 fi
 
 # Read directories from the file
-file_directories=$(cat "$DIRECTORIES_FILE")
-
-# Collect worktree directories from all configured repos
-worktree_dirs=$(
-  for repo in "${WORKTREE_REPOS[@]}"; do
-    [[ -z "$repo" || ! -d "$repo/.git" ]] && continue
-    (
-      cd "$repo" || exit
-      git worktree list --porcelain 2>/dev/null \
-        | awk '/^worktree /{print $2}' \
-        | grep -v "^$repo$"
-    )
-  done
-)
-
-# Combine file directories and worktree directories (dedupe)
-directories=$(
-  printf "%s\n%s\n" "$file_directories" "$worktree_dirs" \
-    | sed '/^[[:space:]]*$/d' \
-    | awk '!seen[$0]++'
-)
+directories=$(cat "$DIRECTORIES_FILE")
 
 # List tmux sessions
 if [[ -z "$TMUX_FZF_SESSION_FORMAT" ]]; then

@@ -43,17 +43,26 @@ if [[ ${#fallback_targets[@]} -gt 0 ]]; then
     snap=$(tmux capture-pane -t "$target" -p)
     if [[ "${initial_content[$target]}" != "$snap" ]]; then
       status[$target]="running"
+    elif is_claude_blocked "$snap"; then
+      status[$target]="blocked"
     else
       status[$target]="idle"
     fi
   done
 fi
 
-# Output: running first, then idle
+# Output: running first, then blocked, then idle
 while read -r target; do
   [[ -z "$target" ]] && continue
   if [[ "${status[$target]}" == "running" ]]; then
     echo -e "$target\trunning\t${agent_type[$target]}"
+  fi
+done < "$pane_file"
+
+while read -r target; do
+  [[ -z "$target" ]] && continue
+  if [[ "${status[$target]}" == "blocked" ]]; then
+    echo -e "$target\tblocked\t${agent_type[$target]}"
   fi
 done < "$pane_file"
 

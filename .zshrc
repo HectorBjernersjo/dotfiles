@@ -53,6 +53,7 @@ eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 eval "$(fnm env --use-on-cd)"
 eval "$(mise activate bash)"
+eval "$(direnv hook zsh)"
 
 # Completion styling
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
@@ -78,6 +79,7 @@ alias cp_dir='$DOTFILES_PATH/scripts/copy_dir.sh'
 alias padd='~/dotfiles/installation/addpkg.sh'
 alias nvim_clear='rm -rf ~/.local/state/nvim/swap/*'
 alias gl="git log --pretty=format:'%C(auto)%as %h%d %s'"
+alias cc="claude --dangerously-skip-permissions"
 
 if [ $NVIM_THEME ]; then
     nvim_random_listen() {
@@ -183,3 +185,12 @@ fi
 # . "$HOME/.local/share/../bin/env"
 
 # [ -f "/home/hector/.ghcup/env" ] && . "/home/hector/.ghcup/env" # ghcup-env
+
+# bun completions
+[ -s "/home/hector/.bun/_bun" ] && source "/home/hector/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+source ~/.zshrc.local
