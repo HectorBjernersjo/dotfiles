@@ -12,8 +12,30 @@ if [[ ! -f "$DIRECTORIES_FILE" ]]; then
   exit 1
 fi
 
-# Read directories from the file
-directories=$(cat "$DIRECTORIES_FILE")
+# Read directories from the file, expanding git worktrees
+directories=$(
+  while read -r dir; do
+    [[ -z "$dir" || ! -d "$dir" ]] && continue
+    # Check if this directory is inside a git repo (or is a bare repo) with worktrees
+    repo_root=$(git -C "$dir" rev-parse --show-toplevel 2>/dev/null)
+    if [[ -z "$repo_root" ]] && [[ "$(git -C "$dir" rev-parse --is-bare-repository 2>/dev/null)" == "true" ]]; then
+      repo_root="$dir"
+    fi
+    if [[ -n "$repo_root" ]]; then
+      worktrees=$(git -C "$repo_root" worktree list --porcelain 2>/dev/null \
+        | awk '/^worktree /{print $2}')
+      # More than one worktree means it's using worktrees
+      wt_count=$(echo "$worktrees" | wc -l)
+      if [[ $wt_count -gt 1 ]]; then
+        echo "$worktrees"
+      else
+        echo "$dir"
+      fi
+    else
+      echo "$dir"
+    fi
+  done < "$DIRECTORIES_FILE" | sort -u
+)
 
 # List tmux sessions
 if [[ -z "$TMUX_FZF_SESSION_FORMAT" ]]; then

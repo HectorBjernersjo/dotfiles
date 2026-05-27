@@ -16,7 +16,7 @@ echo "📂 Using worktree: $WORKTREE_PATH"
 
 # Paths relative to the worktree
 PROJECT_PATH="$WORKTREE_PATH/Flex.Net/Flex.Net.DatabaseMigration/Flex.Net.DatabaseMigration.csproj"
-DLL_PATH="$WORKTREE_PATH/Flex.Net/Flex.Net.DatabaseMigration/bin/Debug/net8.0/Flex.Net.DatabaseMigration.dll"
+DLL_PATH="$WORKTREE_PATH/Flex.Net/Flex.Net.DatabaseMigration/bin/Debug/net10.0/Flex.Net.DatabaseMigration.dll"
 
 # Configuration for the single test database
 TEST_DB_CONNECTION_STRING="Server=localhost,1433;Database=pelle;User Id=sa;Password=HejHoj1!;TrustServerCertificate=True;Encrypt=False"

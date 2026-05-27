@@ -15,73 +15,104 @@ EXCLUDE_FILE="$(git rev-parse --git-common-dir)/info/exclude"
 echo "Setting up worktree at: $WORKTREE_PATH"
 
 # ---------------------------------------------------------
-# 1. Get changed files from personal directory and copy them
+# Helpers
 # ---------------------------------------------------------
-echo "Getting changed files from $PERSONAL_DIR..."
 
-cd "$PERSONAL_DIR" || exit 1
-changed_files=$(git diff master... --name-only)
-
-if [ -z "$changed_files" ]; then
-    echo "No changed files found"
-    exit 0
-fi
-
-echo "Copying files..."
-while IFS= read -r file; do
-    src="$PERSONAL_DIR/$file"
-    dst="$WORKTREE_PATH/$file"
-    
-    if [ -f "$src" ]; then
-        mkdir -p "$(dirname "$dst")"
-        cp "$src" "$dst"
-        echo "  Copied: $file"
-    fi
-done <<< "$changed_files"
-
-cp $PERSONAL_DIR/parentsettings.config $WORKTREE_PATH/parentsettings.config
-
-# ---------------------------------------------------------
-# 2. Skip-worktree or ignore each file
-# ---------------------------------------------------------
-cd "$WORKTREE_PATH" || exit 1
-
-echo "Configuring git to ignore changes..."
-while IFS= read -r file; do
-    # If file is tracked by git, use skip-worktree
-    if git ls-files --error-unmatch "$file" >/dev/null 2>&1; then
-        git update-index --skip-worktree "$file"
+# Skip-worktree if tracked, otherwise add to .git/info/exclude
+ignore_path() {
+    local file="$1"
+    if git -C "$WORKTREE_PATH" ls-files --error-unmatch "$file" >/dev/null 2>&1; then
+        git -C "$WORKTREE_PATH" update-index --skip-worktree "$file"
         echo "  Skip-worktree: $file"
     else
-        # Untracked file - add to exclude
         if ! grep -Fxq "$file" "$EXCLUDE_FILE" 2>/dev/null; then
             echo "$file" >> "$EXCLUDE_FILE"
             echo "  Excluded: $file"
         fi
     fi
-done <<< "$changed_files"
+}
+
+# Copy a file from PERSONAL_DIR into the worktree and ignore it
+copy_file() {
+    local file="$1"
+    local src="$PERSONAL_DIR/$file"
+    local dst="$WORKTREE_PATH/$file"
+
+    if [ ! -e "$src" ]; then
+        echo "  Warning: source not found: $src"
+        return 1
+    fi
+
+    mkdir -p "$(dirname "$dst")"
+    cp "$src" "$dst"
+    echo "  Copied: $file"
+    ignore_path "$file"
+}
+
+# Replace a path in the worktree with a symlink to PERSONAL_DIR and ignore it
+symlink_path() {
+    local file="$1"
+    local src="$PERSONAL_DIR/$file"
+    local dst="$WORKTREE_PATH/$file"
+
+    if [ ! -e "$src" ]; then
+        echo "  Warning: source not found: $src"
+        return 1
+    fi
+
+    mkdir -p "$(dirname "$dst")"
+    rm -rf "$dst"
+    ln -s "$src" "$dst"
+    echo "  Symlinked: $file"
+    ignore_path "$file"
+}
 
 # ---------------------------------------------------------
-# 3. Build steps
+# Files to set up (edit these lists as needed)
+# ---------------------------------------------------------
+
+# Files that should be copied (independent per worktree)
+copy_file "parentsettings.config"
+
+# Files/dirs that should be symlinked (shared across worktrees)
+symlink_path "Flex.Net/http"
+symlink_path "Flex.Net/Flex.Net.Web/.npmrc"
+symlink_path "Flex.Net/FlexHrm.AiModule.Tests/appsettings.json"
+symlink_path "parentsettings.config"
+symlink_path "Flex.Net/nuget.config"
+symlink_path "Flex.Net/nuget.config"
+symlink_path "Flex.Net/run_hectors_tests.sh"
+symlink_path "Flex.Net/Flex.Net.Storage/Oversattning/OversattningBlobStorageService.cs"
+symlink_path "Flex.Net/Flex.Net.Storage/BlobStorageClient.cs"
+symlink_path "Flex.Net/FlexHrm.PublicApi/appsettings.Development.json"
+symlink_path "Flex.Net/Flex.Net.FeatureToggle/FeatureManager.cs"
+
+
+# ---------------------------------------------------------
+# Patch .csproj nullable setting
+# ---------------------------------------------------------
+# echo "Enabling nullable in .csproj files..."
+# while IFS= read -r f; do
+#     sed -i 's|<Nullable>annotations</Nullable>|<Nullable>enable</Nullable>|g' "$f"
+#     rel="${f#$WORKTREE_PATH/}"
+#     echo "  Updated: $rel"
+#     ignore_path "$rel"
+# done < <(grep -rl --include='*.csproj' '<Nullable>annotations</Nullable>' "$WORKTREE_PATH")
+
+# ---------------------------------------------------------
+# Build steps
 # ---------------------------------------------------------
 echo "Running build steps..."
 
-if [ -d "$WORKTREE_PATH/Flex.Net/Flex.Net.Web" ]; then
-    echo "Running npm install and build..."
-    cd "$WORKTREE_PATH/Flex.Net/Flex.Net.Web"
-    npm install
-    npm run build-prod
-    
-    # Skip package-lock.json if it changed
-    if [ -f "package-lock.json" ]; then
-        git update-index --skip-worktree "Flex.Net/Flex.Net.Web/package-lock.json" 2>/dev/null
-    fi
-fi
+echo "Running npm install and build..."
+cd "$WORKTREE_PATH/Flex.Net/Flex.Net.Web"
+npm install
+npm run build-prod
 
-if [ -d "$WORKTREE_PATH/Flex.Net" ]; then
-    echo "Running dotnet restore..."
-    cd "$WORKTREE_PATH/Flex.Net"
-    dotnet restore
-fi
+git restore "Flex.Net/Flex.Net.Web/package-lock.json"
+
+echo "Running dotnet restore..."
+cd "$WORKTREE_PATH/Flex.Net"
+EnableWindowsTargeting=true dotnet restore
 
 echo "Done!"

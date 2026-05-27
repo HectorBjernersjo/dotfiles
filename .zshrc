@@ -52,7 +52,7 @@ eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 eval "$(fnm env --use-on-cd)"
-eval "$(mise activate bash)"
+# eval "$(mise activate bash)"
 eval "$(direnv hook zsh)"
 
 # Completion styling
@@ -192,3 +192,4 @@ fi
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 source ~/.zshrc.local
+export CHROME_EXECUTABLE=/usr/sbin/chromium
