@@ -18,6 +18,7 @@ The response could not be cached for this request.|\
 No cached response available for this request.|\
 Responding from memory cache for|\
 Sending file. Request path:|\
+Package 'MessagePack' 2.5.187 has a known moderate severity vulnerability|\
 the application completed without reading the entire request body."
 
 script -q /dev/null -c "dotnet run --property:warningLevel=0" | \

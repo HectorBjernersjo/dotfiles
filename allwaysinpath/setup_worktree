@@ -78,7 +78,11 @@ copy_file "parentsettings.config"
 symlink_path "Flex.Net/http"
 symlink_path "Flex.Net/Flex.Net.Web/.npmrc"
 symlink_path "Flex.Net/FlexHrm.AiModule.Tests/appsettings.json"
+symlink_path "Flex.Net/Flex.Net.IntegrationTests/appsettings.json"
 symlink_path "parentsettings.config"
+symlink_path ".ignore"
+symlink_path "docs"
+symlink_path "related_projects"
 symlink_path "Flex.Net/nuget.config"
 symlink_path "Flex.Net/nuget.config"
 symlink_path "Flex.Net/run_hectors_tests.sh"
@@ -86,6 +90,9 @@ symlink_path "Flex.Net/Flex.Net.Storage/Oversattning/OversattningBlobStorageServ
 symlink_path "Flex.Net/Flex.Net.Storage/BlobStorageClient.cs"
 symlink_path "Flex.Net/FlexHrm.PublicApi/appsettings.Development.json"
 symlink_path "Flex.Net/Flex.Net.FeatureToggle/FeatureManager.cs"
+
+rm $WORKTREE_PATH/Flex.Net/.cursor -r
+git status | grep '.cursor' | awk '{system("git update-index --skip-worktree " $2)}'
 
 
 # ---------------------------------------------------------
