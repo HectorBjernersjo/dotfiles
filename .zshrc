@@ -38,6 +38,7 @@ HISTFILE=~/.zsh_history
 SAVEHIST=$HISTSIZE
 HISTDUP=erase
 
+setopt interactivecomments
 setopt appendhistory
 setopt sharehistory
 setopt hist_ignore_space
@@ -80,6 +81,7 @@ alias padd='~/dotfiles/installation/addpkg.sh'
 alias nvim_clear='rm -rf ~/.local/state/nvim/swap/*'
 alias gl="git log --pretty=format:'%C(auto)%as %h%d %s'"
 alias cc="claude --dangerously-skip-permissions"
+alias gbandit-dev="GBANDIT_AUTH_ORIGIN=http://auth.gbandit.localhost GBANDIT_PLATFORM_API_ORIGIN=http://platform.gbandit.localhost/api cargo run --manifest-path /home/hector/Projects/gbandit/cli/Cargo.toml -- "
 
 if [ $NVIM_THEME ]; then
     nvim_random_listen() {
