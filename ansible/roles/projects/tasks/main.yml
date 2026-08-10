@@ -1,0 +1,65 @@
+---
+# Clone personal projects. HTTPS + the gh credential helper (see .gitconfig)
+# means private repos clone fine once `gh auth login` has been run.
+- name: Clone projects
+  ansible.builtin.git:
+    repo: "{{ item.repo }}"
+    dest: "{{ item.dest }}"
+    version: "{{ item.version | default(omit) }}"
+    update: false          # clone if missing; never touch an existing checkout
+  loop: "{{ projects | default([]) }}"
+  loop_control:
+    label: "{{ item.dest }}"
+  register: project_clone
+  ignore_errors: true      # one bad/renamed repo shouldn't abort the run
+
+- name: Report project clone failures
+  ansible.builtin.debug:
+    msg: "Could not clone {{ item.item.repo }} -> {{ item.item.dest }} ({{ item.msg | default('see output') | trim }})"
+  loop: "{{ project_clone.results }}"
+  loop_control:
+    label: "{{ item.item.dest }}"
+  when: item.failed | default(false)
+
+# Build & install Rust projects flagged with cargo_install into ~/.cargo/bin.
+# `cargo install --path` always re-links (never skips), so guard with `creates`
+# on the resulting binary: build once, skip if present. Since clones use
+# update:false the source never changes on rerun anyway; to rebuild after a
+# manual `git pull`, delete ~/.cargo/bin/<bin> (or run cargo install --force).
+# Binary name defaults to the repo dir name; override per-entry with `bin:`.
+- name: Build and install cargo projects
+  ansible.builtin.command:
+    cmd: "{{ ansible_env.HOME }}/.cargo/bin/cargo install --path {{ item.dest }} --locked"
+    creates: "{{ ansible_env.HOME }}/.cargo/bin/{{ item.bin | default(item.dest | basename) }}"
+  environment:
+    PATH: "{{ ansible_env.HOME }}/.cargo/bin:{{ ansible_env.PATH }}"
+  loop: "{{ projects | default([]) | selectattr('cargo_install', 'defined') | selectattr('cargo_install', 'equalto', true) | list }}"
+  loop_control:
+    label: "{{ item.dest }}"
+  register: cargo_install_result
+  ignore_errors: true
+
+- name: Report cargo build failures
+  ansible.builtin.debug:
+    msg: "cargo install failed for {{ item.item.dest }} ({{ (item.stderr | default('')) | trim | truncate(200) }})"
+  loop: "{{ cargo_install_result.results | default([]) }}"
+  loop_control:
+    label: "{{ item.item.dest | default('') }}"
+  when: item.failed | default(false)
+
+# Where one project is nested inside another, add the child to the PARENT's
+# local git exclude (.git/info/exclude — never committed) so the parent's
+# `git status` stays clean without editing its tracked .gitignore.
+- name: Hide nested projects from their parent repo's git status
+  ansible.builtin.lineinfile:
+    path: "{{ item.0.dest }}/.git/info/exclude"
+    line: "/{{ item.1.dest | relpath(item.0.dest) }}/"
+    create: true
+    mode: "0644"
+  loop: "{{ projects | product(projects) | list }}"
+  loop_control:
+    label: "{{ item.1.dest }} in {{ item.0.dest }}"
+  when:
+    - item.0.dest != item.1.dest
+    - item.1.dest.startswith(item.0.dest ~ '/')
+    - item.0.dest is directory

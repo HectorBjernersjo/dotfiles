@@ -1,0 +1,66 @@
+---
+# Absolute path to the dotfiles repo root (this playbook lives in <repo>/ansible).
+dotfiles_repo: "{{ playbook_dir | dirname }}"
+
+# Pinned versions for toolchain installers (bump when you want a new major).
+dotnet_channel: "8.0"
+
+# ---------------------------------------------------------------------------
+# Symlink map. `src` is relative to the repo root, `dest` is an absolute path.
+# Directory-level links for dirs the repo fully owns; file-level links where
+# the target directory is shared with machine state (e.g. ~/.ssh).
+# ---------------------------------------------------------------------------
+dotfile_links:
+  # file-level
+  - { src: ".zshrc", dest: "{{ ansible_env.HOME }}/.zshrc" }
+  - { src: ".gitconfig", dest: "{{ ansible_env.HOME }}/.gitconfig" }
+  - { src: ".ssh/config", dest: "{{ ansible_env.HOME }}/.ssh/config" }
+  - { src: ".config/starship.toml", dest: "{{ ansible_env.HOME }}/.config/starship.toml" }
+  # directory-level (CLI/dev, all profiles)
+  - { src: ".config/nvim", dest: "{{ ansible_env.HOME }}/.config/nvim" }
+  - { src: ".config/tmux", dest: "{{ ansible_env.HOME }}/.config/tmux" }
+  - { src: ".config/fish", dest: "{{ ansible_env.HOME }}/.config/fish" }
+  - { src: ".config/starship", dest: "{{ ansible_env.HOME }}/.config/starship" }
+  - { src: ".config/systemd", dest: "{{ ansible_env.HOME }}/.config/systemd" }
+
+# Desktop-only links (only applied when install_gui is true).
+gui_dotfile_links:
+  - { src: ".config/hypr", dest: "{{ ansible_env.HOME }}/.config/hypr" }
+  - { src: ".config/waybar", dest: "{{ ansible_env.HOME }}/.config/waybar" }
+  - { src: ".config/wofi", dest: "{{ ansible_env.HOME }}/.config/wofi" }
+  - { src: ".config/sway", dest: "{{ ansible_env.HOME }}/.config/sway" }
+  - { src: ".config/kitty", dest: "{{ ansible_env.HOME }}/.config/kitty" }
+  - { src: ".config/gtk-3.0", dest: "{{ ansible_env.HOME }}/.config/gtk-3.0" }
+  - { src: ".config/gtk-4.0", dest: "{{ ansible_env.HOME }}/.config/gtk-4.0" }
+  - { src: ".config/kanata", dest: "{{ ansible_env.HOME }}/.config/kanata" }
+  - { src: ".config/xremap", dest: "{{ ansible_env.HOME }}/.config/xremap" }
+
+# ---------------------------------------------------------------------------
+# Personal projects to clone (HTTPS; gh credential helper handles private ones).
+# ORDER MATTERS: a parent repo must come before repos nested inside it, or the
+# nested clone leaves the parent's directory non-empty and its clone fails.
+# ---------------------------------------------------------------------------
+projects:
+  - repo: "https://github.com/HectorBjernersjo/gbandit.git"
+    dest: "{{ ansible_env.HOME }}/Projects/gbandit"
+  - repo: "https://github.com/HectorBjernersjo/gbandit-kubernetes-infra.git"
+    dest: "{{ ansible_env.HOME }}/Projects/gbandit/kubernetes-infra"
+  - repo: "https://github.com/HectorBjernersjo/gbandit-cli.git"
+    dest: "{{ ansible_env.HOME }}/Projects/gbandit/cli"
+  - repo: "https://github.com/HectorBjernersjo/gbandit-game.git"
+    dest: "{{ ansible_env.HOME }}/Projects/gbandit/game-template"
+  # Rust tools — cloned and `cargo install`ed into ~/.cargo/bin.
+  - repo: "https://github.com/HectorBjernersjo/du-tree.git"
+    dest: "{{ ansible_env.HOME }}/Projects/du-tree"
+    cargo_install: true
+  - repo: "https://github.com/HectorBjernersjo/quim.git"
+    dest: "{{ ansible_env.HOME }}/Projects/quim"
+    cargo_install: true
+  - repo: "https://github.com/HectorBjernersjo/corc.git"
+    dest: "{{ ansible_env.HOME }}/Projects/corc"
+    cargo_install: true
+
+# NOTE: scripts/, allwaysinpath/ and wallpapers/ are intentionally NOT linked —
+# .zshrc references them in-place via $DOTFILES_PATH ($HOME/dotfiles).
+# .zshrc.local is gitignored (machine-local secrets); a stub is created by the
+# dotfiles role so `source ~/.zshrc.local` never fails.

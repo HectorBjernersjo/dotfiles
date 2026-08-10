@@ -1,0 +1,12 @@
+---
+- name: Download rustup installer
+  ansible.builtin.get_url:
+    url: https://sh.rustup.rs
+    dest: "{{ ansible_env.HOME }}/.cache/rustup-init.sh"
+    mode: "0755"
+    force: true
+
+- name: Install rust toolchain via rustup
+  ansible.builtin.command:
+    cmd: "{{ ansible_env.HOME }}/.cache/rustup-init.sh -y --no-modify-path --default-toolchain stable"
+    creates: "{{ ansible_env.HOME }}/.cargo/bin/rustup"

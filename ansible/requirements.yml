@@ -1,0 +1,6 @@
+---
+# Install with: ansible-galaxy collection install -r requirements.yml
+collections:
+  - name: community.general   # pacman, timezone, and other extras
+  - name: kewlfft.aur         # AUR helper module (Arch only)
+  - name: ansible.posix       # optional posix helpers

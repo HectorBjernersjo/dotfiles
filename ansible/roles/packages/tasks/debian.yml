@@ -1,0 +1,20 @@
+---
+# Debian/Ubuntu stub — structure is in place; verify package names before use.
+- name: Update apt cache
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Install CLI/dev packages (apt)
+  become: true
+  ansible.builtin.apt:
+    name: "{{ cli_packages }}"
+    state: present
+
+- name: Install GUI packages (apt)
+  become: true
+  ansible.builtin.apt:
+    name: "{{ gui_packages }}"
+    state: present
+  when: install_gui | default(false)

@@ -1,0 +1,8 @@
+---
+# Desktop profile: CLI + dev tooling + full Wayland/Hyprland GUI stack.
+all:
+  children:
+    desktop:
+      hosts:
+        localhost:
+          ansible_connection: local

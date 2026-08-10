@@ -1,0 +1,54 @@
+---
+# ---- user services (all profiles) -----------------------------------------
+# The squat_reminder timer is a systemd --user unit (symlinked by the dotfiles
+# role). Enabling it needs a running user bus, which may be absent on headless
+# WSL — so this whole section is best-effort and skips cleanly if unavailable.
+- name: Check for a usable systemd user instance
+  ansible.builtin.command: systemctl --user show-environment
+  register: user_systemd
+  changed_when: false
+  failed_when: false
+
+- name: Configure user services
+  when: user_systemd.rc == 0
+  block:
+    - name: Reload the systemd user daemon
+      ansible.builtin.systemd_service:
+        scope: user
+        daemon_reload: true
+
+    - name: Enable the squat reminder timer
+      ansible.builtin.systemd_service:
+        scope: user
+        name: squat_reminder.timer
+        enabled: true
+        state: started
+
+- name: Note skipped user services
+  ansible.builtin.debug:
+    msg: "No user systemd bus available — skipped user service setup (enable squat_reminder.timer manually later)."
+  when: user_systemd.rc != 0
+
+# ---- desktop input daemons (desktop profile only) -------------------------
+- name: Configure kanata (system service)
+  become: true
+  when: install_gui | default(false)
+  block:
+    - name: Ensure /etc/kanata exists
+      ansible.builtin.file:
+        path: /etc/kanata
+        state: directory
+        mode: "0755"
+
+    - name: Link kanata keyboard config into /etc/kanata
+      ansible.builtin.file:
+        src: "{{ dotfiles_repo }}/.config/kanata/config.kbd"
+        dest: /etc/kanata/kanata.kbd
+        state: link
+        force: true
+
+    - name: Enable the kanata service
+      ansible.builtin.systemd_service:
+        name: kanata.service
+        enabled: true
+        state: started

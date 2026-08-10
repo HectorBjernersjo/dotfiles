@@ -1,0 +1,14 @@
+---
+# Fedora/RHEL stub — structure is in place; verify package names before use.
+- name: Install CLI/dev packages (dnf)
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ cli_packages }}"
+    state: present
+
+- name: Install GUI packages (dnf)
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ gui_packages }}"
+    state: present
+  when: install_gui | default(false)

@@ -1,0 +1,36 @@
+---
+# STUB — Debian/Ubuntu (apt) names. Not yet verified; adjust before real use.
+# Notable name differences from Arch: pkgconf -> pkg-config, make -> make,
+# gdu/fastfetch/thefuck may need a PPA or the toolchains role instead.
+cli_packages:
+  - zsh
+  - git
+  - gh              # GitHub CLI (may need the cli.github.com apt repo on older releases)
+  - neovim
+  - tmux
+  - ripgrep
+  - fzf
+  - zoxide
+  - starship
+  - wget
+  - zip
+  - unzip
+  - gcc
+  - trash-cli
+  - tree
+  - pkg-config
+  - libssl-dev
+  - cmake
+  - make
+  - sqlite3
+  - less
+  - pass
+  - nodejs           # for npm-installed CLIs below
+  - npm
+
+# bitwarden-cli (bw) isn't in apt, so install it globally via npm.
+npm_packages:
+  - "@bitwarden/cli"
+
+gui_packages: []
+aur_packages: []

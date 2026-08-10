@@ -1,13 +1,40 @@
 # My Dotfiles
 ## Installation
-Only works with Arch, if you wish to use my Dotfiles on another distro you can still use the configs but not the installation.
+Provisioned with **Ansible**. Works on Arch today (Debian/Fedora scaffolding is in place but unverified). NixOS machines keep using the flake in `nixos/` — Ansible is only for non-NixOS boxes.
 
-Run the installation script in the installation directory, you need to switch out the github script to use your credentials (or just remove it). 
-It probably won't completly work but who knows.
+There are two profiles:
+- **wsl** — CLI/dev tooling only (zsh, tmux, nvim, cargo, uv, dotnet, fnm…)
+- **desktop** — everything above plus the full Wayland/Hyprland GUI stack
 
-It installs a lot of packages, some of which are nessecary and some that are just nice to have.
+### Fresh machine
+```bash
+git clone --recurse-submodules https://github.com/HectorBjernersjo/dotfiles ~/dotfiles
+~/dotfiles/ansible/bootstrap.sh            # auto-detects wsl vs desktop
+```
+`bootstrap.sh` installs git + ansible, syncs submodules, installs the required
+Galaxy collections, then runs the playbook. Force a profile with
+`bootstrap.sh desktop`, or pass through args like
+`bootstrap.sh wsl -- --tags dotfiles` for a fast partial run.
 
-I use stow to manage the dotfiles so in theory you should just be able to do stow . in the dotfiles directory and it should put the configs in the right places but you may have to move your own configs first.
+### Re-running / partial runs
+```bash
+cd ~/dotfiles/ansible
+ansible-playbook -i inventory/wsl.yml site.yml --ask-become-pass            # full
+ansible-playbook -i inventory/wsl.yml site.yml --ask-become-pass --tags dotfiles
+```
+The playbook is idempotent — re-running only changes what drifted.
+
+### GitHub auth & projects
+Auth to GitHub is HTTPS via the `gh` credential helper (already wired in
+`.gitconfig`). Run `gh auth login` once per machine and pushes work — no SSH key
+to manage. The `projects` role then clones my personal repos (see the `projects`
+list in `ansible/group_vars/all.yml`); private repos clone fine because `gh` is
+authenticated. Add a repo by appending `{ repo, dest }` to that list.
+
+Dotfiles are symlinked into place by the `dotfiles` role (no more `stow`). Any
+pre-existing real file at a link target is moved aside to `<file>.dotfiles-bak`
+before the symlink is created. The old Arch shell installer is kept for
+reference under `installation/old/`.
 
 ## Screenshots
 ![Screenshot 1](./images/gruvbox.png)

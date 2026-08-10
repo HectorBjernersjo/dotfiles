@@ -1,0 +1,19 @@
+---
+# Base directories and repo prerequisites needed by every later role.
+- name: Ensure base directories exist
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    mode: "{{ item.mode }}"
+  loop:
+    - { path: "{{ ansible_env.HOME }}/.config", mode: "0755" }
+    - { path: "{{ ansible_env.HOME }}/.local/bin", mode: "0755" }
+    - { path: "{{ ansible_env.HOME }}/.cache", mode: "0755" }
+    - { path: "{{ ansible_env.HOME }}/.ssh", mode: "0700" }
+
+- name: Initialise git submodules (nvim config)
+  ansible.builtin.command:
+    cmd: git submodule update --init --recursive
+    chdir: "{{ dotfiles_repo }}"
+  register: submodule_result
+  changed_when: "'Submodule path' in submodule_result.stdout"

@@ -1,0 +1,9 @@
+---
+# tmux plugin manager. tmux.conf runs '~/.tmux/plugins/tpm/tpm', so clone there.
+# Plugins themselves are installed inside tmux with prefix + I.
+- name: Clone tmux plugin manager (tpm)
+  ansible.builtin.git:
+    repo: https://github.com/tmux-plugins/tpm
+    dest: "{{ ansible_env.HOME }}/.tmux/plugins/tpm"
+    version: master
+    update: false

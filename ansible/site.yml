@@ -1,0 +1,29 @@
+---
+# Single playbook. Choose the machine profile via the inventory you pass:
+#   ansible-playbook -i inventory/wsl.yml     site.yml --ask-become-pass
+#   ansible-playbook -i inventory/desktop.yml site.yml --ask-become-pass
+- name: Provision dotfiles machine
+  hosts: all
+  connection: local
+  gather_facts: true
+  become: false                 # opt into become per-task where root is needed
+  roles:
+    - role: common
+      tags: [common]
+    - role: packages
+      tags: [packages]
+    - role: toolchains
+      tags: [toolchains]
+    - role: dotfiles
+      tags: [dotfiles]
+    - role: github
+      tags: [github]
+    - role: projects
+      tags: [projects]
+    - role: shell
+      tags: [shell]
+    - role: fonts
+      tags: [fonts]
+      when: install_gui | default(false)
+    - role: services
+      tags: [services]

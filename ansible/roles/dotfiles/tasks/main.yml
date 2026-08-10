@@ -1,0 +1,56 @@
+---
+# Ansible-native symlinks from the repo into $HOME.
+- name: Build the active link set for this profile
+  ansible.builtin.set_fact:
+    active_links: "{{ dotfile_links + (gui_dotfile_links if (install_gui | default(false)) else []) }}"
+
+- name: Ensure parent directories of link targets exist
+  ansible.builtin.file:
+    path: "{{ item.dest | dirname }}"
+    state: directory
+    # No mode: don't clobber existing dir permissions (e.g. ~/.ssh is 0700,
+    # set by the common role). Only affects newly-created parents.
+  loop: "{{ active_links }}"
+  loop_control:
+    label: "{{ item.dest | dirname }}"
+
+- name: Stat existing link targets
+  ansible.builtin.stat:
+    path: "{{ item.dest }}"
+    follow: false
+  loop: "{{ active_links }}"
+  loop_control:
+    label: "{{ item.dest }}"
+  register: link_targets
+
+# Back up anything that exists and is NOT already a symlink, so we never clobber
+# a real file. Symlinks (steady state) are skipped -> reruns stay clean.
+- name: Back up pre-existing real files
+  ansible.builtin.command:
+    cmd: "mv {{ item.stat.path }} {{ item.stat.path }}.dotfiles-bak"
+    creates: "{{ item.stat.path }}.dotfiles-bak"
+  when:
+    - item.stat.exists
+    - not item.stat.islnk
+  loop: "{{ link_targets.results }}"
+  loop_control:
+    label: "{{ item.stat.path | default('') }}"
+
+- name: Create dotfile symlinks
+  ansible.builtin.file:
+    src: "{{ dotfiles_repo }}/{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+    force: true
+  loop: "{{ active_links }}"
+  loop_control:
+    label: "{{ item.dest }}"
+
+# .zshrc sources ~/.zshrc.local (gitignored, machine-local secrets). Drop an
+# empty stub if it doesn't exist so a fresh machine doesn't error on `source`.
+- name: Ensure ~/.zshrc.local stub exists
+  ansible.builtin.copy:
+    content: "# Machine-local zsh config (secrets, per-host overrides). Not tracked in git.\n"
+    dest: "{{ ansible_env.HOME }}/.zshrc.local"
+    mode: "0600"
+    force: false

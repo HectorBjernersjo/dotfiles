@@ -1,0 +1,34 @@
+---
+# STUB — Fedora/RHEL (dnf) names. Not yet verified; adjust before real use.
+cli_packages:
+  - zsh
+  - git
+  - gh              # GitHub CLI
+  - neovim
+  - tmux
+  - ripgrep
+  - fzf
+  - zoxide
+  - starship
+  - wget
+  - zip
+  - unzip
+  - gcc
+  - trash-cli
+  - tree
+  - pkgconf-pkg-config
+  - openssl-devel
+  - cmake
+  - make
+  - sqlite
+  - less
+  - pass
+  - nodejs           # for npm-installed CLIs below
+  - npm
+
+# bitwarden-cli (bw) isn't in dnf, so install it globally via npm.
+npm_packages:
+  - "@bitwarden/cli"
+
+gui_packages: []
+aur_packages: []

@@ -1,0 +1,24 @@
+---
+# Load the package-name list for this distro, then dispatch to its installer.
+- name: Load distro package names
+  ansible.builtin.include_vars: "{{ item }}"
+  with_first_found:
+    - files:
+        - "{{ ansible_facts['os_family'] }}.yml"   # Archlinux / Debian / RedHat
+        - "default.yml"
+      paths:
+        - "vars"
+
+- name: Run distro-specific package install
+  ansible.builtin.include_tasks: "{{ ansible_facts['os_family'] | lower }}.yml"
+
+# Cross-distro CLIs that aren't packaged natively (empty list = skipped, e.g. Arch).
+- name: Install global npm packages
+  become: true
+  community.general.npm:
+    name: "{{ item }}"
+    global: true
+    state: present
+  loop: "{{ npm_packages | default([]) }}"
+  loop_control:
+    label: "{{ item }}"

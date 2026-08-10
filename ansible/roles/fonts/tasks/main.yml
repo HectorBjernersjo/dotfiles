@@ -1,0 +1,6 @@
+---
+# Desktop-only. Fonts themselves are installed as packages (nerd-fonts,
+# noto-fonts-emoji) in the packages role; here we just refresh the cache.
+- name: Refresh the font cache
+  ansible.builtin.command: fc-cache -f
+  changed_when: false

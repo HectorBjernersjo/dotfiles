@@ -1,0 +1,15 @@
+---
+- name: Download dotnet-install script
+  ansible.builtin.get_url:
+    url: https://dot.net/v1/dotnet-install.sh
+    dest: "{{ ansible_env.HOME }}/.cache/dotnet-install.sh"
+    mode: "0755"
+    force: true
+
+- name: Install .NET SDK ({{ dotnet_channel }})
+  ansible.builtin.command:
+    cmd: >
+      {{ ansible_env.HOME }}/.cache/dotnet-install.sh
+      --channel {{ dotnet_channel }}
+      --install-dir {{ ansible_env.HOME }}/.dotnet
+    creates: "{{ ansible_env.HOME }}/.dotnet/dotnet"

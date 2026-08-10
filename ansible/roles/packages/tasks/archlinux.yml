@@ -1,0 +1,57 @@
+---
+# Arch Linux: pacman for repo packages, yay + kewlfft.aur for the AUR.
+- name: Update pacman cache
+  become: true
+  community.general.pacman:
+    update_cache: true
+
+- name: Install CLI/dev packages (pacman)
+  become: true
+  community.general.pacman:
+    name: "{{ cli_packages }}"
+    state: present
+
+- name: Install GUI packages (pacman)
+  become: true
+  community.general.pacman:
+    name: "{{ gui_packages }}"
+    state: present
+  when: install_gui | default(false)
+
+# --- AUR -------------------------------------------------------------------
+- name: Install AUR build prerequisites
+  become: true
+  community.general.pacman:
+    name: [base-devel, git]
+    state: present
+  when: install_gui | default(false) and aur_packages | length > 0
+
+- name: Check whether yay is present
+  ansible.builtin.stat:
+    path: /usr/bin/yay
+  register: yay_bin
+  when: install_gui | default(false) and aur_packages | length > 0
+
+- name: Bootstrap yay from the AUR
+  when:
+    - install_gui | default(false)
+    - aur_packages | length > 0
+    - not yay_bin.stat.exists
+  block:
+    - name: Clone yay
+      ansible.builtin.git:
+        repo: https://aur.archlinux.org/yay.git
+        dest: "{{ ansible_env.HOME }}/.cache/yay-build"
+        version: master
+    - name: Build and install yay (makepkg must not run as root)
+      ansible.builtin.command:
+        cmd: makepkg -si --noconfirm
+        chdir: "{{ ansible_env.HOME }}/.cache/yay-build"
+        creates: /usr/bin/yay
+
+- name: Install AUR packages
+  kewlfft.aur.aur:
+    name: "{{ aur_packages }}"
+    use: yay
+    state: present
+  when: install_gui | default(false) and aur_packages | length > 0

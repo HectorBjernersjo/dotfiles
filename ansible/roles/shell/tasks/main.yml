@@ -1,0 +1,12 @@
+---
+- name: Locate zsh binary
+  ansible.builtin.shell: command -v zsh
+  register: zsh_path
+  changed_when: false
+  failed_when: zsh_path.rc != 0
+
+- name: Set zsh as the login shell
+  become: true
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    shell: "{{ zsh_path.stdout }}"

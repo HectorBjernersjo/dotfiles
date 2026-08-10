@@ -1,0 +1,26 @@
+---
+# GitHub auth strategy: HTTPS via the gh credential helper.
+# The helper is already wired up in the repo's .gitconfig
+# ([credential "https://github.com"] helper = !gh auth git-credential), so once
+# `gh auth login` has been run, git push/pull over HTTPS just works.
+#
+# `gh auth login` is an interactive OAuth flow and cannot run headless, so this
+# role only *checks* the state and reminds you if a login is still needed.
+- name: Check GitHub CLI auth status
+  ansible.builtin.command: gh auth status
+  register: gh_status
+  changed_when: false
+  failed_when: false
+
+- name: Remind to authenticate with GitHub
+  ansible.builtin.debug:
+    msg: >-
+      Not logged in to GitHub CLI. Run `gh auth login` (choose HTTPS) once on
+      this machine — the git credential helper is already configured, so pushes
+      over HTTPS will work afterwards. No SSH key needed.
+  when: gh_status.rc != 0
+
+- name: Confirm GitHub auth is active
+  ansible.builtin.debug:
+    msg: "GitHub CLI is authenticated — HTTPS git auth is ready."
+  when: gh_status.rc == 0

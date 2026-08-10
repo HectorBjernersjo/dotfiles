@@ -1,0 +1,8 @@
+---
+# WSL / headless profile: CLI + dev tooling only, no GUI stack.
+all:
+  children:
+    wsl:
+      hosts:
+        localhost:
+          ansible_connection: local

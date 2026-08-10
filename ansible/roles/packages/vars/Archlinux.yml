@@ -1,0 +1,70 @@
+---
+# Logical packages -> Arch (pacman) names.
+cli_packages:
+  - zsh
+  - git
+  - github-cli       # provides `gh` (HTTPS auth + git credential helper)
+  - neovim
+  - tmux
+  - ripgrep
+  - fzf
+  - zoxide
+  - starship
+  - gdu
+  - wget
+  - zip
+  - unzip
+  - gcc
+  - fastfetch
+  - trash-cli
+  - tree
+  - pkgconf          # provides pkg-config
+  - openssl
+  - cmake
+  - make
+  - sqlite
+  - less
+  - thefuck
+  - pass
+  - bitwarden-cli    # provides `bw`
+
+# Repo (extra) GUI packages. Verify on a real Arch desktop — repo membership
+# shifts over time and a missing name makes pacman fail the whole batch.
+gui_packages:
+  - hyprland
+  - waybar
+  - wofi
+  - kitty
+  - swww
+  - grim
+  - slurp
+  - swappy
+  - wl-clipboard
+  - pavucontrol
+  - pipewire
+  - pipewire-pulse
+  - blueman
+  - brightnessctl
+  - firefox
+  - gimp
+  - nautilus
+  - thunar
+  - discord
+  - obsidian
+  - noto-fonts-emoji
+  - swaybg
+  - swayidle
+  - zenity
+  - ttf-jetbrains-mono-nerd
+  - ttf-iosevka-nerd
+
+# Global npm packages. Empty on Arch — bitwarden-cli comes from the repo above.
+npm_packages: []
+
+# AUR packages (installed via yay). Desktop profile only.
+aur_packages:
+  - google-chrome
+  - spotify
+  - insync
+  - kanata
+  - xremap-hypr-bin
