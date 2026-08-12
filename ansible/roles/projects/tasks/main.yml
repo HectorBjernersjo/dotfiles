@@ -29,10 +29,10 @@
 # Binary name defaults to the repo dir name; override per-entry with `bin:`.
 - name: Build and install cargo projects
   ansible.builtin.command:
-    cmd: "{{ ansible_env.HOME }}/.cargo/bin/cargo install --path {{ item.dest }} --locked"
-    creates: "{{ ansible_env.HOME }}/.cargo/bin/{{ item.bin | default(item.dest | basename) }}"
+    cmd: "{{ ansible_facts.env.HOME }}/.cargo/bin/cargo install --path {{ item.dest }} --locked"
+    creates: "{{ ansible_facts.env.HOME }}/.cargo/bin/{{ item.bin | default(item.dest | basename) }}"
   environment:
-    PATH: "{{ ansible_env.HOME }}/.cargo/bin:{{ ansible_env.PATH }}"
+    PATH: "{{ ansible_facts.env.HOME }}/.cargo/bin:{{ ansible_facts.env.PATH }}"
   loop: "{{ projects | default([]) | selectattr('cargo_install', 'defined') | selectattr('cargo_install', 'equalto', true) | list }}"
   loop_control:
     label: "{{ item.dest }}"

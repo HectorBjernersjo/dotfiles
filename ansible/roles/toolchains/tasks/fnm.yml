@@ -2,11 +2,11 @@
 - name: Download fnm installer
   ansible.builtin.get_url:
     url: https://fnm.vercel.app/install
-    dest: "{{ ansible_env.HOME }}/.cache/fnm-install.sh"
+    dest: "{{ ansible_facts.env.HOME }}/.cache/fnm-install.sh"
     mode: "0755"
     force: true
 
 - name: Install fnm (node version manager)
   ansible.builtin.command:
-    cmd: "{{ ansible_env.HOME }}/.cache/fnm-install.sh --skip-shell --install-dir {{ ansible_env.HOME }}/.local/share/fnm"
-    creates: "{{ ansible_env.HOME }}/.local/share/fnm/fnm"
+    cmd: "{{ ansible_facts.env.HOME }}/.cache/fnm-install.sh --skip-shell --install-dir {{ ansible_facts.env.HOME }}/.local/share/fnm"
+    creates: "{{ ansible_facts.env.HOME }}/.local/share/fnm/fnm"

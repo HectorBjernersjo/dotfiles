@@ -41,12 +41,12 @@
     - name: Clone yay
       ansible.builtin.git:
         repo: https://aur.archlinux.org/yay.git
-        dest: "{{ ansible_env.HOME }}/.cache/yay-build"
+        dest: "{{ ansible_facts.env.HOME }}/.cache/yay-build"
         version: master
     - name: Build and install yay (makepkg must not run as root)
       ansible.builtin.command:
         cmd: makepkg -si --noconfirm
-        chdir: "{{ ansible_env.HOME }}/.cache/yay-build"
+        chdir: "{{ ansible_facts.env.HOME }}/.cache/yay-build"
         creates: /usr/bin/yay
 
 - name: Install AUR packages

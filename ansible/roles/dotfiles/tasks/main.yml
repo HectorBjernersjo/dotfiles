@@ -51,6 +51,6 @@
 - name: Ensure ~/.zshrc.local stub exists
   ansible.builtin.copy:
     content: "# Machine-local zsh config (secrets, per-host overrides). Not tracked in git.\n"
-    dest: "{{ ansible_env.HOME }}/.zshrc.local"
+    dest: "{{ ansible_facts.env.HOME }}/.zshrc.local"
     mode: "0600"
     force: false

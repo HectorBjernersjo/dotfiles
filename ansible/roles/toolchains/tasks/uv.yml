@@ -2,13 +2,13 @@
 - name: Download uv installer
   ansible.builtin.get_url:
     url: https://astral.sh/uv/install.sh
-    dest: "{{ ansible_env.HOME }}/.cache/uv-install.sh"
+    dest: "{{ ansible_facts.env.HOME }}/.cache/uv-install.sh"
     mode: "0755"
     force: true
 
 - name: Install uv
   ansible.builtin.command:
-    cmd: "sh {{ ansible_env.HOME }}/.cache/uv-install.sh"
-    creates: "{{ ansible_env.HOME }}/.local/bin/uv"
+    cmd: "sh {{ ansible_facts.env.HOME }}/.cache/uv-install.sh"
+    creates: "{{ ansible_facts.env.HOME }}/.local/bin/uv"
   environment:
     UV_NO_MODIFY_PATH: "1"

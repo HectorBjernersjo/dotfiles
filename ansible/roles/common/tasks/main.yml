@@ -6,10 +6,10 @@
     state: directory
     mode: "{{ item.mode }}"
   loop:
-    - { path: "{{ ansible_env.HOME }}/.config", mode: "0755" }
-    - { path: "{{ ansible_env.HOME }}/.local/bin", mode: "0755" }
-    - { path: "{{ ansible_env.HOME }}/.cache", mode: "0755" }
-    - { path: "{{ ansible_env.HOME }}/.ssh", mode: "0700" }
+    - { path: "{{ ansible_facts.env.HOME }}/.config", mode: "0755" }
+    - { path: "{{ ansible_facts.env.HOME }}/.local/bin", mode: "0755" }
+    - { path: "{{ ansible_facts.env.HOME }}/.cache", mode: "0755" }
+    - { path: "{{ ansible_facts.env.HOME }}/.ssh", mode: "0700" }
 
 - name: Initialise git submodules (nvim config)
   ansible.builtin.command:
