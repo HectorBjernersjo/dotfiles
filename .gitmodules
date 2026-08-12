@@ -2,3 +2,7 @@
 	path = .config/nvim
 	url = https://github.com/HectorBjernersjo/neovim-config
 	branch = main
+[submodule ".agents"]
+	path = .agents
+	url = https://github.com/HectorBjernersjo/.agents
+	branch = main
