@@ -22,6 +22,7 @@ dotfile_links:
   - { src: ".config/fish", dest: "{{ ansible_env.HOME }}/.config/fish" }
   - { src: ".config/starship", dest: "{{ ansible_env.HOME }}/.config/starship" }
   - { src: ".config/systemd", dest: "{{ ansible_env.HOME }}/.config/systemd" }
+  - { src: ".agents", dest: "{{ ansible_env.HOME }}/.agents" }
 
 # Desktop-only links (only applied when install_gui is true).
 gui_dotfile_links:
