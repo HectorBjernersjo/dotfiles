@@ -74,14 +74,10 @@ alias neofetch='fastfetch'
 alias hist='fc -l -n 0'
 alias shist='fc -l -n 0 | fzf'
 alias clip='clip.exe'
-alias dir_stats='python3 $DOTFILES_PATH/scripts/dir_stats.py'
-alias mv_dir='$DOTFILES_PATH/scripts/move_dir.sh'
-alias cp_dir='$DOTFILES_PATH/scripts/copy_dir.sh'
-alias padd='~/dotfiles/installation/addpkg.sh'
 alias nvim_clear='rm -rf ~/.local/state/nvim/swap/*'
 alias gl="git log --pretty=format:'%C(auto)%as %h%d %s'"
 alias cc="claude --dangerously-skip-permissions"
-alias gbandit-dev="GBANDIT_AUTH_ORIGIN=http://auth.gbandit.localhost GBANDIT_PLATFORM_API_ORIGIN=http://platform.gbandit.localhost/api cargo run --manifest-path /home/hector/Projects/gbandit/cli/Cargo.toml -- "
+alias gbandit-dev="GBANDIT_AUTH_ORIGIN=http://auth.gbandit.localhost GBANDIT_PLATFORM_API_ORIGIN=http://platform.gbandit.localhost/api cargo run --manifest-path /home/hector/projects/gbandit/cli/Cargo.toml -- "
 
 if [ $NVIM_THEME ]; then
     nvim_random_listen() {
@@ -118,7 +114,7 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH=~/.npm-global/bin:$PATH
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH"
-export PATH="$DOTFILES_PATH/allwaysinpath:$PATH"
+export PATH="$DOTFILES_PATH/bin:$DOTFILES_PATH/bin/work:$PATH"
 
 
 # Dotnet setup

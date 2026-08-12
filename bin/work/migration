@@ -7,7 +7,7 @@ set -e # Exit immediately if any command fails
 # --- Configuration ---
 # Detect the active worktree from the current directory
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-    echo "Error: Not in a git worktree. Run this from within /home/hector/HRM/{worktree}" >&2
+    echo "Error: Not in a git worktree. Run this from within /home/hector/work/HRM/{worktree}" >&2
     exit 1
 fi
 

@@ -33,13 +33,22 @@ authenticated. Add a repo by appending `{ repo, dest }` to that list.
 
 Dotfiles are symlinked into place by the `dotfiles` role (no more `stow`). Any
 pre-existing real file at a link target is moved aside to `<file>.dotfiles-bak`
-before the symlink is created. The old Arch shell installer is kept for
-reference under `installation/old/`.
+before the symlink is created.
+
+## Layout
+- `ansible/` — provisioning (see above)
+- `nixos/` — flake for the NixOS machines
+- `.config/`, `.zshrc`, `.gitconfig`, `.ssh/` — the actual dotfiles, symlinked by the `dotfiles` role
+- `bin/` — scripts on PATH (`bin/work/` holds work-specific ones)
+- `theme/` — the theme switcher and everything it touches (including the firefox chrome)
+- `wallpapers/` — wallpapers, organized per theme
+- `windows/` — AutoHotkey/GlazeWM config for the Windows host
+- `docs/` — README assets
 
 ## Screenshots
-![Screenshot 1](./images/gruvbox.png)
-![Screenshot 2](./images/tokyo-night.png)
-![Screenshot 2](./images/tokyo-night-firefox.png)
+![Screenshot 1](./docs/gruvbox.png)
+![Screenshot 2](./docs/tokyo-night.png)
+![Screenshot 2](./docs/tokyo-night-firefox.png)
 
 ## Theme switcher
 Doing SUPER + , opens the theme switcher, it currently has 4 themes (perhaps more if i haven't updated this text). It is integrated with:
@@ -52,7 +61,7 @@ Doing SUPER + , opens the theme switcher, it currently has 4 themes (perhaps mor
 - firefox (changes the background in new tabs)
 - starship
 
-All the theme switcher scripts can be found in the scripts directory, it's a little messy but most of the scripts are simple and just modify some config file.
+All the theme switcher scripts can be found in the `theme/` directory, most of the scripts are simple and just modify some config file.
 You need to start neovim with --listen themelistener each time if you want active sessions to switch automatically. You can do that like this:
 
 ```bash

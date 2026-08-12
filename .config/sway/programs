@@ -17,9 +17,6 @@ bindsym Ctrl+Alt+Q exec qutebrowser
 # Open Obsidian
 bindsym Ctrl+Alt+O exec /home/hector/Programs/obsidian/Obsidian-1.5.12.AppImage
 
-# Run a script for text from screen
-bindsym Ctrl+Alt+E exec ~/dotfiles/scripts/text_from_screen.sh
-
 # Show the graphical app launcher (Wofi)
 bindsym $mod+space exec wofi
 
@@ -41,13 +38,13 @@ bindsym $mod+Alt+B+2 exec brightnessctl set 15%
 bindsym $mod+Alt+B+3 exec brightnessctl set 100%
 
 # Wofi theme selection
-bindsym $mod+comma exec $HOME/dotfiles/scripts/wofi_select_theme.sh
+bindsym $mod+comma exec $HOME/dotfiles/theme/wofi_runners/wofi_select_theme.sh
 
 # Wofi wallpaper style
-bindsym $mod+period exec $HOME/dotfiles/scripts/wofi_wallpaper_style.sh
+bindsym $mod+period exec $HOME/dotfiles/theme/wofi_runners/wofi_wallpaper_style.sh
 
 # Set random wallpaper
-bindsym $mod+minus exec $HOME/dotfiles/scripts/wallpaper_random.sh
+bindsym $mod+minus exec $HOME/dotfiles/theme/wallpaper/wallpaper_random.sh
 
 # Apply Hyprland style
-bindsym $mod+Q exec $HOME/dotfiles/scripts/hyprland_style.sh
+bindsym $mod+Q exec $HOME/dotfiles/theme/hyprland_style.sh

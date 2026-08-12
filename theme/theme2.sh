@@ -97,7 +97,7 @@ FIREFOX_PROFILE_DIR=$(find "$HOME/.mozilla/firefox/" -name "*.default-release" -
 if [[ -d "$FIREFOX_PROFILE_DIR" ]]; then
     FIREFOX_CHROME_PATH="$FIREFOX_PROFILE_DIR/chrome"
     mkdir -p "$FIREFOX_CHROME_PATH"
-    cp "$HOME/dotfiles/firefox/wallpapers/$THEME.png" "$FIREFOX_CHROME_PATH/background.png"
+    cp "$HOME/dotfiles/theme/firefox/wallpapers/$THEME.png" "$FIREFOX_CHROME_PATH/background.png"
 else
     echo "⚠️ Could not find Firefox default-release profile directory."
 fi

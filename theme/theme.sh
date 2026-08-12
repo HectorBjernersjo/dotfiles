@@ -1,4 +1,4 @@
-scriptsDir=$HOME/dotfiles/scripts/theme
+scriptsDir=$HOME/dotfiles/theme
 if [ "$1" == "Gruvbox Dark" ]; then
 	$scriptsDir/nvim_theme.sh gruvbox-material
 	$scriptsDir/nvim_background.sh dark

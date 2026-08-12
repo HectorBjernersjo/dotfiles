@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Configuration
-PERSONAL_DIR="/home/hector/HRM/hector"
+PERSONAL_DIR="/home/hector/work/HRM/hector"
 
 # Validate we're in a git worktree
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
