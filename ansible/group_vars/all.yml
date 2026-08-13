@@ -47,6 +47,12 @@ gui_dotfile_links:
 # nested clone leaves the parent's directory non-empty and its clone fails.
 # ---------------------------------------------------------------------------
 projects:
+  # Config repos that live INSIDE the dotfiles repo (listed in its .gitignore,
+  # ex-submodules). Cloned unpinned: whatever their default branch is at.
+  - repo: "https://github.com/HectorBjernersjo/neovim-config.git"
+    dest: "{{ dotfiles_repo }}/.config/nvim"
+  - repo: "https://github.com/HectorBjernersjo/.agents.git"
+    dest: "{{ dotfiles_repo }}/.agents"
   - repo: "https://github.com/HectorBjernersjo/gbandit.git"
     dest: "{{ ansible_facts.env.HOME }}/Projects/gbandit"
   - repo: "https://github.com/HectorBjernersjo/gbandit-kubernetes-infra.git"

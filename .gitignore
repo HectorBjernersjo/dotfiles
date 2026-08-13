@@ -1,4 +1,7 @@
 .config/tmux/plugins/
+# standalone repos cloned here by the ansible projects role (not submodules)
+.config/nvim/
+.agents/
 .config/kitty/current-theme.conf
 .config/github-copilot
 .config/pulse
