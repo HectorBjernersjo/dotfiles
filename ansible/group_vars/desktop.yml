@@ -1,3 +1,7 @@
 ---
 profile: desktop
 install_gui: true
+
+# This desktop currently runs Omarchy — its configs override the defaults.
+# Remove (or set to "") when migrating off Omarchy, then rerun the playbook.
+overlay: omarchy

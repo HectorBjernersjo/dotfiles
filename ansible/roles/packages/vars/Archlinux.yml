@@ -26,7 +26,10 @@ cli_packages:
   - less
   - thefuck
   - pass
-  - bitwarden-cli    # provides `bw`
+  - direnv
+  - jujutsu          # provides `jj`
+  - docker           # service enabled + user added to the docker group by the services role
+  - npm              # for npm-installed CLIs below (nodejs is already a dep of other tools)
 
 # Repo (extra) GUI packages. Verify on a real Arch desktop — repo membership
 # shifts over time and a missing name makes pacman fail the whole batch.
@@ -58,8 +61,10 @@ gui_packages:
   - ttf-jetbrains-mono-nerd
   - ttf-iosevka-nerd
 
-# Global npm packages. Empty on Arch — bitwarden-cli comes from the repo above.
-npm_packages: []
+# Global npm packages. bitwarden-cli via npm like the other distros — the repo
+# package depends on nodejs-lts-jod, which conflicts with plain nodejs.
+npm_packages:
+  - "@bitwarden/cli"
 
 # AUR packages (installed via yay). Desktop profile only.
 aur_packages:

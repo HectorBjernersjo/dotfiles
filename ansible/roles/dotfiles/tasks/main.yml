@@ -1,8 +1,27 @@
 ---
 # Ansible-native symlinks from the repo into $HOME.
+# Overlay entries (overlays/<overlay>/.config/*) are auto-discovered and win
+# over same-named defaults via the dedup below.
+- name: Discover overlay configs
+  ansible.builtin.find:
+    paths: "{{ dotfiles_repo }}/overlays/{{ overlay }}/.config"
+    file_type: any
+    recurse: false
+  register: overlay_found
+  when: overlay | default('') | length > 0
+
+- name: Build overlay link entries
+  ansible.builtin.set_fact:
+    overlay_links: "{{ overlay_links | default([]) + [{'src': 'overlays/' ~ overlay ~ '/.config/' ~ (item | basename), 'dest': ansible_facts.env.HOME ~ '/.config/' ~ (item | basename)}] }}"
+  loop: "{{ (overlay_found.files | default([])) | map(attribute='path') | sort }}"
+  loop_control:
+    label: "{{ item | basename }}"
+  when: overlay | default('') | length > 0
+
 - name: Build the active link set for this profile
   ansible.builtin.set_fact:
-    active_links: "{{ dotfile_links + (gui_dotfile_links if (install_gui | default(false)) else []) }}"
+    active_links: "{{ (dotfile_links + (gui_dotfile_links if (install_gui | default(false)) else []) + (overlay_links | default([])))
+                      | reverse | unique(attribute='dest') | reverse | list }}"
 
 - name: Ensure parent directories of link targets exist
   ansible.builtin.file:

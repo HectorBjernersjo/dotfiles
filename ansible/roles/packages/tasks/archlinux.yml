@@ -19,11 +19,34 @@
   when: install_gui | default(false)
 
 # --- AUR -------------------------------------------------------------------
+# makepkg refuses to run as root, and yay's internal `sudo pacman -U` can't
+# prompt for a password under Ansible. So all AUR work runs as a dedicated
+# `aur_builder` user that may run pacman without a password (the pattern the
+# kewlfft.aur module recommends).
 - name: Install AUR build prerequisites
   become: true
   community.general.pacman:
     name: [base-devel, git]
     state: present
+  when: install_gui | default(false) and aur_packages | length > 0
+
+- name: Create the aur_builder user
+  become: true
+  ansible.builtin.user:
+    name: aur_builder
+    create_home: true
+  when: install_gui | default(false) and aur_packages | length > 0
+
+- name: Let aur_builder run pacman without a password
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers.d/11-aur-builder
+    line: "aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman"
+    create: true
+    owner: root
+    group: root
+    mode: "0440"
+    validate: visudo -cf %s
   when: install_gui | default(false) and aur_packages | length > 0
 
 - name: Check whether yay is present
@@ -33,6 +56,8 @@
   when: install_gui | default(false) and aur_packages | length > 0
 
 - name: Bootstrap yay from the AUR
+  become: true
+  become_user: aur_builder
   when:
     - install_gui | default(false)
     - aur_packages | length > 0
@@ -41,15 +66,17 @@
     - name: Clone yay
       ansible.builtin.git:
         repo: https://aur.archlinux.org/yay.git
-        dest: "{{ ansible_facts.env.HOME }}/.cache/yay-build"
+        dest: /home/aur_builder/yay-build
         version: master
     - name: Build and install yay (makepkg must not run as root)
       ansible.builtin.command:
         cmd: makepkg -si --noconfirm
-        chdir: "{{ ansible_facts.env.HOME }}/.cache/yay-build"
+        chdir: /home/aur_builder/yay-build
         creates: /usr/bin/yay
 
 - name: Install AUR packages
+  become: true
+  become_user: aur_builder
   kewlfft.aur.aur:
     name: "{{ aur_packages }}"
     use: yay

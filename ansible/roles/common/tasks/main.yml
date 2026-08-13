@@ -17,3 +17,4 @@
     chdir: "{{ dotfiles_repo }}"
   register: submodule_result
   changed_when: "'Submodule path' in submodule_result.stdout"
+  tags: [submodules]

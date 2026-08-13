@@ -5,6 +5,12 @@ dotfiles_repo: "{{ playbook_dir | dirname }}"
 # Pinned versions for toolchain installers (bump when you want a new major).
 dotnet_channel: "8.0"
 
+# Optional config overlay: every directory/file in overlays/<name>/.config/
+# is linked into ~/.config/ INSTEAD of the same-named entry from .config/.
+# Lets a machine run divergent configs (e.g. Omarchy) without touching the
+# defaults. Empty string = no overlay.
+overlay: ""
+
 # ---------------------------------------------------------------------------
 # Symlink map. `src` is relative to the repo root, `dest` is an absolute path.
 # Directory-level links for dirs the repo fully owns; file-level links where

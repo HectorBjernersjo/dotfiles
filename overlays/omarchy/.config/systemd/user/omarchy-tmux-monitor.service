@@ -1,0 +1,12 @@
+[Unit]
+Description=Omarchy Tmux Monitor
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/home/hector/.local/bin/omarchy-tmux-monitor
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target
