@@ -1,0 +1,11 @@
+[user]
+name = "Hector Bjernersjö"
+email = "hector@bjernersjo.se"
+
+[ui]
+default-command = "status"
+
+[aliases]
+# Pull the nearest ancestor bookmark up to @- (typically main before a push).
+tug = ["bookmark", "move", "--from", "heads(::@- & bookmarks())", "--to", "@-"]
+#:schema https://docs.jj-vcs.dev/latest/config-schema.json

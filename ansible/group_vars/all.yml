@@ -22,6 +22,8 @@ dotfile_links:
   - { src: ".gitconfig", dest: "{{ ansible_facts.env.HOME }}/.gitconfig" }
   - { src: ".ssh/config", dest: "{{ ansible_facts.env.HOME }}/.ssh/config" }
   - { src: ".config/starship.toml", dest: "{{ ansible_facts.env.HOME }}/.config/starship.toml" }
+  # file-level: ~/.config/jj also holds machine-local state (repos/)
+  - { src: ".config/jj/config.toml", dest: "{{ ansible_facts.env.HOME }}/.config/jj/config.toml" }
   # global AGENTS.md, one source of truth linked into every AI tool's location
   - { src: ".agents/AGENTS.md", dest: "{{ ansible_facts.env.HOME }}/.claude/CLAUDE.md" }
   - { src: ".agents/AGENTS.md", dest: "{{ ansible_facts.env.HOME }}/.codex/AGENTS.md" }

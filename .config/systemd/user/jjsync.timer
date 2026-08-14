@@ -1,0 +1,9 @@
+[Unit]
+Description=jjsync periodic sync
+
+[Timer]
+OnBootSec=60
+OnUnitActiveSec=60s
+
+[Install]
+WantedBy=timers.target
