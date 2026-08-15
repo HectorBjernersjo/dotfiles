@@ -35,6 +35,8 @@ dotfile_links:
   - { src: ".config/fish", dest: "{{ ansible_facts.env.HOME }}/.config/fish" }
   - { src: ".config/starship", dest: "{{ ansible_facts.env.HOME }}/.config/starship" }
   - { src: ".config/systemd", dest: "{{ ansible_facts.env.HOME }}/.config/systemd" }
+  # config.local.json is machine-local, ignored via .config/jjsync/.gitignore
+  - { src: ".config/jjsync", dest: "{{ ansible_facts.env.HOME }}/.config/jjsync" }
   - { src: ".agents", dest: "{{ ansible_facts.env.HOME }}/.agents" }
 
 # Desktop-only links (only applied when install_gui is true).
