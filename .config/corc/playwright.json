@@ -1,0 +1,7 @@
+{
+  "browser": {
+    "launchOptions": {
+      "args": ["--remote-debugging-port=0"]
+    }
+  }
+}

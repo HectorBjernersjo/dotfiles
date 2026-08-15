@@ -1,12 +1,15 @@
 ---
-# Clone personal projects. HTTPS + the gh credential helper (see .gitconfig)
-# means private repos clone fine once `gh auth login` has been run.
+# Clone personal projects as colocated jj repos (.jj/ + .git/ side by side).
+# HTTPS + the gh credential helper (see .gitconfig) means private repos clone
+# fine once `gh auth login` has been run — jj shells out to git for transport.
+# Guarded by `creates:` on the dest dir itself: an existing checkout (even a
+# plain git clone from before jj) is never touched.
 - name: Clone projects
-  ansible.builtin.git:
-    repo: "{{ item.repo }}"
-    dest: "{{ item.dest }}"
-    version: "{{ item.version | default(omit) }}"
-    update: false          # clone if missing; never touch an existing checkout
+  ansible.builtin.command:
+    cmd: "jj git clone --colocate {{ item.repo }} {{ item.dest }}"
+    creates: "{{ item.dest }}"
+  environment:
+    PATH: "{{ ansible_facts.env.HOME }}/.cargo/bin:{{ ansible_facts.env.PATH }}"
   loop: "{{ projects | default([]) }}"
   loop_control:
     label: "{{ item.dest }}"
@@ -15,7 +18,7 @@
 
 - name: Report project clone failures
   ansible.builtin.debug:
-    msg: "Could not clone {{ item.item.repo }} -> {{ item.item.dest }} ({{ item.msg | default('see output') | trim }})"
+    msg: "Could not clone {{ item.item.repo }} -> {{ item.item.dest }} ({{ (item.stderr | default(item.msg | default('see output'))) | trim | truncate(200) }})"
   loop: "{{ project_clone.results }}"
   loop_control:
     label: "{{ item.item.dest }}"

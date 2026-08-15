@@ -1,0 +1,48 @@
+# Dynamic theme colors
+config-file = ?"~/.config/omarchy/current/theme/ghostty.conf"
+
+# Font
+font-family = "CaskaydiaMono Nerd Font"
+font-style = Regular
+font-size = 12
+
+# Window
+window-theme = ghostty
+window-decoration = none
+# Zero on every side, matching the old alacritty setup. Ghostty's padding is a
+# window property, so any value here also insets vim and the tmux status bar —
+# there is no way to pad the shell alone.
+window-padding-x = 0
+window-padding-y = 0
+confirm-close-surface = false
+resize-overlay = never
+gtk-toolbar-style = flat
+
+# Cursor styling
+cursor-style = "block"
+cursor-style-blink = false
+
+# no-cursor: let the shell own the cursor shape (starship/vi-mode).
+# ssh-env: forward TERM/terminfo so xterm-ghostty works on remote hosts.
+# NOTE: one line only — a second shell-integration-features key replaces the
+# first rather than merging, which silently drops whichever came before.
+shell-integration-features = no-cursor,ssh-env
+
+# Start bash, which immediately attaches to (or creates) a persistent tmux
+# session. The session outlives the terminal window, so closing Ghostty never
+# kills the work.
+command = /bin/bash --login -c "tmux new-session -A -s default"
+
+# Keyboard bindings
+keybind = shift+insert=paste_from_clipboard
+keybind = control+insert=copy_to_clipboard
+keybind = super+control+shift+alt+arrow_down=resize_split:down,100
+keybind = super+control+shift+alt+arrow_up=resize_split:up,100
+keybind = super+control+shift+alt+arrow_left=resize_split:left,100
+keybind = super+control+shift+alt+arrow_right=resize_split:right,100
+
+# Slowdown mouse scrolling
+mouse-scroll-multiplier = 0.95
+
+# Fix general slowness on hyprland (https://github.com/ghostty-org/ghostty/discussions/3224)
+async-backend = epoll

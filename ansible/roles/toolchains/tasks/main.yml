@@ -2,6 +2,7 @@
 # Language/dev toolchains via their official installers. All per-user, no root.
 # Each installer is guarded by `creates:` so reruns are no-ops.
 - ansible.builtin.include_tasks: rustup.yml
+- ansible.builtin.include_tasks: jj.yml
 - ansible.builtin.include_tasks: uv.yml
 - ansible.builtin.include_tasks: dotnet.yml
 - ansible.builtin.include_tasks: fnm.yml

@@ -3,6 +3,7 @@
   "repos": [
     {
       "path": "/home/hector/projects/jjsync",
+      "url": "https://github.com/HectorBjernersjo/jjsync.git",
       "remote": "origin",
       "refPrefix": "refs/jj-sync/",
       "leakScan": true,
@@ -10,6 +11,63 @@
     },
     {
       "path": "/home/hector/dotfiles",
+      "url": "git@github.com:HectorBjernersjo/dotfiles",
+      "remote": "origin",
+      "refPrefix": "refs/jj-sync/",
+      "leakScan": true,
+      "excludeBookmarks": []
+    },
+    {
+      "path": "/home/hector/projects/du-tree",
+      "url": "https://github.com/HectorBjernersjo/du-tree.git",
+      "remote": "origin",
+      "refPrefix": "refs/jj-sync/",
+      "leakScan": true,
+      "excludeBookmarks": []
+    },
+    {
+      "path": "/home/hector/projects/quim",
+      "url": "git@github.com:HectorBjernersjo/quim.git",
+      "remote": "origin",
+      "refPrefix": "refs/jj-sync/",
+      "leakScan": true,
+      "excludeBookmarks": []
+    },
+    {
+      "path": "/home/hector/projects/rexplore",
+      "url": "https://github.com/HectorBjernersjo/rexplore.git",
+      "remote": "origin",
+      "refPrefix": "refs/jj-sync/",
+      "leakScan": true,
+      "excludeBookmarks": []
+    },
+    {
+      "path": "/home/hector/projects/corc",
+      "url": "git@github.com:HectorBjernersjo/corc.git",
+      "remote": "origin",
+      "refPrefix": "refs/jj-sync/",
+      "leakScan": true,
+      "excludeBookmarks": []
+    },
+    {
+      "path": "/home/hector/projects/gbandit/main",
+      "url": "git@github.com:gbandit/gbandit.git",
+      "remote": "origin",
+      "refPrefix": "refs/jj-sync/",
+      "leakScan": true,
+      "excludeBookmarks": []
+    },
+    {
+      "path": "/home/hector/dotfiles/.config/nvim",
+      "url": "https://github.com/HectorBjernersjo/neovim-config",
+      "remote": "origin",
+      "refPrefix": "refs/jj-sync/",
+      "leakScan": true,
+      "excludeBookmarks": []
+    },
+    {
+      "path": "/home/hector/dotfiles/.agents",
+      "url": "https://github.com/HectorBjernersjo/.agents",
       "remote": "origin",
       "refPrefix": "refs/jj-sync/",
       "leakScan": true,

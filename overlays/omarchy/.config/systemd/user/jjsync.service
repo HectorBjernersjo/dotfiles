@@ -1,0 +1,7 @@
+[Unit]
+Description=jjsync sync cycle
+
+[Service]
+Type=oneshot
+Environment=PATH=%h/.local/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/home/hector/.cargo/bin/jjsync sync

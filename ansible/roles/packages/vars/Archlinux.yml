@@ -37,7 +37,8 @@ gui_packages:
   - hyprland
   - waybar
   - wofi
-  - kitty
+  - ghostty          # default terminal (via ~/.config/xdg-terminals.list)
+  - kitty            # kept as a fallback terminal; not the default
   - swww
   - grim
   - slurp
@@ -60,6 +61,7 @@ gui_packages:
   - zenity
   - ttf-jetbrains-mono-nerd
   - ttf-iosevka-nerd
+  - ttf-cascadia-mono-nerd   # CaskaydiaMono Nerd Font — the Ghostty/kitty font
 
 # Global npm packages. bitwarden-cli via npm like the other distros — the repo
 # package depends on nodejs-lts-jod, which conflicts with plain nodejs.
