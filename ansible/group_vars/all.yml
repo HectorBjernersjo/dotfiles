@@ -52,7 +52,8 @@ gui_dotfile_links:
   - { src: ".config/xremap", dest: "{{ ansible_facts.env.HOME }}/.config/xremap" }
 
 # ---------------------------------------------------------------------------
-# Personal projects to clone (HTTPS; gh credential helper handles private ones).
+# Personal projects, cloned as colocated jj repos (HTTPS; gh credential
+# helper handles private ones).
 # ORDER MATTERS: a parent repo must come before repos nested inside it, or the
 # nested clone leaves the parent's directory non-empty and its clone fails.
 # ---------------------------------------------------------------------------

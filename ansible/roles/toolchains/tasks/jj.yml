@@ -1,0 +1,17 @@
+---
+# jj (jujutsu). Arch gets it from pacman (see packages vars); on other distros
+# it isn't reliably packaged, so build it with cargo into ~/.cargo/bin.
+# Probe first instead of `creates:` since the binary lives at a different path
+# per install method (/usr/bin/jj vs ~/.cargo/bin/jj).
+- name: Check for jj
+  ansible.builtin.command: jj --version
+  environment:
+    PATH: "{{ ansible_facts.env.HOME }}/.cargo/bin:{{ ansible_facts.env.PATH }}"
+  register: jj_probe
+  changed_when: false
+  failed_when: false
+
+- name: Install jj via cargo
+  ansible.builtin.command:
+    cmd: "{{ ansible_facts.env.HOME }}/.cargo/bin/cargo install jj-cli --locked"
+  when: jj_probe.rc != 0

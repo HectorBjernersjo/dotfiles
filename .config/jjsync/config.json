@@ -14,6 +14,45 @@
       "refPrefix": "refs/jj-sync/",
       "leakScan": true,
       "excludeBookmarks": []
+    },
+    {
+      "path": "/home/hector/projects/du-tree",
+      "url": "git@github.com-personal:HectorBjernersjo/du-tree.git",
+      "remote": "origin",
+      "refPrefix": "refs/jj-sync/",
+      "leakScan": true,
+      "excludeBookmarks": []
+    },
+    {
+      "path": "/home/hector/projects/quim",
+      "url": "git@github.com-personal:HectorBjernersjo/quim.git",
+      "remote": "origin",
+      "refPrefix": "refs/jj-sync/",
+      "leakScan": true,
+      "excludeBookmarks": []
+    },
+    {
+      "path": "/home/hector/projects/rexplore",
+      "remote": "origin",
+      "refPrefix": "refs/jj-sync/",
+      "leakScan": true,
+      "excludeBookmarks": []
+    },
+    {
+      "path": "/home/hector/projects/corc",
+      "url": "https://github.com/HectorBjernersjo/corc",
+      "remote": "origin",
+      "refPrefix": "refs/jj-sync/",
+      "leakScan": true,
+      "excludeBookmarks": []
+    },
+    {
+      "path": "/home/hector/dotfiles/.agents",
+      "url": "https://github.com/HectorBjernersjo/.agents.git",
+      "remote": "origin",
+      "refPrefix": "refs/jj-sync/",
+      "leakScan": true,
+      "excludeBookmarks": []
     }
   ]
 }
