@@ -191,3 +191,4 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 source ~/.zshrc.local
 export CHROME_EXECUTABLE=/usr/sbin/chromium
+source /home/hector/.safe-chain/scripts/init-posix.sh # Safe-chain Zsh initialization script
