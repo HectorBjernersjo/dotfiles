@@ -62,22 +62,22 @@ projects:
   - repo: "https://github.com/HectorBjernersjo/.agents.git"
     dest: "{{ dotfiles_repo }}/.agents"
   - repo: "https://github.com/HectorBjernersjo/gbandit.git"
-    dest: "{{ ansible_facts.env.HOME }}/Projects/gbandit"
+    dest: "{{ ansible_facts.env.HOME }}/projects/gbandit"
   - repo: "https://github.com/HectorBjernersjo/gbandit-kubernetes-infra.git"
-    dest: "{{ ansible_facts.env.HOME }}/Projects/gbandit/kubernetes-infra"
+    dest: "{{ ansible_facts.env.HOME }}/projects/gbandit/kubernetes-infra"
   - repo: "https://github.com/HectorBjernersjo/gbandit-cli.git"
-    dest: "{{ ansible_facts.env.HOME }}/Projects/gbandit/cli"
+    dest: "{{ ansible_facts.env.HOME }}/projects/gbandit/cli"
   - repo: "https://github.com/HectorBjernersjo/gbandit-game.git"
-    dest: "{{ ansible_facts.env.HOME }}/Projects/gbandit/game-template"
+    dest: "{{ ansible_facts.env.HOME }}/projects/gbandit/game-template"
   # Rust tools — cloned and `cargo install`ed into ~/.cargo/bin.
   - repo: "https://github.com/HectorBjernersjo/du-tree.git"
-    dest: "{{ ansible_facts.env.HOME }}/Projects/du-tree"
+    dest: "{{ ansible_facts.env.HOME }}/projects/du-tree"
     cargo_install: true
   - repo: "https://github.com/HectorBjernersjo/quim.git"
-    dest: "{{ ansible_facts.env.HOME }}/Projects/quim"
+    dest: "{{ ansible_facts.env.HOME }}/projects/quim"
     cargo_install: true
   - repo: "https://github.com/HectorBjernersjo/corc.git"
-    dest: "{{ ansible_facts.env.HOME }}/Projects/corc"
+    dest: "{{ ansible_facts.env.HOME }}/projects/corc"
     cargo_install: true
 
 # NOTE: bin/, theme/ and wallpapers/ are intentionally NOT linked —

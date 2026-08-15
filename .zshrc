@@ -120,11 +120,11 @@ export PATH="$DOTFILES_PATH/bin:$DOTFILES_PATH/bin/work:$PATH"
 # Dotnet setup
 export DOTNET_ROOT="$HOME/.dotnet"
 export PATH=$DOTNET_ROOT:$DOTNET_ROOT/tools:$PATH
-export PATH=$PATH:~/Programs/netcoredbg
+export PATH=$PATH:~/programs/netcoredbg
 export PATH=/opt/cuda/bin:$PATH
 export LD_LIBRARY_PATH=/opt/cuda/lib64:$LD_LIBRARY_PATH
 
-export PASSWORD_STORE_DIR=/home/hector/Drive/Ica/password-store
+export PASSWORD_STORE_DIR=/home/hector/drive/Ica/password-store
 export EDITOR=nvim
 export VISUAL=nvim
 

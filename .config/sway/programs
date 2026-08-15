@@ -15,7 +15,7 @@ bindsym Ctrl+Alt+M exec google-chrome https://mail.one.com/mail/INBOX/1/
 bindsym Ctrl+Alt+Q exec qutebrowser
 
 # Open Obsidian
-bindsym Ctrl+Alt+O exec /home/hector/Programs/obsidian/Obsidian-1.5.12.AppImage
+bindsym Ctrl+Alt+O exec /home/hector/programs/obsidian/Obsidian-1.5.12.AppImage
 
 # Show the graphical app launcher (Wofi)
 bindsym $mod+space exec wofi
