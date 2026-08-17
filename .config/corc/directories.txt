@@ -1,0 +1,8 @@
+# corc's shared project list — the `N` picker and Ctrl+F sessionizer read this.
+# One directory per line. A `/*` suffix makes the line a scan root: every git
+# worktree and jj workspace below it (up to 3 levels) shows up on its own,
+# freshest first, without being listed here. `~` is expanded; `#` is a comment.
+# Machine-local one-offs added from the picker live in state.json instead.
+
+~/projects/*
+~/work/*

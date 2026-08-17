@@ -1,125 +1,71 @@
 #!/usr/bin/env bash
+# Skapa (eller komplettera) en HRM jj-workspace ovanpå tweaks-committen (base).
+#
+#   setup_worktree <namn>            skapa ~/work/HRM/<namn> + symlinks + bygg
+#   setup_worktree <namn> --no-build hoppa över npm/dotnet-stegen
+#   setup_worktree                   kör bara setup i workspacen du står i
+#
+# Trackade tweaks (FeatureManager, SimpleSql, test-appsettings, .cursor-radering
+# m.m.) kommer från "private: tweaks"-committen (bookmark: base) och följer med
+# automatiskt. Creds/miljö ligger i env-vars via ~/.zshrc.local. Det här scriptet
+# hanterar bara untracked personliga filer + byggsteg.
+set -euo pipefail
 
-# Configuration
-PERSONAL_DIR="/home/hector/work/HRM/hector"
+HRM_DIR="$HOME/work/HRM"
+PERSONAL_DIR="$HRM_DIR/personal"
+MAIN_WS="$HRM_DIR/master"
+BUILD=true
 
-# Validate we're in a git worktree
-if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-    echo "Error: Not in a git worktree"
-    exit 1
+if [ "${2:-}" = "--no-build" ]; then BUILD=false; fi
+
+if [ $# -ge 1 ] && [ "$1" != "--no-build" ]; then
+    WS="$HRM_DIR/$1"
+    if [ ! -d "$WS" ]; then
+        (cd "$MAIN_WS" && jj workspace add "$WS" --name "$1" -r base)
+    fi
+else
+    [ "${1:-}" = "--no-build" ] && BUILD=false
+    WS=$(jj workspace root)
 fi
 
-WORKTREE_PATH=$(git rev-parse --show-toplevel)
-EXCLUDE_FILE="$(git rev-parse --git-common-dir)/info/exclude"
+echo "Setup av workspace: $WS"
 
-echo "Setting up worktree at: $WORKTREE_PATH"
+# Tweaks-committen (bookmark: base) ska alltid ligga under workspacen. Nya
+# workspaces skapas direkt på base ovan; en befintlig som sitter någon annanstans
+# rebasas hit — hela den mutable stacken följer med. MAIN_WS undantas, den ska
+# ligga kvar på master.
+if [ "$WS" != "$MAIN_WS" ] &&
+   [ -z "$(cd "$WS" && jj log --no-graph -r 'base & ::@' -T change_id)" ]; then
+    echo "Rebasear ovanpå base (tweaks)..."
+    (cd "$WS" && jj rebase -s 'roots(mutable() & ::@)' -d base)
+fi
 
-# ---------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------
-
-# Skip-worktree if tracked, otherwise add to .git/info/exclude
-ignore_path() {
-    local file="$1"
-    if git -C "$WORKTREE_PATH" ls-files --error-unmatch "$file" >/dev/null 2>&1; then
-        git -C "$WORKTREE_PATH" update-index --skip-worktree "$file"
-        echo "  Skip-worktree: $file"
-    else
-        if ! grep -Fxq "$file" "$EXCLUDE_FILE" 2>/dev/null; then
-            echo "$file" >> "$EXCLUDE_FILE"
-            echo "  Excluded: $file"
-        fi
-    fi
+# Untracked personliga filer — symlinkade från PERSONAL_DIR, ignorerade via
+# master/.git/info/exclude (delas av alla workspaces).
+link() {
+    mkdir -p "$WS/$(dirname "$1")"
+    ln -sfn "$PERSONAL_DIR/$1" "$WS/$1"
+    echo "  länk: $1"
 }
+# Övriga personliga symlinks (docs, http, .ignore m.fl.) är trackade i
+# tweaks-committen och följer med automatiskt. Settings-filen med creds kan inte
+# trackas (ignoreras av repots .gitignore) så den länkas här.
+#
+# En kvarlämnad parentsettings.config (gamla konventionen) får apparnas start
+# att kasta, så en gammal länk tas alltid bort.
+if [ -L "$WS/parentsettings.config" ]; then
+    rm -f "$WS/parentsettings.config"
+    echo "  bort: parentsettings.config (utfasad)"
+fi
+link Flex.Net/private.settings.jsonc
 
-# Copy a file from PERSONAL_DIR into the worktree and ignore it
-copy_file() {
-    local file="$1"
-    local src="$PERSONAL_DIR/$file"
-    local dst="$WORKTREE_PATH/$file"
+if $BUILD; then
+    echo "npm install + build..."
+    (cd "$WS/Flex.Net/Flex.Net.Web" && npm install && npm run build-prod)
+    (cd "$WS" && jj restore Flex.Net/Flex.Net.Web/package-lock.json)
 
-    if [ ! -e "$src" ]; then
-        echo "  Warning: source not found: $src"
-        return 1
-    fi
+    echo "dotnet restore..."
+    (cd "$WS/Flex.Net" && EnableWindowsTargeting=true dotnet restore)
+fi
 
-    mkdir -p "$(dirname "$dst")"
-    cp "$src" "$dst"
-    echo "  Copied: $file"
-    ignore_path "$file"
-}
-
-# Replace a path in the worktree with a symlink to PERSONAL_DIR and ignore it
-symlink_path() {
-    local file="$1"
-    local src="$PERSONAL_DIR/$file"
-    local dst="$WORKTREE_PATH/$file"
-
-    if [ ! -e "$src" ]; then
-        echo "  Warning: source not found: $src"
-        return 1
-    fi
-
-    mkdir -p "$(dirname "$dst")"
-    rm -rf "$dst"
-    ln -s "$src" "$dst"
-    echo "  Symlinked: $file"
-    ignore_path "$file"
-}
-
-# ---------------------------------------------------------
-# Files to set up (edit these lists as needed)
-# ---------------------------------------------------------
-
-# Files that should be copied (independent per worktree)
-copy_file "parentsettings.config"
-
-# Files/dirs that should be symlinked (shared across worktrees)
-symlink_path "Flex.Net/http"
-symlink_path "Flex.Net/Flex.Net.Web/.npmrc"
-symlink_path "Flex.Net/FlexHrm.AiModule.Tests/appsettings.json"
-symlink_path "Flex.Net/Flex.Net.IntegrationTests/appsettings.json"
-symlink_path "parentsettings.config"
-symlink_path ".ignore"
-symlink_path "docs"
-symlink_path "related_projects"
-symlink_path "Flex.Net/nuget.config"
-symlink_path "Flex.Net/nuget.config"
-symlink_path "Flex.Net/run_hectors_tests.sh"
-symlink_path "Flex.Net/Flex.Net.Storage/Oversattning/OversattningBlobStorageService.cs"
-symlink_path "Flex.Net/Flex.Net.Storage/BlobStorageClient.cs"
-symlink_path "Flex.Net/FlexHrm.PublicApi/appsettings.Development.json"
-symlink_path "Flex.Net/Flex.Net.FeatureToggle/FeatureManager.cs"
-
-rm $WORKTREE_PATH/Flex.Net/.cursor -r
-git status | grep '.cursor' | awk '{system("git update-index --skip-worktree " $2)}'
-
-
-# ---------------------------------------------------------
-# Patch .csproj nullable setting
-# ---------------------------------------------------------
-# echo "Enabling nullable in .csproj files..."
-# while IFS= read -r f; do
-#     sed -i 's|<Nullable>annotations</Nullable>|<Nullable>enable</Nullable>|g' "$f"
-#     rel="${f#$WORKTREE_PATH/}"
-#     echo "  Updated: $rel"
-#     ignore_path "$rel"
-# done < <(grep -rl --include='*.csproj' '<Nullable>annotations</Nullable>' "$WORKTREE_PATH")
-
-# ---------------------------------------------------------
-# Build steps
-# ---------------------------------------------------------
-echo "Running build steps..."
-
-echo "Running npm install and build..."
-cd "$WORKTREE_PATH/Flex.Net/Flex.Net.Web"
-npm install
-npm run build-prod
-
-git restore "Flex.Net/Flex.Net.Web/package-lock.json"
-
-echo "Running dotnet restore..."
-cd "$WORKTREE_PATH/Flex.Net"
-EnableWindowsTargeting=true dotnet restore
-
-echo "Done!"
+echo "Klart!"

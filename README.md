@@ -9,10 +9,10 @@ There are two profiles:
 
 ### Fresh machine
 ```bash
-git clone --recurse-submodules https://github.com/HectorBjernersjo/dotfiles ~/dotfiles
+git clone https://github.com/HectorBjernersjo/dotfiles ~/dotfiles
 ~/dotfiles/ansible/bootstrap.sh            # auto-detects wsl vs desktop
 ```
-`bootstrap.sh` installs git + ansible, syncs submodules, installs the required
+`bootstrap.sh` installs git + ansible, installs the required
 Galaxy collections, then runs the playbook. Force a profile with
 `bootstrap.sh desktop`, or pass through args like
 `bootstrap.sh wsl -- --tags dotfiles` for a fast partial run.
@@ -31,6 +31,14 @@ Auth to GitHub is HTTPS via the `gh` credential helper (already wired in
 to manage. The `projects` role then clones my personal repos (see the `projects`
 list in `ansible/group_vars/all.yml`); private repos clone fine because `gh` is
 authenticated. Add a repo by appending `{ repo, dest }` to that list.
+
+### jj & jjsync
+Every repo here is a **colocated jj repo** (`.jj/` next to `.git/`) — this one,
+the nvim config, and everything in the `projects` list. `jjsync` then pushes
+working-copy snapshots to `refs/jj-sync/*` on a 60s user timer so work follows
+me between machines; `~/.config/jjsync/config.json` lists the repos it watches,
+and `jjsync status` shows the timer and per-repo state. Add a repo with
+`jjsync init` from inside it.
 
 Dotfiles are symlinked into place by the `dotfiles` role (no more `stow`). Any
 pre-existing real file at a link target is moved aside to `<file>.dotfiles-bak`

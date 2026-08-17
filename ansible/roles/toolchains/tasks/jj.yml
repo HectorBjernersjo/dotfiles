@@ -15,3 +15,14 @@
   ansible.builtin.command:
     cmd: "{{ ansible_facts.env.HOME }}/.cargo/bin/cargo install jj-cli --locked"
   when: jj_probe.rc != 0
+
+# The dotfiles repo clones itself with plain git (bootstrap.sh runs before jj
+# exists), so colocate it here once jj is available — same .jj/ + .git/ layout
+# every other repo gets from `jj git clone --colocate`. Idempotent via creates:.
+- name: Colocate the dotfiles repo with jj
+  ansible.builtin.command:
+    cmd: jj git init --colocate
+    chdir: "{{ dotfiles_repo }}"
+    creates: "{{ dotfiles_repo }}/.jj"
+  environment:
+    PATH: "{{ ansible_facts.env.HOME }}/.cargo/bin:{{ ansible_facts.env.PATH }}"

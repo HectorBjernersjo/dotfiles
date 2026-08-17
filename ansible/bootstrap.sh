@@ -46,12 +46,12 @@ install_prereqs() {
 command -v git >/dev/null 2>&1 && command -v ansible-playbook >/dev/null 2>&1 || install_prereqs
 
 # --- get the repo ----------------------------------------------------------
+# Plain git, not jj: jj isn't installed yet at this point. The toolchains role
+# colocates this repo (`jj git init --colocate`) once jj is in place.
 if [ ! -d "$REPO/.git" ]; then
   echo ">> Cloning dotfiles to $REPO..."
-  git clone --recurse-submodules "$REPO_URL" "$REPO"
+  git clone "$REPO_URL" "$REPO"
 fi
-echo ">> Syncing submodules (nvim config)..."
-git -C "$REPO" submodule update --init --recursive
 
 # --- galaxy collections ----------------------------------------------------
 echo ">> Installing required Ansible collections..."

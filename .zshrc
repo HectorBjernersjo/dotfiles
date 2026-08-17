@@ -77,7 +77,7 @@ alias clip='clip.exe'
 alias nvim_clear='rm -rf ~/.local/state/nvim/swap/*'
 alias gl="git log --pretty=format:'%C(auto)%as %h%d %s'"
 alias cc="claude --dangerously-skip-permissions"
-alias gbandit-dev="GBANDIT_AUTH_ORIGIN=http://auth.gbandit.localhost GBANDIT_PLATFORM_API_ORIGIN=http://platform.gbandit.localhost/api cargo run --manifest-path /home/hector/projects/gbandit/cli/Cargo.toml -- "
+alias gbandit-dev="GBANDIT_AUTH_ORIGIN=http://auth.gbandit.localhost GBANDIT_PLATFORM_API_ORIGIN=http://platform.gbandit.localhost/api cargo run --manifest-path /home/hector/projects/gbandit/main/cli/Cargo.toml -- "
 
 if [ $NVIM_THEME ]; then
     nvim_random_listen() {
@@ -123,6 +123,10 @@ export PATH=$DOTNET_ROOT:$DOTNET_ROOT/tools:$PATH
 export PATH=$PATH:~/programs/netcoredbg
 export PATH=/opt/cuda/bin:$PATH
 export LD_LIBRARY_PATH=/opt/cuda/lib64:$LD_LIBRARY_PATH
+
+# Go setup - keep GOPATH out of $HOME
+export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
+export GOBIN="$HOME/.local/bin"
 
 export PASSWORD_STORE_DIR=/home/hector/drive/Ica/password-store
 export EDITOR=nvim
@@ -191,4 +195,4 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 source ~/.zshrc.local
 export CHROME_EXECUTABLE=/usr/sbin/chromium
-source /home/hector/.safe-chain/scripts/init-posix.sh # Safe-chain Zsh initialization script
+# source /home/hector/.safe-chain/scripts/init-posix.sh # Safe-chain Zsh initialization script

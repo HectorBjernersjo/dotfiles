@@ -37,6 +37,8 @@ dotfile_links:
   - { src: ".config/systemd", dest: "{{ ansible_facts.env.HOME }}/.config/systemd" }
   # config.local.json is machine-local, ignored via .config/jjsync/.gitignore
   - { src: ".config/jjsync", dest: "{{ ansible_facts.env.HOME }}/.config/jjsync" }
+  # corc's shared project list; its machine-local state lives in ~/.local/state
+  - { src: ".config/corc", dest: "{{ ansible_facts.env.HOME }}/.config/corc" }
   - { src: ".agents", dest: "{{ ansible_facts.env.HOME }}/.agents" }
 
 # Desktop-only links (only applied when install_gui is true).
@@ -45,7 +47,10 @@ gui_dotfile_links:
   - { src: ".config/waybar", dest: "{{ ansible_facts.env.HOME }}/.config/waybar" }
   - { src: ".config/wofi", dest: "{{ ansible_facts.env.HOME }}/.config/wofi" }
   - { src: ".config/sway", dest: "{{ ansible_facts.env.HOME }}/.config/sway" }
+  - { src: ".config/ghostty", dest: "{{ ansible_facts.env.HOME }}/.config/ghostty" }
   - { src: ".config/kitty", dest: "{{ ansible_facts.env.HOME }}/.config/kitty" }
+  # Picks the default terminal for xdg-terminal-exec (Ghostty; kitty stays installed).
+  - { src: ".config/xdg-terminals.list", dest: "{{ ansible_facts.env.HOME }}/.config/xdg-terminals.list" }
   - { src: ".config/gtk-3.0", dest: "{{ ansible_facts.env.HOME }}/.config/gtk-3.0" }
   - { src: ".config/gtk-4.0", dest: "{{ ansible_facts.env.HOME }}/.config/gtk-4.0" }
   - { src: ".config/kanata", dest: "{{ ansible_facts.env.HOME }}/.config/kanata" }
@@ -64,14 +69,11 @@ projects:
     dest: "{{ dotfiles_repo }}/.config/nvim"
   - repo: "https://github.com/HectorBjernersjo/.agents.git"
     dest: "{{ dotfiles_repo }}/.agents"
-  - repo: "https://github.com/HectorBjernersjo/gbandit.git"
-    dest: "{{ ansible_facts.env.HOME }}/projects/gbandit"
-  - repo: "https://github.com/HectorBjernersjo/gbandit-kubernetes-infra.git"
-    dest: "{{ ansible_facts.env.HOME }}/projects/gbandit/kubernetes-infra"
-  - repo: "https://github.com/HectorBjernersjo/gbandit-cli.git"
-    dest: "{{ ansible_facts.env.HOME }}/projects/gbandit/cli"
-  - repo: "https://github.com/HectorBjernersjo/gbandit-game.git"
-    dest: "{{ ansible_facts.env.HOME }}/projects/gbandit/game-template"
+  # The gbandit monorepo: platform, cli and game-template in one private repo.
+  # `main` is its default jj workspace; feature workspaces become siblings of it
+  # (scripts/feature-start.sh), and dev-instances.txt lives in the parent.
+  - repo: "https://github.com/gbandit/gbandit.git"
+    dest: "{{ ansible_facts.env.HOME }}/projects/gbandit/main"
   # Rust tools — cloned and `cargo install`ed into ~/.cargo/bin.
   - repo: "https://github.com/HectorBjernersjo/du-tree.git"
     dest: "{{ ansible_facts.env.HOME }}/projects/du-tree"
