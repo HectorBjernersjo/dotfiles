@@ -1,6 +1,7 @@
 {
   "browser": {
     "launchOptions": {
+      "headless": true,
       "args": ["--remote-debugging-port=0"]
     }
   }

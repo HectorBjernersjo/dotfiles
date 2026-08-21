@@ -1,0 +1,112 @@
+# Rio, set up to match the wezterm it replaced on GlazeWM workspace N.
+# Full reference: https://rioterm.com/docs/config
+
+# wezterm brightens bold text by default (`bold_brightens_ansi_colors`), rio does
+# not. Without this every bold run renders one shade duller - in gruvbox, bold
+# white lands on #d5c4a1 instead of #fbf1c7 - which reads as the whole palette
+# being washed out even though the colors are identical.
+draw-bold-text-with-light-colors = true
+#
+# The browser view in corc needs kitty graphics with unicode placeholders, which
+# rio draws and wezterm does not. That needs conpty.dll and OpenConsole.exe next
+# to rio.exe as well - see the backup copy in this directory.
+
+# `new-session -A` is attach-or-create in one command. That matters: rio passes
+# shell args through to Windows unquoted, so the `bash -c 'attach || new'` form
+# wezterm used arrives mangled - bash gets only `tmux` and the rest becomes
+# stray words. No argument here contains a space.
+[shell]
+program = "wsl.exe"
+args = ["tmux", "new-session", "-A", "-s", "default", "-c", "/home/hector"]
+
+# Plain turns off rio's own tab bindings entirely: tmux owns tabs here.
+[navigation]
+mode = "Plain"
+
+[window]
+decorations = "Disabled"
+mode = "Windowed"
+# Explicit, so a translucent background can never be mistaken for pale colors.
+opacity = 1.0
+# `colorspace` says which primaries rio should assume the hex values are in, and
+# it converts from there to the surface. Left at the default `srgb` it renders
+# starship's yellow #d79921 as #ce9c3e - which is exactly that color converted
+# into Display-P3 primaries, to the byte in all three channels - and the surface
+# here is shown as plain sRGB, so every color arrives uniformly desaturated.
+# Declaring the input as display-p3 makes the conversion a no-op and the bytes
+# reach the screen unchanged, the way wezterm writes them.
+colorspace = "display-p3"
+
+# The installed family is named "JetBrainsMono NF" - not "JetBrains Mono", which
+# is unpatched and not installed here, and not "JetBrainsMono Nerd Font", which
+# matches nothing and makes rio fall back to its own default font. Same typeface
+# wezterm rendered, with the nerd-font icons added. "JetBrainsMono NFM" is the
+# variant that forces icons into a single cell, if these look too wide.
+# 16, not 12: wezterm's `font_size` is in points and rio's `size` is in pixels,
+# so the same number renders 96/72 = 1.33x smaller here. Measured on the real
+# windows - wezterm's cell is 12.20x27.4px, rio's at size 12 was 9.05x20.1px,
+# the same 1.35x in both directions.
+[fonts]
+size = 16
+
+[fonts.regular]
+family = "JetBrainsMono NF"
+
+[fonts.bold]
+family = "JetBrainsMono NF"
+
+[fonts.italic]
+family = "JetBrainsMono NF"
+
+[fonts.bold-italic]
+family = "JetBrainsMono NF"
+
+# Ctrl+Space is the tmux prefix, and rio 0.5.25 on windows sends nothing at all
+# for it, so tmux never sees its prefix and every `prefix c` / `prefix m` /
+# `prefix "` dies silently. Wezterm sent it, which is why this broke on the
+# switch. The cause is in rio's `ctrl_seq`: windows reports no text for
+# Ctrl+Space, and the fallback path only handles `Key::Character`, while the
+# spacebar is `Key::Named(Space)` - so it yields no byte and the empty text is
+# what gets written. Ctrl+a and the other control keys are unaffected.
+#
+# `esc` is rio's field for "send these bytes verbatim" (there is no `bytes`
+# field); with bracketed paste off rio writes the string through untouched.
+#
+# These bytes are the CSI u form of Ctrl+Space, not the NUL byte (0x00) the key
+# classically produces. Both decode to C-Space in tmux 3.7 - verified against a
+# real server on a pty, both open a window on `prefix c` - but a lone NUL did
+# not survive the trip through rio's ConPTY into wsl, and CSI u carries no zero
+# byte. 32 is space's codepoint, 5 is tmux's modifier code for control. TOML
+# forbids a literal ESC inside a string, hence the \u001b escape.
+[bindings]
+keys = [
+  { key = "space", with = "control", esc = "\u001b[32;5u" },
+]
+
+# base16 "Gruvbox dark, hard" - the same palette wezterm was rendering, from
+# tinted-theming/schemes. Set inline rather than as a theme file: rio ignores
+# [colors] entirely when `theme` is set.
+[colors]
+background = '#1d2021'
+foreground = '#d5c4a1'
+cursor = '#d5c4a1'
+black = '#1d2021'
+red = '#fb4934'
+green = '#b8bb26'
+yellow = '#fabd2f'
+blue = '#83a598'
+magenta = '#d3869b'
+cyan = '#8ec07c'
+white = '#d5c4a1'
+light-black = '#665c54'
+light-red = '#fb4934'
+light-green = '#b8bb26'
+light-yellow = '#fabd2f'
+light-blue = '#83a598'
+light-magenta = '#d3869b'
+light-cyan = '#8ec07c'
+light-white = '#fbf1c7'
+# wezterm inverts the selection rather than tinting it - dumped from its own
+# built-in scheme, not guessed.
+selection-background = '#d5c4a1'
+selection-foreground = '#1d2021'

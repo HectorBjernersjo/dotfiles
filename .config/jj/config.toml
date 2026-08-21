@@ -8,4 +8,9 @@ default-command = "status"
 [aliases]
 # Pull the nearest ancestor bookmark up to @- (typically main before a push).
 tug = ["bookmark", "move", "--from", "heads(::@- & bookmarks())", "--to", "@-"]
+# Everything between trunk and @, plus the last 5 commits on trunk for context.
+sl = ["log", "-r", "trunk()::@ | ancestors(trunk(), 5)"]
+
+[working-copy]
+eol-conversion = "input"
 #:schema https://docs.jj-vcs.dev/latest/config-schema.json

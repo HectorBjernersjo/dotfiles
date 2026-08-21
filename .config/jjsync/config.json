@@ -3,7 +3,7 @@
   "repos": [
     {
       "path": "/home/hector/projects/jjsync",
-      "url": "https://github.com/HectorBjernersjo/jjsync.git",
+      "url": "git@github.com:HectorBjernersjo/jjsync.git",
       "remote": "origin",
       "refPrefix": "refs/jj-sync/",
       "leakScan": true,
@@ -11,7 +11,23 @@
     },
     {
       "path": "/home/hector/dotfiles",
-      "url": "git@github.com:HectorBjernersjo/dotfiles",
+      "url": "git@github.com:HectorBjernersjo/dotfiles.git",
+      "remote": "origin",
+      "refPrefix": "refs/jj-sync/",
+      "leakScan": true,
+      "excludeBookmarks": []
+    },
+    {
+      "path": "/home/hector/dotfiles/.agents",
+      "url": "git@github.com:HectorBjernersjo/.agents.git",
+      "remote": "origin",
+      "refPrefix": "refs/jj-sync/",
+      "leakScan": true,
+      "excludeBookmarks": []
+    },
+    {
+      "path": "/home/hector/dotfiles/.config/nvim",
+      "url": "git@github.com:HectorBjernersjo/neovim-config.git",
       "remote": "origin",
       "refPrefix": "refs/jj-sync/",
       "leakScan": true,
@@ -19,7 +35,7 @@
     },
     {
       "path": "/home/hector/projects/du-tree",
-      "url": "https://github.com/HectorBjernersjo/du-tree.git",
+      "url": "git@github.com:HectorBjernersjo/du-tree.git",
       "remote": "origin",
       "refPrefix": "refs/jj-sync/",
       "leakScan": true,
@@ -34,16 +50,16 @@
       "excludeBookmarks": []
     },
     {
-      "path": "/home/hector/projects/rexplore",
-      "url": "https://github.com/HectorBjernersjo/rexplore.git",
+      "path": "/home/hector/projects/corc",
+      "url": "git@github.com:HectorBjernersjo/corc.git",
       "remote": "origin",
       "refPrefix": "refs/jj-sync/",
       "leakScan": true,
       "excludeBookmarks": []
     },
     {
-      "path": "/home/hector/projects/corc",
-      "url": "git@github.com:HectorBjernersjo/corc.git",
+      "path": "/home/hector/projects/rexplore",
+      "url": "git@github.com:HectorBjernersjo/rexplore.git",
       "remote": "origin",
       "refPrefix": "refs/jj-sync/",
       "leakScan": true,
@@ -58,55 +74,8 @@
       "excludeBookmarks": []
     },
     {
-      "path": "/home/hector/dotfiles/.config/nvim",
-      "url": "https://github.com/HectorBjernersjo/neovim-config",
-      "remote": "origin",
-      "refPrefix": "refs/jj-sync/",
-      "leakScan": true,
-      "excludeBookmarks": []
-    },
-    {
-      "path": "/home/hector/dotfiles/.agents",
-      "url": "https://github.com/HectorBjernersjo/.agents",
-      "remote": "origin",
-      "refPrefix": "refs/jj-sync/",
-      "leakScan": true,
-      "excludeBookmarks": []
-    },
-    {
-      "path": "/home/hector/projects/du-tree",
-      "url": "git@github.com-personal:HectorBjernersjo/du-tree.git",
-      "remote": "origin",
-      "refPrefix": "refs/jj-sync/",
-      "leakScan": true,
-      "excludeBookmarks": []
-    },
-    {
-      "path": "/home/hector/projects/quim",
-      "url": "git@github.com-personal:HectorBjernersjo/quim.git",
-      "remote": "origin",
-      "refPrefix": "refs/jj-sync/",
-      "leakScan": true,
-      "excludeBookmarks": []
-    },
-    {
-      "path": "/home/hector/projects/rexplore",
-      "remote": "origin",
-      "refPrefix": "refs/jj-sync/",
-      "leakScan": true,
-      "excludeBookmarks": []
-    },
-    {
-      "path": "/home/hector/projects/corc",
-      "url": "https://github.com/HectorBjernersjo/corc",
-      "remote": "origin",
-      "refPrefix": "refs/jj-sync/",
-      "leakScan": true,
-      "excludeBookmarks": []
-    },
-    {
-      "path": "/home/hector/dotfiles/.agents",
-      "url": "https://github.com/HectorBjernersjo/.agents.git",
+      "path": "/home/hector/obsidian",
+      "url": "git@github.com:HectorBjernersjo/obsidian.git",
       "remote": "origin",
       "refPrefix": "refs/jj-sync/",
       "leakScan": true,

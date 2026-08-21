@@ -150,6 +150,8 @@ workspaces:
     bind_to_monitor: 1
   - name: 'O'
     bind_to_monitor: 1
+  - name: 'R'
+    bind_to_monitor: 0
   - name: 'S'
     bind_to_monitor: 1
   - name: 'X'
@@ -179,6 +181,10 @@ window_rules:
         window_class: { not_regex: 'OpusApp' }
       - window_process: { equals: 'POWERPNT' }
         window_class: { not_regex: 'PPTFrameClass' }
+
+  - commands: ['move --workspace C']
+    match:
+      - window_process: { equals: 'Claude' }
 
 # binding_modes:
 #   # When enabled, the focused window can be resized via arrow keys or HJKL.
@@ -316,14 +322,16 @@ keybindings:
   #   bindings: ['LWin+D']
   - commands: ['focus --workspace E']
     bindings: ['LWin+E']
-  # - commands: ['focus --workspace G']
-  #   bindings: ['LWin+G']
+  - commands: ['focus --workspace G']
+    bindings: ['LWin+G']
   - commands: ['focus --workspace I']
     bindings: ['LWin+I']
   - commands: ['focus --workspace M']
     bindings: ['LWin+M']
   - commands: ['focus --workspace O']
     bindings: ['LWin+O']
+  - commands: ['focus --workspace R']
+    bindings: ['LWin+R']
   - commands: ['focus --workspace S']
     bindings: ['LWin+S']
   - commands: ['focus --workspace X']
@@ -337,6 +345,9 @@ keybindings:
 
   - commands: ['shell-exec powershell.exe -WindowStyle Hidden -ExecutionPolicy Bypass -File "%userprofile%/.glzr/glazewm/glaze_launcher.ps1"']
     bindings: ['LWin+enter']
+
+  - commands: ['shell-exec powershell.exe -WindowStyle Hidden -ExecutionPolicy Bypass -File "%userprofile%/.glzr/glazewm/restart_zebar.ps1"']
+    bindings: ['LWin+Z']
 
 
 
@@ -393,6 +404,8 @@ keybindings:
     bindings: ['LWin+shift+D']
   - commands: ['move --workspace O', 'focus --workspace O']
     bindings: ['LWin+shift+O']
+  - commands: ['move --workspace R', 'focus --workspace R']
+    bindings: ['LWin+shift+R']
   - commands: ['move --workspace S', 'focus --workspace S']
     bindings: ['LWin+shift+S']
   - commands: ['move --workspace X', 'focus --workspace X']

@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# Listar user stories i Hectors swimlane på Team Employee-boarden i Azure DevOps
+# och skriver ut dem som json: [{id, title, state, url}, ...].
+#
+# Syfte: låta agenter slå upp AB#-numret för en story (t.ex. till pr-descriptions)
+# utan att köra az direkt. Samma PAT-hantering som ado-create-story — read-only här.
+set -euo pipefail
+
+# PAT:en ligger i ~/.zshrc.local och finns inte i icke-interaktiva shells.
+if [ -z "${AZURE_WORK_ITEMS_PAT:-}" ]; then
+  AZURE_WORK_ITEMS_PAT=$(zsh -c 'source ~/.zshrc.local >/dev/null 2>&1; echo -n $AZURE_WORK_ITEMS_PAT')
+fi
+if [ -z "$AZURE_WORK_ITEMS_PAT" ]; then
+  echo "Hittar ingen AZURE_WORK_ITEMS_PAT (i miljön eller ~/.zshrc.local). Har PAT:en gått ut?" >&2
+  exit 1
+fi
+export AZURE_DEVOPS_EXT_PAT=$AZURE_WORK_ITEMS_PAT
+
+ORG=https://dev.azure.com/FlexApplications
+PROJECT=HRM
+# Boardspecifikt fält för swimlane på Team Employee-boarden (samma som i ado-create-story).
+LANE_FIELD=WEF_DBFC1F02BB3C4325824FAA331A6EAFE7_Kanban.Lane
+
+WIQL="SELECT [System.Id], [System.Title], [System.State]
+FROM WorkItems
+WHERE [System.TeamProject] = '$PROJECT'
+  AND [System.WorkItemType] = 'User Story'
+  AND [$LANE_FIELD] = 'Hector'
+  AND [System.State] NOT IN ('Closed', 'Removed')
+ORDER BY [System.ChangedDate] DESC"
+
+az boards query --org "$ORG" --project "$PROJECT" --wiql "$WIQL" -o json \
+| python3 -c "
+import json, sys
+items = json.load(sys.stdin)
+print(json.dumps([
+    {
+        'id': item['id'],
+        'title': item['fields']['System.Title'],
+        'state': item['fields']['System.State'],
+        'url': '$ORG/$PROJECT/_workitems/edit/' + str(item['id']),
+    }
+    for item in items
+], ensure_ascii=False, indent=2))
+"

@@ -118,11 +118,12 @@ export PATH="$DOTFILES_PATH/bin:$DOTFILES_PATH/bin/work:$PATH"
 
 
 # Dotnet setup
+export LD_LIBRARY_PATH=/opt/cuda/lib64:$LD_LIBRARY_PATH
 export DOTNET_ROOT="$HOME/.dotnet"
 export PATH=$DOTNET_ROOT:$DOTNET_ROOT/tools:$PATH
 export PATH=$PATH:~/programs/netcoredbg
+export MSBUILDDISABLENODEREUSE=1
 export PATH=/opt/cuda/bin:$PATH
-export LD_LIBRARY_PATH=/opt/cuda/lib64:$LD_LIBRARY_PATH
 
 # Go setup - keep GOPATH out of $HOME
 export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"

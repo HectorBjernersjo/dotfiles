@@ -1,44 +1,80 @@
 #!/usr/bin/env bash
-# Skapa (eller komplettera) en HRM jj-workspace ovanpå tweaks-committen (base).
+# Skapa (eller komplettera) en HRM feature-workspace under features/.
 #
-#   setup_worktree <namn>            skapa ~/work/HRM/<namn> + symlinks + bygg
-#   setup_worktree <namn> --no-build hoppa över npm/dotnet-stegen
+#   setup_worktree <slug>            ny feature: ~/work/HRM/features/<slug> + bygg
+#   setup_worktree <slug> -r <rev>   arbetsträd för en BEFINTLIG feature-head
+#   setup_worktree <slug> --no-build hoppa över npm/dotnet-stegen
 #   setup_worktree                   kör bara setup i workspacen du står i
 #
-# Trackade tweaks (FeatureManager, SimpleSql, test-appsettings, .cursor-radering
-# m.m.) kommer från "private: tweaks"-committen (bookmark: base) och följer med
-# automatiskt. Creds/miljö ligger i env-vars via ~/.zshrc.local. Det här scriptet
-# hanterar bara untracked personliga filer + byggsteg.
+# Nya workspaces får en feature-root (tom, beskriven change direkt på master),
+# med -r adopteras <rev> som head istället. Working copyn blir i båda fallen
+# merge(head, base) — tweaks följer med i arbetsträdet men hamnar aldrig i
+# stacken. Heads som inte redan finns i main-megamergen läggs in som förälder
+# där (main blir stale, kör jj workspace update-stale där).
+#
+# Creds/miljö ligger i env-vars via ~/.zshrc.local. Det här scriptet hanterar
+# untracked personliga filer + byggsteg; trackade tweaks kommer från
+# base-committen via mergen.
 set -euo pipefail
 
 HRM_DIR="$HOME/work/HRM"
 PERSONAL_DIR="$HRM_DIR/personal"
 MAIN_WS="$HRM_DIR/master"
 BUILD=true
+SLUG=""
+REV=""
 
-if [ "${2:-}" = "--no-build" ]; then BUILD=false; fi
+while [ $# -gt 0 ]; do
+    case "$1" in
+        --no-build) BUILD=false ;;
+        -r) REV=${2:?-r kräver en revision}; shift ;;
+        *) SLUG=$1 ;;
+    esac
+    shift
+done
 
-if [ $# -ge 1 ] && [ "$1" != "--no-build" ]; then
-    WS="$HRM_DIR/$1"
+if [ -n "$SLUG" ]; then
+    WS="$HRM_DIR/features/$SLUG"
     if [ ! -d "$WS" ]; then
-        (cd "$MAIN_WS" && jj workspace add "$WS" --name "$1" -r base)
+        if [ -n "$REV" ]; then
+            # Adoptera en befintlig head. Måste resolva till exakt en change.
+            root=$(cd "$MAIN_WS" && jj log --no-graph -r "$REV" -T 'change_id ++ "\n"')
+            [ "$(printf '%s\n' "$root" | wc -l)" -eq 1 ] ||
+                { echo "-r $REV matchar flera changes" >&2; exit 1; }
+            (cd "$MAIN_WS" && jj workspace add "$WS" --name "$SLUG" -r "$root")
+        else
+            (cd "$MAIN_WS" && jj workspace add "$WS" --name "$SLUG" -r 'trunk()')
+        fi
+        # Absolut repo-pekare — den relativa default-pekaren bryts vid flytt.
+        printf '%s' "$MAIN_WS/.jj/repo" > "$WS/.jj/repo"
+        (
+            cd "$WS"
+            if [ -z "$REV" ]; then
+                jj describe -m "$SLUG: (wip)"
+                root=$(jj log --no-graph -r @ -T 'change_id')
+            fi
+            jj new "$root" base -m "$SLUG: arbetsträd (stacken + base). Changes härifrån squashas ner i stacken, hamnar aldrig i PR."
+            # Lägg in featuren i main-megamergen om ingen förälder redan
+            # täcker den (heden själv eller en descendant av den).
+            if jj log --no-graph -r 'main@' -T '' >/dev/null 2>&1; then
+                if [ -z "$(jj log --no-graph -r "($root):: & main@-" -T 'change_id')" ]; then
+                    mapfile -t ps < <(jj log --no-graph -r 'main@-' -T 'change_id ++ "\n"')
+                    args=()
+                    for p in "${ps[@]}"; do args+=(-d "$p"); done
+                    jj rebase -r 'main@' "${args[@]}" -d "$root"
+                else
+                    echo "  featuren finns redan i main-megamergen"
+                fi
+            else
+                echo "  obs: ingen main-workspace hittad — featuren lades inte i megamergen"
+            fi
+        )
     fi
 else
-    [ "${1:-}" = "--no-build" ] && BUILD=false
     WS=$(jj workspace root)
 fi
 
 echo "Setup av workspace: $WS"
-
-# Tweaks-committen (bookmark: base) ska alltid ligga under workspacen. Nya
-# workspaces skapas direkt på base ovan; en befintlig som sitter någon annanstans
-# rebasas hit — hela den mutable stacken följer med. MAIN_WS undantas, den ska
-# ligga kvar på master.
-if [ "$WS" != "$MAIN_WS" ] &&
-   [ -z "$(cd "$WS" && jj log --no-graph -r 'base & ::@' -T change_id)" ]; then
-    echo "Rebasear ovanpå base (tweaks)..."
-    (cd "$WS" && jj rebase -s 'roots(mutable() & ::@)' -d base)
-fi
 
 # Untracked personliga filer — symlinkade från PERSONAL_DIR, ignorerade via
 # master/.git/info/exclude (delas av alla workspaces).
@@ -48,8 +84,8 @@ link() {
     echo "  länk: $1"
 }
 # Övriga personliga symlinks (docs, http, .ignore m.fl.) är trackade i
-# tweaks-committen och följer med automatiskt. Settings-filen med creds kan inte
-# trackas (ignoreras av repots .gitignore) så den länkas här.
+# tweaks-committen och följer med via mergen. Settings-filen med creds kan
+# inte trackas (ignoreras av repots .gitignore) så den länkas här.
 #
 # En kvarlämnad parentsettings.config (gamla konventionen) får apparnas start
 # att kasta, så en gammal länk tas alltid bort.

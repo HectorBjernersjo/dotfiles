@@ -51,7 +51,7 @@ before the symlink is created.
 - `bin/` — scripts on PATH (`bin/work/` holds work-specific ones)
 - `theme/` — the theme switcher and everything it touches (including the firefox chrome)
 - `wallpapers/` — wallpapers, organized per theme
-- `windows/` — AutoHotkey/GlazeWM config for the Windows host
+- `windows/` — AutoHotkey/GlazeWM/Rio config for the Windows host (copies, not symlinks — see `windows/README.md`)
 - `docs/` — README assets
 
 ## Screenshots

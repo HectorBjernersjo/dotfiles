@@ -36,7 +36,10 @@ switch ($focusedWorkspaceName) {
         Start-Process -FilePath "C:\Program Files\Slack\slack.exe"
     }
     "N" {
-        Start-Process -FilePath "C:\Program Files\WezTerm\wezterm-gui.exe"# -ArgumentList "wsl" # tmux attach-session -t default || tmux new-session -s default"
+        # rio rather than wezterm: it draws kitty graphics with unicode
+        # placeholders, which corc's browser view needs and wezterm ignores.
+        # The shell and tmux attach live in %LOCALAPPDATA%\rio\config.toml.
+        Start-Process -FilePath "C:\Program Files\Rio\rio.exe"
     }
     "X" {
         Start-Process -FilePath "explorer.exe"
@@ -48,7 +51,7 @@ switch ($focusedWorkspaceName) {
         Start-Process -FilePath "C:\Program Files\Mozilla Firefox\firefox.exe"
     }
     "C" {
-        Start-Process -FilePath "C:\Program Files\Mozilla Firefox\firefox.exe" -ArgumentList "--new-window https://gemini.google.com/gem/a81c507221e7"
+        Start-Process -FilePath "explorer.exe" -ArgumentList "shell:AppsFolder\Claude_pzs8sxrjxfjjc!Claude"
     }
     "M" {
         Start-Process -FilePath "C:\Program Files\Mozilla Firefox\firefox.exe" -ArgumentList "--new-window gmail.com"
@@ -57,12 +60,15 @@ switch ($focusedWorkspaceName) {
         Start-Process -FilePath "C:\Program Files\Mozilla Firefox\firefox.exe" -ArgumentList "--new-window https://www.youtube.com"
     }
     "E" {
-        Start-Process -FilePath "cursor"
+        Start-Process -FilePath "C:\Users\hector.bjernersjo\AppData\Local\Programs\cursor\Cursor.exe"
     }
     "O" {
         Start-Process -FilePath "C:\Program Files\Obsidian\Obsidian.exe"
     }
     "D" {
         Start-Process -FilePath "C:\Program Files\JetBrains\JetBrains Rider 2025.1.1\bin\rider64.exe"
+    }
+    "G" {
+        Start-Process -FilePath "C:\Users\hector.bjernersjo\AppData\Local\Programs\GIMP 3\bin\gimp-3.exe"
     }
 }

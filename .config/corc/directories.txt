@@ -6,3 +6,16 @@
 
 ~/projects/*
 ~/work/*
+
+# Containers scan roots look through but never list: HRM's workspace parent,
+# where a new-feature conversation starts before Claude creates its workspace
+# and moves itself there (corc cd).
+~/work/HRM
+
+# Outside the scan roots, so listed one by one.
+~/dotfiles
+~/dotfiles/.config/nvim
+~/.agents
+~/test
+~/obsidian
+~/test/mcptest

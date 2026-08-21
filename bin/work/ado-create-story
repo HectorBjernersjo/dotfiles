@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+# Skapar en User Story på Team Employee-boarden i Azure DevOps
+# (kolumn Active, swimlane Hector) och skriver ut id + url som json.
+#
+# Detta är den enda vägen agenter ska ha till az boards — den använder en PAT
+# med enbart Work Items-scope och släpper inte igenom någon persondata.
+#
+# Text-fälten (description, acceptance, risk-comment, release-note-text) är
+# HTML-fält i DevOps: skicka HTML (<div>, <br>, <ul>) för radbrytningar.
+set -euo pipefail
+
+usage() {
+  cat >&2 <<'EOF'
+Användning: ado-create-story \
+  --title "..." \
+  --description "<div>...</div>" \
+  --acceptance "<div>...</div>" \
+  --risk-impact N --risk-likelihood N --risk-comment "<div>...</div>" \
+  [--release-note-header "..." --release-note-text "<div>...</div>"]
+EOF
+  exit 1
+}
+
+TITLE= DESC= AC= IMPACT= LIKELIHOOD= RISKCOMMENT= RN_HEADER= RN_TEXT=
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --title) TITLE=$2; shift 2 ;;
+    --description) DESC=$2; shift 2 ;;
+    --acceptance) AC=$2; shift 2 ;;
+    --risk-impact) IMPACT=$2; shift 2 ;;
+    --risk-likelihood) LIKELIHOOD=$2; shift 2 ;;
+    --risk-comment) RISKCOMMENT=$2; shift 2 ;;
+    --release-note-header) RN_HEADER=$2; shift 2 ;;
+    --release-note-text) RN_TEXT=$2; shift 2 ;;
+    *) echo "Okänd flagga: $1" >&2; usage ;;
+  esac
+done
+[ -n "$TITLE" ] && [ -n "$DESC" ] && [ -n "$AC" ] || usage
+[ -n "$IMPACT" ] && [ -n "$LIKELIHOOD" ] && [ -n "$RISKCOMMENT" ] || usage
+if { [ -n "$RN_HEADER" ] && [ -z "$RN_TEXT" ]; } || { [ -z "$RN_HEADER" ] && [ -n "$RN_TEXT" ]; }; then
+  echo "Release note kräver både --release-note-header och --release-note-text" >&2
+  exit 1
+fi
+
+# PAT:en ligger i ~/.zshrc.local och finns inte i icke-interaktiva shells.
+if [ -z "${AZURE_WORK_ITEMS_PAT:-}" ]; then
+  AZURE_WORK_ITEMS_PAT=$(zsh -c 'source ~/.zshrc.local >/dev/null 2>&1; echo -n $AZURE_WORK_ITEMS_PAT')
+fi
+if [ -z "$AZURE_WORK_ITEMS_PAT" ]; then
+  echo "Hittar ingen AZURE_WORK_ITEMS_PAT (i miljön eller ~/.zshrc.local). Har PAT:en gått ut?" >&2
+  exit 1
+fi
+export AZURE_DEVOPS_EXT_PAT=$AZURE_WORK_ITEMS_PAT
+
+ORG=https://dev.azure.com/FlexApplications
+PROJECT=HRM
+# Boardspecifikt fält för swimlane på Team Employee-boarden.
+LANE_FIELD=WEF_DBFC1F02BB3C4325824FAA331A6EAFE7_Kanban.Lane
+
+# Total risk (impact × likelihood) → risknivån i Risk-fältet.
+TOTAL=$((IMPACT * LIKELIHOOD))
+if   [ "$TOTAL" -le 3 ];  then RISK="3 - Low"
+elif [ "$TOTAL" -le 9 ];  then RISK="2 - Medium"
+elif [ "$TOTAL" -le 12 ]; then RISK="1 - High"
+else                           RISK="0 - Critical"
+fi
+
+FIELDS=(
+  "System.AreaPath=HRM\\Team Employee"
+  "System.IterationPath=HRM\\HRM Sprints\\Employee"
+  "System.Description=$DESC"
+  "Microsoft.VSTS.Common.AcceptanceCriteria=$AC"
+  "Custom.RiskImpact=$IMPACT"
+  "Custom.RiskLikelihood=$LIKELIHOOD"
+  "Custom.Riskkommentarer=$RISKCOMMENT"
+  "Microsoft.VSTS.Common.Risk=$RISK"
+)
+if [ -n "$RN_HEADER" ]; then
+  FIELDS+=(
+    "HRM.ReleaseNote=true"
+    "Custom.ReleaseNoteheader=$RN_HEADER"
+    "Custom.ReleaseNotetext=$RN_TEXT"
+  )
+else
+  FIELDS+=("HRM.ReleaseNote=false")
+fi
+
+ID=$(az boards work-item create --org "$ORG" --project "$PROJECT" \
+  --type "User Story" --title "$TITLE" \
+  --fields "${FIELDS[@]}" \
+  --query id -o tsv)
+
+# Nya items börjar i New; flytta till Active-kolumnen och Hectors swimlane.
+az boards work-item update --org "$ORG" --id "$ID" \
+  --fields "System.State=Active" "$LANE_FIELD=Hector" \
+  --output none
+
+echo "{\"id\": $ID, \"url\": \"$ORG/$PROJECT/_workitems/edit/$ID\"}"

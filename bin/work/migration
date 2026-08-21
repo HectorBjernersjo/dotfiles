@@ -5,18 +5,23 @@
 set -e # Exit immediately if any command fails
 
 # --- Configuration ---
-# Detect the active worktree from the current directory
-if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-    echo "Error: Not in a git worktree. Run this from within /home/hector/work/HRM/{worktree}" >&2
+# Detect the active checkout from the current directory: jj workspace first, git worktree as fallback.
+WORKTREE_PATH=$(jj root --ignore-working-copy 2>/dev/null || git rev-parse --show-toplevel 2>/dev/null || true)
+if [[ -z "$WORKTREE_PATH" ]]; then
+    echo "Error: Not inside a jj workspace or git worktree. cd into a Flex.Net checkout first." >&2
     exit 1
 fi
-
-WORKTREE_PATH=$(git rev-parse --show-toplevel)
 echo "📂 Using worktree: $WORKTREE_PATH"
 
 # Paths relative to the worktree
 PROJECT_PATH="$WORKTREE_PATH/Flex.Net/Flex.Net.DatabaseMigration/Flex.Net.DatabaseMigration.csproj"
 DLL_PATH="$WORKTREE_PATH/Flex.Net/Flex.Net.DatabaseMigration/bin/Debug/net10.0/Flex.Net.DatabaseMigration.dll"
+
+if [[ ! -f "$PROJECT_PATH" ]]; then
+    echo "Error: No migration project at $PROJECT_PATH" >&2
+    echo "       $WORKTREE_PATH does not look like a Flex.Net checkout." >&2
+    exit 1
+fi
 
 # Configuration for the single test database
 TEST_DB_CONNECTION_STRING="Server=localhost,1433;Database=pelle;User Id=sa;Password=HejHoj1!;TrustServerCertificate=True;Encrypt=False"

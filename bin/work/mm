@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# Hantera föräldrarna i en megamerge-working-copy (main eller en tillfällig vy).
+# Kör i workspacen vars @ ÄR megamergen.
+#
+#   mm ls              lista @:s föräldrar
+#   mm add <rev>...    lägg till föräldrar
+#   mm drop <rev>...   ta bort föräldrar (base går att droppa, men då
+#                      försvinner tweaks ur arbetsträdet)
+#   mm set <rev>...    sätt föräldrarna till exakt base + <rev>...
+set -euo pipefail
+
+cmd=${1:-ls}
+shift || true
+
+case "$cmd" in
+    ls)
+        jj log --no-graph -r '@-' -T 'change_id.shortest(8) ++ "  " ++ bookmarks ++ "  " ++ description.first_line() ++ "\n"'
+        ;;
+    add)
+        [ $# -ge 1 ] || { echo "usage: mm add <rev>..." >&2; exit 1; }
+        mapfile -t ps < <(jj log --no-graph -r '@-' -T 'change_id ++ "\n"')
+        args=()
+        for p in "${ps[@]}"; do args+=(-d "$p"); done
+        for r in "$@"; do args+=(-d "$r"); done
+        jj rebase -r @ "${args[@]}"
+        ;;
+    drop)
+        [ $# -ge 1 ] || { echo "usage: mm drop <rev>..." >&2; exit 1; }
+        sub=$(printf '(%s) | ' "$@")
+        mapfile -t ps < <(jj log --no-graph -r "@- ~ (${sub% | })" -T 'change_id ++ "\n"')
+        [ ${#ps[@]} -ge 1 ] || { echo "mm: vägrar droppa alla föräldrar" >&2; exit 1; }
+        args=()
+        for p in "${ps[@]}"; do args+=(-d "$p"); done
+        jj rebase -r @ "${args[@]}"
+        ;;
+    set)
+        [ $# -ge 1 ] || { echo "usage: mm set <rev>..." >&2; exit 1; }
+        args=(-d base)
+        for r in "$@"; do args+=(-d "$r"); done
+        jj rebase -r @ "${args[@]}"
+        ;;
+    *)
+        echo "usage: mm ls|add|drop|set [rev...]" >&2
+        exit 1
+        ;;
+esac
